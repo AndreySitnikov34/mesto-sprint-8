@@ -1,0 +1,29 @@
+.card__add-button {
+  margin: 0 0 0 auto;
+  padding: 0;
+  width: 150px;
+  height: 50px;
+  /* align-items: center; */
+  background-image: url("../../../images/plus148.svg");
+  background-size: cover;
+  background-color: transparent;
+  box-sizing: border-box;
+  border-radius: 2px;
+  /* text-align: center; */
+  /* justify-content: center; */
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+@media (max-width: 901px) {
+  .card__add-button {
+    background-image: url("../../../images/plus280.svg");
+    width: 279px;
+    height: 49px;
+    margin: 32px auto 0;
+  }
+}
+.card__add-button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}

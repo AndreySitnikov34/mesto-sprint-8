@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="./index.css" /> -->
+    <title>Mesto</title>
+  </head>
+  <body class="body">
+    <div class="page">
+      <header class="header">
+        <img
+          class="header__logo"
+          src="<%=require('./images/mesto.svg')%>"
+          alt="Логотип"
+        />
+      </header>
+      <main class="main">
+        <section class="user">
+          <div class="user__container">
+            <img
+              src="<%=require('./images/JCousteau.png')%>"
+              data-title="Жак-Ив Кусто"
+              id="avatar-pic"
+              class="user__pic"
+              alt="Жак-Ив Кусто"
+            />
+            <div class="user__overlay">
+              <a
+                href="images/Vector.svg"
+                class="user__edit-icon"
+                title="User Profile"
+              >
+              </a>
+            </div>
+          </div>
+          <div class="user__info">
+            <h1 class="user__name">Жак-Ив Кусто</h1>
+            <button type="button" class="user__info-edit-button"></button>
+            <h2 class="user__about">Исследователь океана</h2>
+          </div>
+          <button type="button" class="card__add-button"></button>
+        </section>
+        <section class="content">
+          <ul class="cards"></ul>
+        </section>
+      </main>
+      <footer class="footer">
+        <div class="footer__copyright">© 2022 Mesto Russia</div>
+      </footer>
+    </div>
+    <div class="popup popup-form-avatar">
+      <div class="popup__container">
+        <form class="form form-avatar" name="form" novalidate>
+          <h2 class="form__heading">Обновить аватар</h2>
+          <fieldset class="form__set form__set-avatar">
+            <input
+              class="form__input"
+              type="url"
+              id="url-input-avatar"
+              placeholder="Ссылка на изображение"
+              name="url-input-avatar"
+              required
+            />
+            <span
+              class="url-input-error form__input-error url-input-avatar-error"
+              >Вы пропустили это поле</span
+            >
+          </fieldset>
+          <button type="submit" class="form__submit button button-avatar">
+            Сохранить
+          </button>
+          <button type="button" class="popup__close"></button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup-form-user">
+      <div class="popup__container">
+        <form class="form" name="form" novalidate>
+          <h2 class="form__heading">Редактировать профиль</h2>
+          <fieldset class="form__set">
+            <input
+              class="form__input"
+              type="text"
+              id="name-input"
+              value="Имя"
+              name="name-input"
+              minlength="2"
+              maxlength="30"
+              required
+            />
+            <span class="name-input-error form__input-error" id="name-input"
+              >Вы пропустили это поле</span
+            >
+            <input
+              class="form__input"
+              type="text"
+              id="job-input"
+              value="Профессия"
+              name="job-input"
+              minlength="2"
+              maxlength="200"
+              required
+            />
+            <span class="job-input-error form__input-error" id="job-input"
+              >Вы пропустили это поле</span
+            >
+          </fieldset>
+          <button type="submit" class="form__submit button">Сохранить</button>
+          <button type="button" class="popup__close"></button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup-form-card">
+      <div class="popup__container">
+        <form class="form" name="form" novalidate>
+          <h2 class="form__heading">Новое место</h2>
+          <fieldset class="form__set">
+            <input
+              class="form__input"
+              type="text"
+              id="text-input"
+              placeholder="Название"
+              name="text-input"
+              minlength="2"
+              maxlength="30"
+              required
+            />
+            <span class="text-input-error form__input-error" id="text-input"
+              >Вы пропустили это поле</span
+            >
+            <input
+              class="form__input"
+              type="url"
+              id="url-input-card"
+              placeholder="Ссылка на картинку"
+              name="url-input-card"
+              required
+            />
+            <span
+              class="url-input-error form__input-error url-input-card-error"
+              id="url-input"
+              >Вы пропустили это поле</span
+            >
+          </fieldset>
+          <button type="submit" class="form__submit button">Создать</button>
+          <button
+            type="button"
+            class="popup__button-close popup__close"
+          ></button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup-image">
+      <div class="popup__content">
+        <img class="popup__image" src="" alt="" />
+        <button type="button" class="popup__close"></button>
+        <div class="popup__image-alt"></div>
+      </div>
+    </div>
+    <template id="card">
+      <li class="card">
+        <img class="card__img" src="" alt="" />
+        <div class="card__subscribe">
+          <h2 class="card__location"></h2>
+          <div class="card__like">
+            <button type="button" class="card__heart" data-id=""></button>
+            <span class="card__heart-count">0</span>
+          </div>
+        </div>
+        <div class="card__del"></div>
+      </li>
+    </template>
+    <!-- <script src="./../src/components/index.js"></script> -->
+  </body>
+</html>

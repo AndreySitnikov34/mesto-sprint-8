@@ -1,0 +1,23 @@
+.user__about {
+  max-width: 205px;
+  font-size: 18px;
+  margin: 0;
+  font-weight: 400;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline;
+}
+@media (max-width: 1157px) {
+  .user__about {
+    font-size: 16px;
+  }
+}
+@media (max-width: 901px) {
+  .user__about {
+    font-size: 14px;
+    margin: 10px auto 0;
+    text-align: center;
+  }
+}

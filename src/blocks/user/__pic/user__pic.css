@@ -1,0 +1,30 @@
+.user__pic {
+    display: block;
+    padding: 0;
+    box-sizing: border-box;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0;
+     /*background-image: url(../../../images/JCousteau.png);*/
+    object-fit: cover;
+    box-shadow: 0 0 2px white;
+}
+
+.user__pic:hover {
+    /* transform: scale(1.02); */
+    /* transition: transform 0.3s ease-out; */
+    /* cursor: pointer; */
+    /* opacity: 0.5; */
+}
+/*.user__pic:hover:after {*/    
+/*    content: attr(data-title); !* Выводим текст *!*/
+/*    position: absolute; !* Абсолютное позиционирование *!*/
+/*    left: 20%; top: 30%; !* Положение подсказки *!*/
+/*    z-index: 1; !* Отображаем подсказку поверх других элементов *!*/
+/*    background: rgba(255,255,230,0.9); !* Полупрозрачный цвет фона *!*/
+/*    font-family: Arial, sans-serif; !* Гарнитура шрифта *!*/
+/*    font-size: 11px; !* Размер текста подсказки *!*/
+/*    padding: 5px 10px; !* Поля *!*/
+/*    border: 1px solid #333; !* Параметры рамки *!*/
+/*}*/

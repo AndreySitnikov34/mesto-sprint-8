@@ -1,0 +1,8 @@
+.user__container {
+    position: relative;
+    width: 100%;
+    max-width: 120px;
+}
+.user__container:hover .overlay {
+    opacity: 0.5;
+}

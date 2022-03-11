@@ -1,0 +1,14 @@
+.footer {
+    width: auto;
+    margin: 68px 0 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    opacity: 0.5;
+    /*box-shadow: 0 0 2px white;*/
+    }
+@media (max-width: 424px) {
+    .footer {
+        margin: 47px 20px;
+    }
+}

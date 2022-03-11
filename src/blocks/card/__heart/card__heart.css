@@ -1,0 +1,38 @@
+.card__heart {
+  background-image: url("../../../images/heart-white.svg");
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  height: 20px;
+  min-width: 22px;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: none;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  line-height: 0;
+  margin-bottom: 3px;
+  background-color: #fff;
+}
+.card__heart:hover {
+  /* transform: scale(1.2); */
+  /* transition: transform 0.4s ease-out; */
+  cursor: pointer;
+  opacity: 0.5;
+}
+.card__heart:active {
+  background-image: url("../../../images/heart-active.svg");
+  /*border: 1px solid red;*/
+
+}
+.card__heart:active:hover {
+  opacity: 1;
+
+}
+.card__heart_liked {
+  background-image: url("../../../images/heart-active.svg");
+  /*border: 2px dotted green;*/
+
+}

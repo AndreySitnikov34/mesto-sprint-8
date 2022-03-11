@@ -1,0 +1,9 @@
+.card__subscribe {
+    width: 240px;
+    display: flex;
+    flex-direction: row;
+    margin: 25px 0 25px 22px;
+    justify-content: space-between;
+    align-items: center;
+
+}
