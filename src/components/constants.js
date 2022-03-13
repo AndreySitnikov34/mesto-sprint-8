@@ -15,3 +15,4 @@ export const cards = document.querySelector(".cards");
 export const popupImage = document.querySelector(".popup-image");
 export const imageOpen = document.querySelector(".popup__image");
 export const signImage = document.querySelector(".popup__image-alt");
+export const popupCardDelete = document.querySelector(".popup-card-delete");

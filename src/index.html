@@ -158,6 +158,25 @@
         <div class="popup__image-alt"></div>
       </div>
     </div>
+    <div class="popup popup-card-delete">
+      <div class="popup__container">
+        <form class="form" name="form-delete-card" novalidate>
+          <h2 class="form__heading">Вы уверены?</h2>
+          <fieldset class="form__set">
+            <button
+              type="submit"
+              class="form__submit button form__submit_delete"
+            >
+              Да
+            </button>
+            <button
+              type="button"
+              class="popup__button-close popup__close"
+            ></button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
     <template id="card">
       <li class="card">
         <img class="card__img" src="" alt="" />

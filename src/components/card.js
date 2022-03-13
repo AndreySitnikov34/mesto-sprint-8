@@ -16,6 +16,7 @@ import {
   popupImage,
   imageOpen,
   signImage,
+  popupCardDelete,
 } from "../components/constants.js";
 
 import {
@@ -26,6 +27,8 @@ import {
   handleCardFormSubmit,
   openCardPopup,
   openImagePopup,
+  openCardDeletePopup,
+  handleCardDelete,
 } from "../components/modal.js";
 
 import {
@@ -67,13 +70,11 @@ export function createCard(card, userId) {
   });
   //Функция добавления/удаления лайка
   function likeCard() {
-    // let length = Number(likeCounter.textContent);
     if (!cardLike.classList.contains("card__heart_liked")) {
       addLike(card._id)
         .then((card) => {
           console.log(card._id);
           cardLike.classList.add("card__heart_liked");
-          // likeCounter.textContent = length + 1;
           likeCounter.textContent = card.likes.length;
         })
         .catch((err) => {
@@ -83,7 +84,6 @@ export function createCard(card, userId) {
       deleteLike(card._id)
         .then((card) => {
           cardLike.classList.remove("card__heart_liked");
-          // likeCounter.textContent = length - 1;
           likeCounter.textContent = card.likes.length;
         })
         .catch((err) => {
@@ -95,19 +95,27 @@ export function createCard(card, userId) {
   cardImage.addEventListener("click", openImagePopup);
   cardLike.addEventListener("click", likeCard);
   cardDelete.addEventListener("click", (evt) => {
-    deleteCard(card._id) //Удаление карточки по id
-      .then((card) => {
-        evt.target.closest(".card").remove();
-      })
-      .catch((err) => {
-        console.log("Ошибка удаления карточки", err.message);
-      });
+    //По клику открываем попап удаления карточки
+    // console.log(card);
+    openCardDeletePopup(card, evt.target); //Передаем ему карту, и ссылку на объект
+    //инициатор события
   });
+  //Версия прямого удаления карточки по клику на ведро
+  // cardDelete.addEventListener("click", (evt) => {
+  //   deleteCard(card._id) //Удаление карточки по id
+  //     .then((card) => {
+  //       evt.target.closest(".card").remove();
+  //     })
+  //     .catch((err) => {
+  //       console.log("Ошибка удаления карточки", err.message);
+  //     });
+  // });
+
   return cardElement;
 }
 //Функция добавления карточки на сервер
 export const addCard = (card, userId) => {
-  // console.log("Содержимое карточки", card);
+  // console.log("Содержимое карточки", card._id);
   const contentCard = createCard(card, userId);
   cards.append(contentCard);
 };

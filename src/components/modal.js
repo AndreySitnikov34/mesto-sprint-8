@@ -20,6 +20,7 @@ import {
   popupImage,
   imageOpen,
   signImage,
+  popupCardDelete,
 } from "../components/constants.js";
 
 import { hasInvalidInput, toggleButtonState } from "../components/validate.js";
@@ -41,7 +42,15 @@ import {
   updateUser,
 } from "../components/api.js";
 
-import { createCard, addCard, toggleLikes } from "../components/card.js";
+import {
+  createCard,
+  addCard,
+  toggleLikes,
+  deleteCardById,
+} from "../components/card.js";
+
+let cardToDelete;
+let delEvt;
 
 function openAvatarPopup() {
   avatarLink.value = ""; //Сбросить значения input
@@ -122,6 +131,28 @@ function openCardPopup() {
   openPopup(cardFormPopup);
 }
 
+// Функция открытия попапа согласия с удалением карточки
+function openCardDeletePopup(card, evtTarget) {
+  //Передаем карточку и объект события
+  cardToDelete = card;
+  delEvt = evtTarget;
+  console.log(card);
+  openPopup(popupCardDelete);
+}
+// Функция обработки согласия с удалением карточки
+function handleCardDelete() {
+  console.log("Показать id карточки", cardToDelete);
+  deleteCard(cardToDelete._id) //Удаление карточки по id
+    .then((res) => {
+      console.log("then", res);
+      delEvt.closest(".card").remove();
+      // evt.target.closest(".card").remove();
+      closePopup(popupCardDelete);
+    })
+    .catch((err) => {
+      console.log("Ошибка удаления карточки", err.message);
+    });
+}
 // Функция открытия картинки из карточки
 function openImagePopup(evt) {
   imageOpen.src = "";
@@ -130,8 +161,24 @@ function openImagePopup(evt) {
   signImage.textContent = evt.target.alt;
   openPopup(popupImage);
 }
+// // Функция открытия попапа согласия с удалением карточки
+// function openCardDeletePopup() {
+//   openPopup(popupCardDelete);
+// }
+// // Функция обработки согласия с удалением карточки
+// function handleCardDelete(evt) {
+//   console.log("Посмотреть перед удалением", evt);
+//   deleteCard(card._id) //Удаление карточки по id
+//     .then((card) => {
+//       evt.target.closest(".card").remove();
+//       closePopup(popupCardDelete);
+//     })
+//     .catch((err) => {
+//       console.log("Ошибка удаления карточки", err.message);
+//     });
+// }
 
-//Всё можно экспортнуть скопом (легче будет копировать в импорт;))))
+//Всё можно экспортнуть скопом (легче будет копировать в импорт;))
 export {
   popupFormUser,
   popupFormAvatar,
@@ -156,4 +203,6 @@ export {
   handleCardFormSubmit,
   openCardPopup,
   openImagePopup,
+  openCardDeletePopup,
+  handleCardDelete,
 };

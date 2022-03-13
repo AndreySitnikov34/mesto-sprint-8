@@ -10,6 +10,7 @@ import {
   openProfilePopup,
   handleCardFormSubmit,
   openCardPopup,
+  handleCardDelete,
 } from "../components/modal.js";
 
 import {
@@ -19,6 +20,7 @@ import {
   userAbout,
   userPic,
   cardFormPopup,
+  popupCardDelete,
 } from "../components/constants.js";
 
 import { getCards, getUser } from "../components/api.js";
@@ -46,7 +48,7 @@ document
 popupFormAvatar.addEventListener("submit", handleAvatarPopup);
 popupFormUser.addEventListener("submit", handleSubmitProfile);
 cardFormPopup.addEventListener("submit", handleCardFormSubmit);
-// formElement.addEventListener("submit", handleAvatarPopup);
+popupCardDelete.addEventListener("submit", handleCardDelete);
 //Изъятие карточек у сервера
 const renderCards = (userId) => {
   // console.log("render cards");
@@ -65,7 +67,7 @@ const renderCards = (userId) => {
 getUser()
   .then((data) => {
     const userId = data._id;
-    console.log("Информация по юзеру", data);
+    // console.log("Информация по юзеру", data, userId);
     userName.textContent = data.name;
     userAbout.textContent = data.about;
     userPic.src = data.avatar;
@@ -78,12 +80,13 @@ getUser()
 //Пробую применить Promise.all
 // Promise.all([getUser(), getCards()])
 //   .then(([userData, cards]) => {
-//     const user = userData; // тут установка данных пользователя
+//     const userId = userData._id; // тут установка данных пользователя
 //     const cards = cardsData; // и тут отрисовка карточек
 //     userName.textContent = user.name;
 //     userAbout.textContent = user.about;
 //     userPic.src = user.avatar;
-//     renderCards(cards, user);
+//     cards.forEach(function(card))
+//     renderCards(card, userId, "prepend");
 //   })
 //   .catch((err) => {
 //     console.log("Ошибка загрузки данных", err); // тут ловим ошибку
