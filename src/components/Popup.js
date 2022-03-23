@@ -1,54 +1,78 @@
-const cardInputs = Array.from(cardFormPopup.querySelectorAll("input"));
-const avatarSubmitButton = popupFormAvatar.querySelector(".button-avatar");
-const cardSubmitButton = cardFormPopup.querySelector(".form__submit");
+export class Popup {
+  constructor(popupSelector) {
+    this._popupsContainer = popupSelector; //Селектор попапа
+    this._handleClickClose = this._handleClickClose.bind(this); //Закрытие по клику
+    this._handleEscClose = this._handleEscClose.bind(this); //Закрытие по escape
+    this._openEvt = "";
+  }
+  //Публичный метод открытия попапа
+  open(cardToDelete) {
+    this._popupsContainer.classList.add("popup_opened");
+    window.addEventListener("keydown", this._handleEscClose);
+    this._cardToDelete = cardToDelete;
+  }
+  // Функция открытия попапа
+  // export function openPopup(popup) {
+  //   popup.classList.add("popup_opened");
+  //   document.addEventListener("keydown", closePopEsc);
+  // }
+  //Публичный метод закрытия попапа
+  close() {
+    this._popupsContainer.classList.remove("popup_opened");
+    window.removeEventListener("keydown", this._handleEscClose);
+  }
+  // Функция закрытия попапа
+  // export function closePopup(popup) {
+  //   popup.classList.remove("popup_opened");
+  //   document.removeEventListener("keydown", closePopEsc);
+  // }
 
-import {
-  formElement,
-  popupFormUser,
-  popupFormAvatar,
-  avatarLink,
-  formUserNameInput,
-  formUserAboutInput,
-  userName,
-  userAbout,
-  userPic,
-  cardTemplate,
-  cardFormPopup,
-  titleInputCard,
-  linkInputCard,
-  cards,
-  popupImage,
-  imageOpen,
-  signImage,
-  popupCardDelete,
-} from "../components/constants.js";
+  //Приватный метод закрытия по клику
+  _handleClickClose(evt) {
+    if (evt.target === evt.currentTarget) {
+      this.close();
+    }
+  }
 
-import { hasInvalidInput, toggleButtonState } from "../components/validate.js";
+  //Приватный метод закрытия по escape
+  _handleEscClose(evt) {
+    if (evt.key === "Escape") {
+      this.close();
+    }
+  }
+  //Функция закрытия попапа по Escape
+  // export function closePopEsc(key) {
+  //   if (key.key === "Escape") {
+  //     const popup = document.querySelector(".popup_opened");
+  //     closePopup(popup);
+  //   }
+  // }
 
-import {
-  openPopup,
-  closePopup,
-  // popups,
-  // closePopEsc,
-} from "../components/utils.js";
+  //Публичный метод, который добавляет слушатель клика иконке закрытия попапа.
+  //Модальное окно также закрывается при клике на затемнённую область вокруг формы.
+  setEventListeners() {
+    this._popupsContainer.addEventListener("mousedown", this._handleClickClose);
+    this._popupsContainer
+      .querySelector(".popup__close")
+      .addEventListener("mousedown", this._handleClickClose);
+  }
+}
 
-import {
-  addLike,
-  deleteCard,
-  deleteLike,
-  getCards,
-  postCard,
-  updateAvatar,
-  updateUser,
-} from "../components/api.js";
+//Функция (с подсказки BG-review) закрытия ЛЮБЫХ попапов
+//по клику на крестик или оверлей
+// export const popups = document.querySelectorAll(".popup");
 
-import {
-  createCard,
-  addCard,
-  toggleLikes,
-  deleteCardById,
-} from "../components/card.js";
-
+// popups.forEach((popup) => {
+//   popup.addEventListener("mousedown", (evt) => {
+//     if (evt.target.classList.contains("popup_opened")) {
+//       closePopup(popup);
+//     }
+//     if (evt.target.classList.contains("popup__close")) {
+//       closePopup(popup);
+//     }
+//   });
+// });
+///===Прежний код из файла modal.js===///
 let cardToDelete;
 let delEvt;
 
@@ -153,14 +177,7 @@ function handleCardDelete() {
       console.log("Ошибка удаления карточки", err.message);
     });
 }
-// Функция открытия картинки из карточки
-function openImagePopup(evt) {
-  imageOpen.src = "";
-  imageOpen.src = evt.target.src;
-  imageOpen.alt = evt.target.alt;
-  signImage.textContent = evt.target.alt;
-  openPopup(popupImage);
-}
+
 // // Функция открытия попапа согласия с удалением карточки
 // function openCardDeletePopup() {
 //   openPopup(popupCardDelete);
@@ -177,32 +194,3 @@ function openImagePopup(evt) {
 //       console.log("Ошибка удаления карточки", err.message);
 //     });
 // }
-
-//Всё можно экспортнуть скопом (легче будет копировать в импорт;))
-export {
-  popupFormUser,
-  popupFormAvatar,
-  avatarLink,
-  formUserNameInput,
-  formUserAboutInput,
-  userName,
-  userAbout,
-  userPic,
-  cardTemplate,
-  cardFormPopup,
-  titleInputCard,
-  linkInputCard,
-  cards,
-  popupImage,
-  imageOpen,
-  signImage,
-  openAvatarPopup,
-  handleAvatarPopup,
-  handleSubmitProfile,
-  openProfilePopup,
-  handleCardFormSubmit,
-  openCardPopup,
-  openImagePopup,
-  openCardDeletePopup,
-  handleCardDelete,
-};

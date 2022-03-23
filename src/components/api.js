@@ -1,89 +1,113 @@
-const config = {
-  url: "https://nomoreparties.co/v1/plus-cohort7",
-  headers: {
-    authorization: "01124a9d-ad91-4991-aee6-270006a314f8",
-    "Content-Type": "application/json",
-  },
-};
-//Парсинг ответа
-const parseResponse = (res) => {
-  if (res.ok) {
-    // console.log("Ответ от сервевра", res);
-    return res.json();
+export class Api {
+  constructor(userCheck) {
+    this._url = userCheck["url"];
+    this._headers = userCheck["headers"];
+    this.parseResponse = this.parseResponse.bind(this);
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
-};
-//Вытягиваие карточек с сервера
-export const getCards = () => {
-  return fetch(`${config.url}/cards`, {
-    headers: config.headers,
-  }).then((res) => parseResponse(res));
-};
-//Добавление своей карточки
-export const postCard = (card) => {
-  return fetch(`${config.url}/cards`, {
-    method: "POST",
-    headers: config.headers,
-    body: JSON.stringify({
-      name: card.name,
-      link: card.link,
-    }),
-  }).then((res) => parseResponse(res));
-};
-//Удаление карточки
-export const deleteCard = (cardId) => {
-  return fetch(`${config.url}/cards/${cardId}`, {
-    method: "DELETE",
-    headers: config.headers,
-  }).then((res) => parseResponse(res));
-};
-//Добавление лайка
-export const addLike = (cardId) => {
-  return fetch(`${config.url}/cards/likes/${cardId}`, {
-    method: "PUT",
-    headers: config.headers,
-  }).then((res) => parseResponse(res));
-};
-//Удаление лайка
-export const deleteLike = (cardId) => {
-  return fetch(`${config.url}/cards/likes/${cardId}`, {
-    method: "DELETE",
-    headers: config.headers,
-  }).then((res) => parseResponse(res));
-};
-//Получение данных о пользователе
-export const getUser = () => {
-  return fetch(`${config.url}/users/me`, {
-    headers: config.headers,
-  }).then((res) => parseResponse(res));
-};
-//Добавление пользователя
-export const updateUser = ({ name, about }) => {
-  return fetch(`${config.url}/users/me`, {
-    method: "PATCH",
-    headers: config.headers,
-    body: JSON.stringify({ name, about }),
-  }).then((res) => parseResponse(res));
-};
-//Смена аватарки
-export const updateAvatar = ({ avatar }) => {
-  return fetch(`${config.url}/users/me/avatar`, {
-    method: "PATCH",
-    headers: config.headers,
-    body: JSON.stringify({ avatar }),
-  }).then((res) => parseResponse(res));
-};
-//Смена аватарки (асинхронной функцией) как подсказывает VSCode
-// export const updateAvatar = async () => {
-//   try {
-//     const res = await fetch(`${config.url}/users/me/avatar`, {
-//       method: "PATCH",
-//       headers: config.headers,
-//       body: JSON.stringify({ avatar: data.avatar }),
-//     });
-//     return parsResponse(res);
-//   } catch (err) {
-//     console.log(err);
-//     return await Promise.reject(err);
-//   }
-// };
+  // config = {
+  //   url: "https://nomoreparties.co/v1/plus-cohort7",
+  //   headers: {
+  //     authorization: "01124a9d-ad91-4991-aee6-270006a314f8",
+  //     "Content-Type": "application/json",
+  //   },
+  // };
+  //Парсинг ответа
+  parseResponse(res) {
+    console.log("приходит ответ 16", res);
+    // if (res.ok) {
+    //   return res.json();
+    // }
+    // return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  //Вытягиваие карточек с сервера
+  getCards() {
+    return fetch(`${this._url}/cards`, {
+      headers: this._headers,
+    }).then((res) => {
+      console.log("Api getCards - str 27", res);
+      // parseResponse(res);
+      if (res.ok) {
+        console.log("Api Ответ от сервевра - str 30", res);
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  //Добавление своей карточки
+  postCard(card) {
+    return fetch(`${this._url}/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: card.name,
+        link: card.link,
+      }),
+    }).then((res) => parseResponse(res));
+  }
+  //Удаление карточки
+  deleteCard(cardId) {
+    return fetch(`${this._url}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => parseResponse(res));
+  }
+  //Добавление лайка
+  addLike(cardId) {
+    return fetch(`${this._url}/cards/likes/${cardId}`, {
+      method: "PUT",
+      headers: this._headers,
+    }).then((res) => parseResponse(res));
+  }
+  //Удаление лайка
+  deleteLike(cardId) {
+    return fetch(`${this._url}/cards/likes/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then((res) => parseResponse(res));
+  }
+  //Получение данных о пользователе
+  getUser() {
+    // console.log("70 строчка !!!");
+    return fetch(`${this._url}/users/me`, {
+      headers: this._headers,
+    }).then((res) => {
+      console.log("Api - str 74 - GET BY USER", res);
+      // parseResponse(res);
+      if (res.ok) {
+        // console.log("Ответ от сервевра 70", res);
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  //Добавление пользователя
+  updateUser({ name, about }) {
+    return fetch(`${this._url}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ name, about }),
+    }).then((res) => parseResponse(res));
+  }
+  //Смена аватарки
+  updateAvatar({ avatar }) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ avatar }),
+    }).then((res) => parseResponse(res));
+  }
+  //Смена аватарки (асинхронной функцией) как подсказывает VSCode
+  // const updateAvatar = async () => {
+  //   try {
+  //     const res = await fetch(`${config.url}/users/me/avatar`, {
+  //       method: "PATCH",
+  //       headers: config.headers,
+  //       body: JSON.stringify({ avatar: data.avatar }),
+  //     });
+  //     return parsResponse(res);
+  //   } catch (err) {
+  //     console.log(err);
+  //     return await Promise.reject(err);
+  //   }
+  // };
+}

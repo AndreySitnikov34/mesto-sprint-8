@@ -1,7 +1,7 @@
 {
-  "name": "mesto-sprint-7",
+  "name": "mesto-sprint-8",
   "version": "0.0.1",
-  "description": "https://andreysitnikov34.github.io/mesto-sprint-7",
+  "description": "https://andreysitnikov34.github.io/mesto-sprint-8",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AndreySitnikov34/mesto-sprint-7.git"
+    "url": "git+https://github.com/AndreySitnikov34/mesto-sprint-8.git"
   },
   "author": "Andrey Sitnikov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AndreySitnikov34/mesto-sprint-7/issues"
+    "url": "https://github.com/AndreySitnikov34/mesto-sprint-8/issues"
   },
-  "homepage": "https://github.com/AndreySitnikov34/mesto-sprint-7#readme",
+  "homepage": "https://github.com/AndreySitnikov34/mesto-sprint-8#readme",
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
