@@ -42,7 +42,13 @@ export class Api {
         name: card.name,
         link: card.link,
       }),
-    }).then((res) => parseResponse(res));
+    }).then((res) => {
+      if (res.ok) {
+        console.log("Api - str 47", res);
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
   //Удаление карточки
   deleteCard(cardId) {

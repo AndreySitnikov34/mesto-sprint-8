@@ -7,7 +7,6 @@ export class Card {
     cardSelector,
     handleLikeCard,
     handleImageOpen,
-    handleCardDeleteClick,
     deleteCard,
     likeCard
   ) {
@@ -18,6 +17,7 @@ export class Card {
     console.log("Card - str 17 - Id юзера карточки", card.owner["_id"]);
     this._cardId = card["_id"];
     console.log("Card - str 19 - Id карточки", card["_id"]);
+    // console.log(this._owner, card.owner["_id"], myId);
     this._name = card.name;
     this._link = card.link;
     this._likes = card.likes;
@@ -25,18 +25,17 @@ export class Card {
     // this._likeCard = likeCard;
     this._handleLikeCard = handleLikeCard;
     this._handleImageOpen = handleImageOpen;
-    // this._handleCardDelete = handleCardDelete;
     this._deleteCard = deleteCard;
     this._handleLikeCard = this._handleLikeCard.bind(this);
     // this.removeCard = this.removeCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
-    this._cardImage.addEventListener("click", this._handleImageOpen);
-    // this._cardImage.addEventListener("click", this._openImagePopup);
+    // this._cardImage.addEventListener("click", this._handleImageOpen);
+    this._cardImage.addEventListener("click", this._openImagePopup);
     this._cardLike.addEventListener("click", this._likeCard);
     this._cardDelete.addEventListener("click", () => {
-      this._handleCardDelete(this);
+      this._deleteCard(this);
     });
   }
   //Приватные методы для каждого обработчика
@@ -73,7 +72,7 @@ export class Card {
       this._cardLike.classList.add("card__heart_liked");
     }
     //Удалить вёдра на несвоих карточках при загрузке
-    if (this._owner !== this._myId) {
+    if (this._owner !== "9253fda4de1608ef23343856") {
       this._cardDelete.classList.remove("card__del");
     }
 
@@ -82,11 +81,13 @@ export class Card {
     this._setEventListeners();
     return this._element;
   }
+  //Удаление карточки
   deleteCard(cardToDelete) {
     cardToDelete._element.remove();
     cardToDelete._element = null;
   }
 }
+
 //==========Старый код===================//
 
 //Функция создания новой карточки

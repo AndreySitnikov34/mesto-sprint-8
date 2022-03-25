@@ -176,7 +176,6 @@ function renderItem(card, isNew) {
     "#card",
     handleImageOpen,
     handleLikeCard,
-    handleImageOpen,
     // handleCardDelete,
     // likeCard,
     deleteCard
@@ -191,52 +190,53 @@ function renderItem(card, isNew) {
   }
 }
 
-function postCard(name, link) {
-  console.log("index - str 195 - postCard", name, link);
-  handleCardFormSubmit(true, cardFormPopup);
-  api
-    .postCard(name, link)
-    .then((newCard) => {
-      renderCard(
-        {
-          name: newCard.name,
-          link: newCard.link,
-          likes: [],
-          owner: {
-            ["_id"]: myId,
-          },
-          ["_id"]: newCard["_id"],
-        },
-        true
-      );
-      cardFormPopup.close();
-    })
-    .catch((err) => console.log(`Ошибка: ${err}`))
-    .finally(() => handleCardFormSubmit(false, cardFormPopup, "Создать"));
-}
+// function postCard(name, link) {
+//   console.log("index - str 195 - postCard", name, link);
+//   handleCardFormSubmit(true, cardFormPopup);
+//   api
+//     .postCard(name, link)
+//     .then((newCard) => {
+//       renderCard(
+//         {
+//           name: newCard.name,
+//           link: newCard.link,
+//           likes: [],
+//           owner: {
+//             ["_id"]: myId,
+//           },
+//           ["_id"]: newCard["_id"],
+//         },
+//         true
+//       );
+//       cardFormPopup.close();
+//     })
+//     .catch((err) => console.log(`Ошибка: ${err}`))
+//     .finally(() => handleCardFormSubmit(false, cardFormPopup, "Создать"));
+// }
 
 // Функция обработки создания новой карточки
 function handleCardFormSubmit(evt) {
   console.log("index - str 220 - handleCardFormSubmit", evt);
   // evt.preventDefault();
   cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  // postCard({
-  //   name: titleInputCard.value,
-  //   link: linkInputCard.value,
-  // })
-  //   .then((res) => {
-  //     console.log("Карточка добавлена", res);
-  //     evt.target.reset();
-  //     toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
-  //     cards.prepend(createCard(res, res.owner._id));
-  //     closePopup(cardFormPopup); //Закрыть попап
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   })
-  //   .finally(() => {
-  //     cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
-  //   });
+  api
+    .postCard({
+      name: titleInputCard.value,
+      link: linkInputCard.value,
+    })
+    .then((res) => {
+      console.log("Карточка добавлена", res);
+      evt.target.reset();
+      toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
+      cards.prepend(createCard(res, res.owner._id));
+      cardFormPopup.close(); //Закрыть попап
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+    });
 }
 
 function deleteCard(cardToDelete) {
@@ -311,7 +311,7 @@ function openCardPopup() {
 function handleLikeCard(cardLike) {
   console.log("index - str 287 - _handleLikeCard", cardLike);
   const currentCardId = this["_cardId"];
-  console.log(currentCardId);
+  console.log("index - str 315 - ", currentCardId);
   if (!cardLike.classList.contains("card__heart_liked")) {
     addLike(currentCardId, cardLike);
   } else {
@@ -418,12 +418,12 @@ function renderPopupUser(rendering, userSubmitButton) {
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
 const openImagePopup = new PopupWithImage(popupImage);
-console.log("openImagePopup");
+console.log("index - str 422 - openImagePopup");
 
 openImagePopup.setEventListeners();
 
 function handleImageOpen(evt) {
-  console.log("openImagePopup");
+  console.log("index - str 427 - openImagePopup");
   const currentImage = evt.target;
   openImagePopup.open(currentImage);
 }
