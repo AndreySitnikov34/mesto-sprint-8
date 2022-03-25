@@ -97,22 +97,22 @@ function updateUserInfo(userData) {
   });
 }
 
-function setUserData(name, about) {
-  renderLoader(true, popupFormUser);
+function updateUser(name, about) {
+  // renderLoader(true, popupFormUser);
   api
-    .setUserData(name, about)
+    .updateUser(name, about)
     .then((userData) => {
       updateUserInfo(userData);
       popupUser.close();
     })
-    .catch((err) => console.log(`Ошибка: ${err}`))
-    .finally(() => renderLoader(false, popupFormUser, "Сохранить"));
+    .catch((err) => console.log(`Ошибка: ${err}`));
+  // .finally(() => renderPopupUser(false, popupFormUser, "Сохранить"));
 }
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: (info) =>
-    setUserData(info["first-field"], info["second-field"]),
+    updateUser(info["name-input"], info["job-input"]),
 });
 
 popupUser.setEventListeners();
@@ -191,11 +191,11 @@ function renderItem(card, isNew) {
   }
 }
 
-function setNewCard(name, link) {
-  console.log("str 186", name, link);
-  renderLoader(true, cardFormPopupElement);
+function postCard(name, link) {
+  console.log("index - str 195 - postCard", name, link);
+  handleCardFormSubmit(true, cardFormPopup);
   api
-    .setNewCard(name, link)
+    .postCard(name, link)
     .then((newCard) => {
       renderCard(
         {
@@ -212,7 +212,31 @@ function setNewCard(name, link) {
       cardFormPopup.close();
     })
     .catch((err) => console.log(`Ошибка: ${err}`))
-    .finally(() => renderLoader(false, cardFormPopupElement, "Создать"));
+    .finally(() => handleCardFormSubmit(false, cardFormPopup, "Создать"));
+}
+
+// Функция обработки создания новой карточки
+function handleCardFormSubmit(evt) {
+  console.log("index - str 220 - handleCardFormSubmit", evt);
+  // evt.preventDefault();
+  cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+  // postCard({
+  //   name: titleInputCard.value,
+  //   link: linkInputCard.value,
+  // })
+  //   .then((res) => {
+  //     console.log("Карточка добавлена", res);
+  //     evt.target.reset();
+  //     toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
+  //     cards.prepend(createCard(res, res.owner._id));
+  //     closePopup(cardFormPopup); //Закрыть попап
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  //   .finally(() => {
+  //     cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+  //   });
 }
 
 function deleteCard(cardToDelete) {
@@ -245,7 +269,7 @@ function deleteCard(cardToDelete) {
 
 const cardPopup = new PopupWithForm({
   popupSelector: cardFormPopup,
-  addNewInfoHandler: (card) => setNewCard(card.name, card.link),
+  addNewInfoHandler: (card) => postCard(card.name, card.link),
 });
 
 cardPopup.setEventListeners();
@@ -334,16 +358,17 @@ function openAvatarPopup() {
 }
 // Функция обработки смены аватара
 function handleAvatarPopup(evt) {
-  console.log("start handleAvatarPopup");
-  evt.preventDefault(); // Не открывать в новом окне
+  console.log("index - str 361 - start handleAvatarPopup");
+  // evt.preventDefault(); // Не открывать в новом окне
   avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  updateAvatar({
-    avatar: avatarLink.value,
-  })
+  api
+    .updateAvatar({
+      avatar: avatarLink.value,
+    })
     .then((res) => {
       console.log("Аватар изменён", res);
       userPic.src = avatarLink.value; //Заменить значение src (взять из инпута)
-      closePopup(popupFormAvatar);
+      popupAvatar.close();
     })
     .catch((err) => {
       console.log("Ошибка смены аватара", err.message);
@@ -351,6 +376,43 @@ function handleAvatarPopup(evt) {
     .finally(() => {
       avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
     });
+}
+
+// function handleAvatarPopup(link) {
+//   console.log("start handleAvatarPopup");
+//   renderPopupAvatar(true, popupFormAvatar);
+//   api
+//     .handleAvatarPopup(link)
+//     .then((user) => {
+//       userPic.style.backgroundImage = `url('${user.avatar}')`;
+//       // popupAvatar.close();
+//     })
+//     .catch((err) => {
+//       console.log("Ошибка смены аватара", err.message);
+//     })
+//     .finally(() => {
+//       avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+//     });
+// }
+
+//============RenderPopupAvatar================//
+
+// function renderPopupAvatar(rendering, avatarSubmitButton) {
+//   if (rendering) {
+//     avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+//   } else {
+//     avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+//   }
+// }
+
+//============RenderPopupUser================//
+
+function renderPopupUser(rendering, userSubmitButton) {
+  if (rendering) {
+    userSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+  } else {
+    userSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+  }
 }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
@@ -418,46 +480,24 @@ getCards();
 
 //Функция обработки профиля юзера после submit
 function handleSubmitProfile(evt) {
-  console.log("start handleSubmitProfile");
+  console.log("index - str 473 - start handleSubmitProfile");
   evt.preventDefault();
   avatarSubmitButton.textContent = "Сохранение...";
-  updateUser({
-    name: formUserNameInput.value,
-    about: formUserAboutInput.value,
-  })
+  api
+    .updateUser({
+      name: formUserNameInput.value,
+      about: formUserAboutInput.value,
+    })
     .then((res) => {
       userName.textContent = res.name; // Присвоить name значение из формы
       userAbout.textContent = res.about; // Присвоить about значение из формы
-      closePopup(popupFormUser); // Закрыть попап
+      popupUser.close(); // Закрыть попап
     })
     .catch((err) => {
       console.log("Ошибка редактирования профиля", err.message);
     })
     .finally(() => {
       avatarSubmitButton.textContent = "Сохранить";
-    });
-}
-
-// Функция обработки создания новой карточки
-function handleCardFormSubmit(evt) {
-  evt.preventDefault();
-  cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  postCard({
-    name: titleInputCard.value,
-    link: linkInputCard.value,
-  })
-    .then((res) => {
-      console.log("Карточка добавлена", res);
-      evt.target.reset();
-      toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
-      cards.prepend(createCard(res, res.owner._id));
-      closePopup(cardFormPopup); //Закрыть попап
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
     });
 }
 

@@ -86,7 +86,13 @@ export class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ name, about }),
-    }).then((res) => parseResponse(res));
+    }).then((res) => {
+      if (res.ok) {
+        console.log("Api - str 91 -", res);
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
   //Смена аватарки
   updateAvatar({ avatar }) {
@@ -94,7 +100,13 @@ export class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ avatar }),
-    }).then((res) => parseResponse(res));
+    }).then((res) => {
+      if (res.ok) {
+        console.log("Api - str 105 -", res);
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
   }
   //Смена аватарки (асинхронной функцией) как подсказывает VSCode
   // const updateAvatar = async () => {
