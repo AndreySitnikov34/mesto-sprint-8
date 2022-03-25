@@ -24,7 +24,7 @@ export class Api {
     return fetch(`${this._url}/cards`, {
       headers: this._headers,
     }).then((res) => {
-      console.log("Api getCards - str 27", res);
+      // console.log("Api getCards - str 27", res);
       // parseResponse(res);
       if (res.ok) {
         console.log("Api Ответ от сервевра - str 30", res);
