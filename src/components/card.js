@@ -8,34 +8,38 @@ export class Card {
     handleLikeCard,
     handleImageOpen,
     deleteCard,
+    openCardDeletePopup,
     likeCard
   ) {
-    console.log("Card - str 13 - Содержмое карточки", card, typeof card);
+    console.log("Card - str 14 - Содержмое карточки", card, typeof card);
     this._myId = myId;
     // console.log("Card - str 14 - Покажи мой Id - ", myId);
     this._owner = card.owner["_id"];
-    console.log("Card - str 17 - Id юзера карточки", card.owner["_id"]);
+    console.log("Card - str 18 - Id юзера карточки", card.owner["_id"]);
     this._cardId = card["_id"];
-    console.log("Card - str 19 - Id карточки", card["_id"]);
+    console.log("Card - str 20 - Id карточки", card["_id"]);
     // console.log(this._owner, card.owner["_id"], myId);
     this._name = card.name;
     this._link = card.link;
     this._likes = card.likes;
     this._cardSelector = cardSelector;
-    // this._likeCard = likeCard;
+    this._likeCard = likeCard;
     this._handleLikeCard = handleLikeCard;
     this._handleImageOpen = handleImageOpen;
     this._deleteCard = deleteCard;
-    this._handleLikeCard = this._handleLikeCard.bind(this);
-    // this.removeCard = this.removeCard.bind(this);
+    this._openCardDeletePopup = openCardDeletePopup;
+    // this._handleLikeCard = this._handleLikeCard.bind(this);
+    // this.deleteCard = this.deleteCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
-    // this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardImage.addEventListener("click", this._openImagePopup);
-    this._cardLike.addEventListener("click", this._likeCard);
+    this._cardLike.addEventListener("click", this._handleLikeCard);
     this._cardDelete.addEventListener("click", () => {
-      this._deleteCard(this);
+      //По клику открываем попап удаления карточки
+      // console.log(card);
+      this._openCardDeletePopup(this); //Передаем ему карту, и ссылку на объект
+      //инициатор события
     });
   }
   //Приватные методы для каждого обработчика
@@ -54,7 +58,7 @@ export class Card {
     // const cardLike = cardElement.querySelector(".card__heart");
     console.log(cardLike);
     cardLike.classList.toggle("card__heart_liked");
-    // this._handleLikeCard(cardLike);
+    this._handleLikeCard(cardLike);
   }
   //Публичный метод, который возвращает полностью работоспособный
   //и наполненный данными элемент карточки
@@ -117,15 +121,6 @@ export class Card {
 //   cardDelete.remove();
 // }
 
-//Слушатели внутри функции
-// cardImage.addEventListener("click", openImagePopup);
-// cardLike.addEventListener("click", likeCard);
-// cardDelete.addEventListener("click", (evt) => {
-//   //По клику открываем попап удаления карточки
-//   console.log(card);
-//   openCardDeletePopup(card, evt.target); //Передаем ему карту, и ссылку на объект
-//   //инициатор события
-// });
 //Версия прямого удаления карточки по клику на ведро
 // cardDelete.addEventListener("click", (evt) => {
 //   deleteCard(card._id) //Удаление карточки по id

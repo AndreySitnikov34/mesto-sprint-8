@@ -137,7 +137,7 @@ function getCards() {
     .getCards()
     .then((data) => renderItems(data))
     .catch((err) => {
-      console.log("index - str 132 - Ошибка загрузки данных о карточках", err);
+      console.log("index - str 140 - Ошибка загрузки данных о карточках", err);
     });
 }
 //Изъятие карточек у сервера
@@ -174,11 +174,13 @@ function renderItem(card, isNew) {
     myId,
     card,
     "#card",
-    handleImageOpen,
     handleLikeCard,
+    handleImageOpen,
     // handleCardDelete,
     // likeCard,
-    deleteCard
+    deleteCard,
+    openCardDeletePopup
+    // cardSelector
   );
 
   const cardElement = card.generateCard();
@@ -308,8 +310,8 @@ function openCardPopup() {
 //   }
 // }
 //Обработчик события
-function handleLikeCard(cardLike) {
-  console.log("index - str 287 - _handleLikeCard", cardLike);
+function handleLikeCard(card) {
+  console.log("index - str 287 - _handleLikeCard", card["_id"]);
   const currentCardId = this["_cardId"];
   console.log("index - str 315 - ", currentCardId);
   if (!cardLike.classList.contains("card__heart_liked")) {
@@ -506,8 +508,9 @@ function openCardDeletePopup(card, evtTarget) {
   //Передаем карточку и объект события
   cardToDelete = card;
   delEvt = evtTarget;
-  console.log(card);
-  openPopup(popupCardDelete);
+  console.log("index - str 510 - карточка для удаления", card);
+  // openPopup(popupCardDelete);
+  popupCardDelete.open();
 }
 // Функция обработки согласия с удалением карточки
 function handleCardDelete() {
@@ -517,17 +520,13 @@ function handleCardDelete() {
       console.log("then", res);
       delEvt.closest(".card").remove();
       // evt.target.closest(".card").remove();
-      closePopup(popupCardDelete);
+      popupCardDelete.close();
     })
     .catch((err) => {
       console.log("Ошибка удаления карточки", err.message);
     });
 }
 
-// // Функция открытия попапа согласия с удалением карточки
-// function openCardDeletePopup() {
-//   openPopup(popupCardDelete);
-// }
 // // Функция обработки согласия с удалением карточки
 // function handleCardDelete(evt) {
 //   console.log("Посмотреть перед удалением", evt);
