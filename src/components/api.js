@@ -2,7 +2,7 @@ export class Api {
   constructor(userCheck) {
     this._url = userCheck["url"];
     this._headers = userCheck["headers"];
-    this.parseResponse = this.parseResponse.bind(this);
+    //this.parseResponse = this.parseResponse.bind(this);
   }
   // config = {
   //   url: "https://nomoreparties.co/v1/plus-cohort7",
@@ -12,7 +12,7 @@ export class Api {
   //   },
   // };
   //Парсинг ответа
-  parseResponse(res) {
+  _parseResponse(res) {
     console.log("приходит ответ 16", res);
     if (res.ok) {
       return res.json();
@@ -23,15 +23,7 @@ export class Api {
   getCards() {
     return fetch(`${this._url}/cards`, {
       headers: this._headers,
-    }).then((res) => {
-      // console.log("Api getCards - str 27", res);
-      // parseResponse(res);
-      if (res.ok) {
-        console.log("Api Ответ от сервевра - str 30", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(res => this._parseResponse(res))
   }
   //Добавление своей карточки
   postCard(card) {
@@ -42,20 +34,14 @@ export class Api {
         name: card.name,
         link: card.link,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        console.log("Api - str 47", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(res => this._parseResponse(res))
   }
   //Удаление карточки
   deleteCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => parseResponse(res));
+    }).then((res) => _parseResponse(res));
   }
   //Добавление лайка
   addLike(cardId) {
@@ -76,15 +62,7 @@ export class Api {
     // console.log("70 строчка !!!");
     return fetch(`${this._url}/users/me`, {
       headers: this._headers,
-    }).then((res) => {
-      console.log("Api - str 74 - GET BY USER", res);
-      // parseResponse(res);
-      if (res.ok) {
-        // console.log("Ответ от сервевра 70", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(res => this._parseResponse(res))
   }
   //Добавление пользователя
   updateUser({ name, about }) {
@@ -92,13 +70,7 @@ export class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ name, about }),
-    }).then((res) => {
-      if (res.ok) {
-        console.log("Api - str 91 -", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then(res => this._parseResponse(res))
   }
   //Смена аватарки
   updateAvatar({ avatar }) {
@@ -106,13 +78,8 @@ export class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ avatar }),
-    }).then((res) => {
-      if (res.ok) {
-        console.log("Api - str 105 -", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    })
+    .then(res => this._parseResponse(res))
   }
   //Смена аватарки (асинхронной функцией) как подсказывает VSCode
   // const updateAvatar = async () => {
