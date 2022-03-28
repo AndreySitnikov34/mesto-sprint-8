@@ -14,10 +14,10 @@ export class Api {
   //Парсинг ответа
   parseResponse(res) {
     console.log("приходит ответ 16", res);
-    // if (res.ok) {
-    //   return res.json();
-    // }
-    // return Promise.reject(`Ошибка: ${res.status}`);
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
   //Вытягиваие карточек с сервера
   getCards() {
