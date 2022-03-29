@@ -1,7 +1,7 @@
 export class Api {
-  constructor(userCheck) {
-    this._url = userCheck["url"];
-    this._headers = userCheck["headers"];
+  constructor(config) {
+    this._url = config["url"];
+    this._headers = config["headers"];
     // this.parseResponse = this.parseResponse.bind(this);
   }
   // config = {
@@ -68,15 +68,7 @@ export class Api {
     // console.log("70 строчка !!!");
     return fetch(`${this._url}/users/me`, {
       headers: this._headers,
-    }).then((res) => {
-      console.log("Api - str 74 - GET BY USER", res);
-      parseResponse(res);
-      // if (res.ok) {
-      //   // console.log("Ответ от сервевра 70", res);
-      //   return res.json();
-      // }
-      // return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    }).then((res) => this._parseResponse(res));
   }
   //Добавление пользователя
   updateUser({ name, about }) {

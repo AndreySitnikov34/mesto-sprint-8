@@ -157,7 +157,7 @@ function getCards() {
 
 //Рендеринг элементов
 function renderItems(initialCards) {
-  console.log("index - str 152", initialCards);
+  console.log("index - str 160", initialCards);
   cardList = new Section(
     {
       data: initialCards,
@@ -183,7 +183,7 @@ function renderItem(card, isNew) {
 
   const cardElement = card.generateCard();
   if (isNew) {
-    console.log("str 178", isNew);
+    console.log("str 186", isNew);
     cardList.addNewItem(cardElement);
   } else {
     cardList.addItem(cardElement);
@@ -216,7 +216,7 @@ function renderItem(card, isNew) {
 
 // Функция обработки создания новой карточки
 function handleCardFormSubmit(evt) {
-  console.log("index - str 220 - handleCardFormSubmit", evt);
+  console.log("index - str 219 - handleCardFormSubmit", evt);
   // evt.preventDefault();
   cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
   api
@@ -227,7 +227,7 @@ function handleCardFormSubmit(evt) {
     .then((res) => {
       console.log("Карточка добавлена", res);
       evt.target.reset();
-      toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
+      // toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
       cards.prepend(createCard(res, res.owner._id));
       cardFormPopup.close(); //Закрыть попап
     })
@@ -275,20 +275,21 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
-  console.log("index - str 253 - openCardPopup");
+  console.log("index - str 278 - openCardPopup");
   cardPopup.open();
 }
-
-// function openCardPopup() {
-//   cardFormPopup.open();
-// }
 
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
 //Функция добавления/удаления лайка
 function likeCard(card) {
   const currentCardId = this["_cardId"];
   const cardLike = this.card;
-  console.log("index - str 290 - LikeCard", cardLike, this.card, currentCardId);
+  console.log(
+    "index - str 287 - LikeCard",
+    cardLike,
+    "id карточки",
+    currentCardId
+  );
   if (!cardLike.classList.contains("card__heart_liked")) {
     api
       .addLike(currentCardId)
@@ -428,12 +429,12 @@ openImagePopup.setEventListeners();
 
 // Функция открытия картинки из карточки
 function handleImageOpen(evt) {
-  console.log("index - str 436 - openImagePopup", evt.target);
   imageOpen.src = "";
   imageOpen.src = evt.target.src;
   imageOpen.alt = evt.target.alt;
   signImage.textContent = evt.target.alt;
   openImagePopup.open(evt.target);
+  console.log("index - str 432 - openImagePopup", imageOpen.alt);
 }
 //============ЧТО КАСАЕТСЯ ВАЛИДАЦИИ============//
 //===Старый код===//
@@ -509,18 +510,28 @@ function handleSubmitProfile(evt) {
 }
 
 // Функция открытия попапа согласия с удалением карточки
-function openCardDeletePopup(card, evtTarget) {
+function openCardDeletePopup(card) {
   //Передаем карточку и объект события
-  cardToDelete = card;
-  delEvt = evtTarget;
-  console.log("index - str 510 - карточка для удаления", card);
-  // openPopup(popupCardDelete);
-  popupCardDelete.open();
+  // cardToDelete = card;
+  // delEvt = evtTarget;
+  console.log("index - str 512 - карточка для удаления", card);
+  cardToDelete.open();
+  // popupCardDelete.open();
 }
+
+popupCardDelete.setEventListeners();
+
+// const popupCardDelete = new PopupWithForm({
+//   popupSelector: popupCardDelete,
+//   addNewInfoHandler: (currentCardId, cardToDelete) =>
+//     deleteCard(currentCardId, cardToDelete),
+// });
+
 // Функция обработки согласия с удалением карточки
 function handleCardDelete() {
   console.log("Показать id карточки", cardToDelete);
-  deleteCard(cardToDelete._id) //Удаление карточки по id
+  deleteCard(cardToDelete._id); //Удаление карточки по id
+  api
     .then((res) => {
       console.log("then", res);
       delEvt.closest(".card").remove();

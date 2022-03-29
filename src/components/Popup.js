@@ -6,10 +6,9 @@ export class Popup {
     this._openEvt = "";
   }
   //Публичный метод открытия попапа
-  open(cardToDelete) {
+  open() {
     this._popupsContainer.classList.add("popup_opened");
     window.addEventListener("keydown", this._handleEscClose);
-    this._cardToDelete = cardToDelete;
   }
   // Функция открытия попапа
   // export function openPopup(popup) {

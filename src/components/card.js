@@ -30,7 +30,7 @@ export class Card {
     this._deleteCard = deleteCard;
     this._openCardDeletePopup = openCardDeletePopup;
     this._handleLikeCard = this._handleLikeCard.bind(this);
-    // this.deleteCard = this.deleteCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
