@@ -5,13 +5,14 @@ export class Card {
     myId,
     card,
     cardSelector,
-    handleLikeCard,
+    likeCard,
+    // handleLikeCard,
     handleImageOpen,
     deleteCard,
-    openCardDeletePopup,
-    likeCard
+    openCardDeletePopup
   ) {
     console.log("Card - str 14 - Содержмое карточки", card, typeof card);
+    this.card = card;
     this._myId = myId;
     // console.log("Card - str 14 - Покажи мой Id - ", myId);
     this._owner = card.owner["_id"];
@@ -24,16 +25,16 @@ export class Card {
     this._likes = card.likes;
     this._cardSelector = cardSelector;
     this._likeCard = likeCard;
-    this._handleLikeCard = handleLikeCard;
+    // this._handleLikeCard = handleLikeCard;
     this._handleImageOpen = handleImageOpen;
     this._deleteCard = deleteCard;
     this._openCardDeletePopup = openCardDeletePopup;
-    // this._handleLikeCard = this._handleLikeCard.bind(this);
+    this._handleLikeCard = this._handleLikeCard.bind(this);
     // this.deleteCard = this.deleteCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
-    this._cardImage.addEventListener("click", this._openImagePopup);
+    this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardLike.addEventListener("click", this._handleLikeCard);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
@@ -50,15 +51,15 @@ export class Card {
       .cloneNode(true);
   }
 
-  _likeCard() {
-    console.log("Card - str 51 - _Like card");
-    const cardLike = this._cardLike;
+  _handleLikeCard(card) {
+    console.log("Card - str 55 - _handleLikeCard", this.card);
+    const cardLike = this._cardLike; //Это кнопка сердечко
     // const cardTemplate = document.querySelector("#card").content;
     // const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
     // const cardLike = cardElement.querySelector(".card__heart");
-    console.log(cardLike);
-    cardLike.classList.toggle("card__heart_liked");
-    this._handleLikeCard(cardLike);
+    // console.log("60", cardLike);
+    cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
+    this._likeCard(card);
   }
   //Публичный метод, который возвращает полностью работоспособный
   //и наполненный данными элемент карточки

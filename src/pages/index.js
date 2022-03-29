@@ -174,13 +174,11 @@ function renderItem(card, isNew) {
     myId,
     card,
     "#card",
-    handleLikeCard,
+    likeCard,
+    // handleLikeCard,
     handleImageOpen,
-    // handleCardDelete,
-    // likeCard,
     deleteCard,
     openCardDeletePopup
-    // cardSelector
   );
 
   const cardElement = card.generateCard();
@@ -287,62 +285,67 @@ function openCardPopup() {
 
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
 //Функция добавления/удаления лайка
-// function likeCard(cardLike) {
-//   if (!cardLike.classList.contains("card__heart_liked")) {
-//     addLike(card._id)
-//       .then((card) => {
-//         console.log(card._id);
-//         cardLike.classList.add("card__heart_liked");
-//         likeCounter.textContent = card.likes.length;
-//       })
-//       .catch((err) => {
-//         console.log("Ошибка добавления лайка", err.message);
-//       });
-//   } else {
-//     deleteLike(card._id)
-//       .then((card) => {
-//         cardLike.classList.remove("card__heart_liked");
-//         likeCounter.textContent = card.likes.length;
-//       })
-//       .catch((err) => {
-//         console.log("Ошибка удаления лайка", err.message);
-//       });
-//   }
-// }
-//Обработчик события
-function handleLikeCard(card) {
-  console.log("index - str 287 - _handleLikeCard", card["_id"]);
+function likeCard(card) {
   const currentCardId = this["_cardId"];
-  console.log("index - str 315 - ", currentCardId);
+  const cardLike = this.card;
+  console.log("index - str 290 - LikeCard", cardLike, this.card, currentCardId);
   if (!cardLike.classList.contains("card__heart_liked")) {
-    addLike(currentCardId, cardLike);
+    api
+      .addLike(currentCardId)
+      .then((card) => {
+        console.log("296", currentCardId);
+        cardLike.classList.add("card__heart_liked");
+        likeCounter.textContent = card.likes.length;
+      })
+      .catch((err) => {
+        console.log("Ошибка добавления лайка", err.message);
+      });
   } else {
-    deleteLike(currentCardId, cardLike);
+    api
+      .deleteLike(currentCardId)
+      .then((card) => {
+        cardLike.classList.remove("card__heart_liked");
+        likeCounter.textContent = card.likes.length;
+      })
+      .catch((err) => {
+        console.log("Ошибка удаления лайка", err.message);
+      });
   }
 }
+//Обработчик события
+// function likeCard(cardLike) {
+//   console.log("index - str 316 - _likeCard", this.card);
+//   const currentCardId = this["_cardId"];
+//   console.log("index - str 318 - ", currentCardId);
+//   if (!cardLike.classList.contains("card__heart_liked")) {
+//     addLike(currentCardId, cardLike);
+//   } else {
+//     deleteLike(currentCardId, cardLike);
+//   }
+// }
 //Функция добавления лайка
-function addLike(currentCardId, cardLike) {
-  console.log("index - str286 - add Like ");
-  api
-    .addLike(currentCardId)
-    .then((card) => showCounter(card, cardLike))
-    .catch((err) => console.log(`Ошибка: ${err}`));
-}
+// function addLike(currentCardId, cardLike) {
+//   console.log("index - str 327 - add Like ");
+//   api
+//     .addLike(currentCardId)
+//     .then((card) => showCounter(card, cardLike))
+//     .catch((err) => console.log(`Ошибка: ${err}`));
+// }
 //Функция удадения лайка
-function deleteLike(currentCardId, cardLike) {
-  console.log("index - str294 - delete Like ");
-  api
-    .deleteLike(currentCardId)
-    .then((card) => showCounter(card, cardLike))
-    .catch((err) => console.log(`Ошибка: ${err}`));
-}
+// function deleteLike(currentCardId, cardLike) {
+//   console.log("index - str 335 - delete Like ");
+//   api
+//     .deleteLike(currentCardId)
+//     .then((card) => showCounter(card, cardLike))
+//     .catch((err) => console.log(`Ошибка: ${err}`));
+// }
 //Функция подсчёта лайков
-function showCounter(card, cardLike) {
-  const likeCounter = cardLike
-    .closest(".card")
-    .querySelector(".card__heart-count");
-  likeCounter.textContent = card.likes.length;
-}
+// function showCounter(card, cardLike) {
+//   const likeCounter = cardLike
+//     .closest(".card")
+//     .querySelector(".card__heart-count");
+//   likeCounter.textContent = card.likes.length;
+// }
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
 
 const popupAvatar = new PopupWithForm({
@@ -420,16 +423,18 @@ function renderPopupUser(rendering, userSubmitButton) {
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
 const openImagePopup = new PopupWithImage(popupImage);
-console.log("index - str 422 - openImagePopup");
 
 openImagePopup.setEventListeners();
 
+// Функция открытия картинки из карточки
 function handleImageOpen(evt) {
-  console.log("index - str 427 - openImagePopup");
-  const currentImage = evt.target;
-  openImagePopup.open(currentImage);
+  console.log("index - str 436 - openImagePopup", evt.target);
+  imageOpen.src = "";
+  imageOpen.src = evt.target.src;
+  imageOpen.alt = evt.target.alt;
+  signImage.textContent = evt.target.alt;
+  openImagePopup.open(evt.target);
 }
-
 //============ЧТО КАСАЕТСЯ ВАЛИДАЦИИ============//
 //===Старый код===//
 
