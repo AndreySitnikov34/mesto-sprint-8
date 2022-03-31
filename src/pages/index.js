@@ -213,7 +213,12 @@ function likeCard() {
     api
       .addLike(currentCardId)
       .then((card) => {
-        console.log("index 216", card, card.likes.length);
+        console.log(
+          "index 216",
+          card,
+          "количество лайков теперь",
+          card.likes.length
+        );
         likeCounter(card);
       })
       .catch((err) => {
