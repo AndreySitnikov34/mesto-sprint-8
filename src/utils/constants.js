@@ -46,3 +46,12 @@ export const enableValidation = {
   // userSubmitButton: userSubmitButton,
   // cardSubmitButton: cardSubmitButton,
 };
+const token = "01124a9d-ad91-4991-aee6-270006a314f8";
+export const config = {
+  url: "https://nomoreparties.co/v1/plus-cohort7",
+  headers: {
+    authorization: token,
+    "Content-Type": "application/json",
+  }
+
+}
