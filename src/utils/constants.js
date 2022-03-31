@@ -11,11 +11,12 @@ export const userAbout = document.querySelector(".user__about");
 export const userPic = document.querySelector(".user__pic");
 export const cardTemplate = document.querySelector("#card").content;
 export const formElement = document.querySelector(".form");
-export const cards = document.querySelector(".cards");
+// export const cards = document.querySelector(".cards");
 export const popupImage = document.querySelector(".popup-image");
 export const imageOpen = document.querySelector(".popup__image");
 export const signImage = document.querySelector(".popup__image-alt");
-export const popupCardDelete = document.querySelector(".popup-card-delete");
+export const popupCardDeleteElement =
+  document.querySelector(".popup-card-delete");
 export const myId = "01124a9d-ad91-4991-aee6-270006a314f8";
 
 export const cardInputs = Array.from(cardFormPopup.querySelectorAll("input"));

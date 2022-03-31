@@ -19,7 +19,7 @@ export class PopupWithForm extends Popup {
 
   _infoSubmitHandler(evt) {
     evt.preventDefault();
-    this._addNewInfoHandler(this._getInputValues(), this._cardToDelete);
+    this._addNewInfoHandler(this._getInputValues());
   }
 
   //Переустанавливаем слушателей родителя

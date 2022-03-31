@@ -2,18 +2,10 @@ export class Api {
   constructor(config) {
     this._url = config["url"];
     this._headers = config["headers"];
-    // this.parseResponse = this.parseResponse.bind(this);
   }
-  // config = {
-  //   url: "https://nomoreparties.co/v1/plus-cohort7",
-  //   headers: {
-  //     authorization: "01124a9d-ad91-4991-aee6-270006a314f8",
-  //     "Content-Type": "application/json",
-  //   },
-  // };
   //Парсинг ответа
   _parseResponse(res) {
-    console.log("приходит ответ 16", res);
+    // console.log("Api - str 16 - приходит ответ", res);
     if (res.ok) {
       return res.json();
     }
@@ -36,7 +28,7 @@ export class Api {
       }),
     }).then((res) => {
       if (res.ok) {
-        console.log("Api - str 47", res);
+        console.log("Api - str 31 - PostCard", res);
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -47,21 +39,21 @@ export class Api {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => parseResponse(res));
+    }).then((res) => this._parseResponse(res));
   }
   //Добавление лайка
   addLike(cardId) {
     return fetch(`${this._url}/cards/likes/${cardId}`, {
       method: "PUT",
       headers: this._headers,
-    }).then((res) => parseResponse(res));
+    }).then((res) => this._parseResponse(res));
   }
   //Удаление лайка
   deleteLike(cardId) {
     return fetch(`${this._url}/cards/likes/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then((res) => parseResponse(res));
+    }).then((res) => this._parseResponse(res));
   }
   //Получение данных о пользователе
   getUser() {
@@ -78,7 +70,7 @@ export class Api {
       body: JSON.stringify({ name, about }),
     }).then((res) => {
       if (res.ok) {
-        console.log("Api - str 91 -", res);
+        console.log("Api - str 73 -", res);
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);

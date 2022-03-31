@@ -11,14 +11,14 @@ export class Card {
     deleteCard,
     openCardDeletePopup
   ) {
-    console.log("Card - str 14 - Содержмое карточки", card, typeof card);
+    // console.log("Card - str 14 - Содержмое карточки", card, typeof card);
     this.card = card;
     this._myId = myId;
-    // console.log("Card - str 14 - Покажи мой Id - ", myId);
+    // console.log("Card - str 14 - Мой Id - ", myId);
     this._owner = card.owner["_id"];
-    console.log("Card - str 18 - Id юзера карточки", card.owner["_id"]);
+    // console.log("Card - str 18 - Id юзера карточки", card.owner["_id"]);
     this._cardId = card["_id"];
-    console.log("Card - str 20 - Id карточки", card["_id"]);
+    // console.log("Card - str 20 - Id карточки", card["_id"]);
     // console.log(this._owner, card.owner["_id"], myId);
     this._name = card.name;
     this._link = card.link;
@@ -51,6 +51,7 @@ export class Card {
       .cloneNode(true);
   }
 
+  //Лайки добавление/удаление
   _handleLikeCard(card) {
     console.log("Card - str 55 - _handleLikeCard", this.card);
     const cardLike = this._cardLike; //Это кнопка сердечко
@@ -73,7 +74,9 @@ export class Card {
     this._element.querySelector(".card__heart-count").textContent =
       this._likes.length;
     //Покрасить свои лайки при загрузке
-    if (this._likes.some((like) => like["_id"] === this._myId)) {
+    if (
+      this._likes.some((like) => like["_id"] === "9253fda4de1608ef23343856")
+    ) {
       this._cardLike.classList.add("card__heart_liked");
     }
     //Удалить вёдра на несвоих карточках при загрузке
@@ -86,58 +89,10 @@ export class Card {
     this._setEventListeners();
     return this._element;
   }
+
   //Удаление карточки
   deleteCard(cardToDelete) {
     cardToDelete._element.remove();
     cardToDelete._element = null;
   }
 }
-
-//==========Старый код===================//
-
-//Функция создания новой карточки
-// export function createCard(card, userId) {
-//   console.log("Содержимое карточек", card);
-//   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-//   const cardImage = cardElement.querySelector(".card__img");
-//   const cardLike = cardElement.querySelector(".card__heart");
-//   const cardDelete = cardElement.querySelector(".card__del");
-//   const cardLocation = cardElement.querySelector(".card__location");
-//   const likeCounter = cardElement.querySelector(".card__heart-count");
-//   cardLocation.textContent = card.name;
-//   cardImage.src = card.link;
-//   cardImage.alt = card.name;
-//   likeCounter.textContent = card.likes.length;
-
-//Покарсить свои лайки
-// card.likes.forEach((user) => {
-//   if (user._id === userId) {
-//     cardLike.classList.add("card__heart_liked");
-//   }
-// });
-
-//Показать ведро только на своих карточках
-// if (userId !== card.owner._id) {
-//   console.log("userId", userId);
-//   cardDelete.remove();
-// }
-
-//Версия прямого удаления карточки по клику на ведро
-// cardDelete.addEventListener("click", (evt) => {
-//   deleteCard(card._id) //Удаление карточки по id
-//     .then((card) => {
-//       evt.target.closest(".card").remove();
-//     })
-//     .catch((err) => {
-//       console.log("Ошибка удаления карточки", err.message);
-//     });
-// });
-
-// return cardElement;
-
-//Функция добавления карточки на сервер
-// export const addCard = (card, userId) => {
-//   // console.log("Содержимое карточки", card._id);
-//   const contentCard = createCard(card, userId);
-//   cards.append(contentCard);
-// };

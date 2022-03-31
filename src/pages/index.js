@@ -18,7 +18,7 @@ import {
   popupImage,
   imageOpen,
   signImage,
-  popupCardDelete,
+  popupCardDeleteElement,
   myId,
   cardInputs,
   avatarEditButton,
@@ -49,7 +49,7 @@ const api = new Api({
   },
 });
 
-let cardToDelete;
+let deleteCard;
 let delEvt;
 let cardList;
 let card;
@@ -62,20 +62,7 @@ function getUser() {
       console.log("Ошибка загрузки данных о пользователе", err);
     });
 }
-//Получение информации о юзере при загрузке
-// getUser()
-//   .then((data) => {
-//     const userId = data._id;
-//     // console.log("Информация по юзеру", data, userId);
-//     userName.textContent = data.name;
-//     userAbout.textContent = data.about;
-//     userPic.src = data.avatar;
 
-//     renderCards(userId);
-//   })
-//   .catch((err) => {
-//     console.log("Ошибка загрузки данных о пользователе", err);
-//   });
 //Функция рендеринга инфо о юзере
 function renderUserInfo(data) {
   userName.textContent = data.name;
@@ -125,7 +112,7 @@ function editUserInfo() {
 }
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
-  console.log("index - str 128 - openProfilePopup");
+  console.log("index - str 115 - openProfilePopup");
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   // openPopup(popupFormUser);
@@ -137,27 +124,13 @@ function getCards() {
     .getCards()
     .then((data) => renderItems(data))
     .catch((err) => {
-      console.log("index - str 140 - Ошибка загрузки данных о карточках", err);
+      console.log("index - str 127 - Ошибка загрузки данных о карточках", err);
     });
 }
-//Изъятие карточек у сервера
-// const renderCards = (userId) => {
-//   console.log("render cards");
-//   getCards()
-//     .then((data) => {
-//       console.log("then");
-//       data.forEach((card) => {
-//         addCard(card, userId);
-//       });
-//     })
-//     .catch((err) => {
-//       console.log("Ошибка загрузки контента:", err.message);
-//     });
-// };
 
 //Рендеринг элементов
 function renderItems(initialCards) {
-  console.log("index - str 160", initialCards);
+  // console.log("index - str 160", initialCards);
   cardList = new Section(
     {
       data: initialCards,
@@ -183,40 +156,16 @@ function renderItem(card, isNew) {
 
   const cardElement = card.generateCard();
   if (isNew) {
-    console.log("str 186", isNew);
+    console.log("str 159", isNew);
     cardList.addNewItem(cardElement);
   } else {
     cardList.addItem(cardElement);
   }
 }
 
-// function postCard(name, link) {
-//   console.log("index - str 195 - postCard", name, link);
-//   handleCardFormSubmit(true, cardFormPopup);
-//   api
-//     .postCard(name, link)
-//     .then((newCard) => {
-//       renderCard(
-//         {
-//           name: newCard.name,
-//           link: newCard.link,
-//           likes: [],
-//           owner: {
-//             ["_id"]: myId,
-//           },
-//           ["_id"]: newCard["_id"],
-//         },
-//         true
-//       );
-//       cardFormPopup.close();
-//     })
-//     .catch((err) => console.log(`Ошибка: ${err}`))
-//     .finally(() => handleCardFormSubmit(false, cardFormPopup, "Создать"));
-// }
-
 // Функция обработки создания новой карточки
 function handleCardFormSubmit(evt) {
-  console.log("index - str 219 - handleCardFormSubmit", evt);
+  // console.log("index - str 219 - handleCardFormSubmit", evt);
   // evt.preventDefault();
   cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
   api
@@ -226,10 +175,8 @@ function handleCardFormSubmit(evt) {
     })
     .then((res) => {
       console.log("Карточка добавлена", res);
-      evt.target.reset();
-      // toggleButtonState(cardInputs, cardSubmitButton, "form__submit_inactive");
-      cards.prepend(createCard(res, res.owner._id));
-      cardFormPopup.close(); //Закрыть попап
+      const card = new Card({ owner });
+      cardPopup.close(); //Закрыть попап
     })
     .catch((err) => {
       console.log(err);
@@ -239,114 +186,61 @@ function handleCardFormSubmit(evt) {
     });
 }
 
-function deleteCard(cardToDelete) {
-  cardToDelete._element.remove();
-  cardToDelete._element = null;
-}
-//Вариант через Api
-// function deleteCard(cardToDelete) {
-//   const currentCardId = cardToDelete["_cardId"];
-//   api
-//     .deleteCard(currentCardId)
-//     .then((delMessage) => {
-//       card.removePlace(cardToDelete);
-//       cardDeletePopup.close();
-//     })
-//     .catch((err) => console.log(`Ошибка: ${err}`));
-// }
-
-// function handleCardDelete(cardToDelete) {
-//   cardDeletePopup.open(cardToDelete);
-// }
-
-// const cardDeletePopup = new PopupWithForm({
-//   popupSelector: cardPopupDeleteElement,
-//   addNewInfoHandler: (obj, currentCardId, cardToDelete) =>
-//     deleteCard(currentCardId, cardToDelete),
-// });
-
-// cardDeletePopup.setEventListeners();
-
 const cardPopup = new PopupWithForm({
   popupSelector: cardFormPopup,
-  addNewInfoHandler: (card) => postCard(card.name, card.link),
+  addNewInfoHandler: (card) => this._postCard(card.name, card.link),
 });
 
 cardPopup.setEventListeners();
 
 function openCardPopup() {
-  console.log("index - str 278 - openCardPopup");
+  console.log("index - str 197 - openCardPopup");
   cardPopup.open();
 }
 
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
 //Функция добавления/удаления лайка
-function likeCard(card) {
+function likeCard() {
   const currentCardId = this["_cardId"];
   const cardLike = this.card;
-  console.log(
-    "index - str 287 - LikeCard",
-    cardLike,
-    "id карточки",
-    currentCardId
+  console.log("index - str 206 - id карточки", currentCardId);
+  const isMyCard = cardLike.likes.some(
+    (user) => user["_id"] === "9253fda4de1608ef23343856"
   );
-  if (!cardLike.classList.contains("card__heart_liked")) {
+
+  console.log("index 211", isMyCard);
+  if (!isMyCard) {
     api
       .addLike(currentCardId)
       .then((card) => {
-        console.log("296", currentCardId);
-        cardLike.classList.add("card__heart_liked");
-        likeCounter.textContent = card.likes.length;
+        console.log("index 216", card, card.likes.length);
+        likeCounter(card);
       })
       .catch((err) => {
         console.log("Ошибка добавления лайка", err.message);
       });
+    console.log("не моя карточка");
   } else {
     api
       .deleteLike(currentCardId)
       .then((card) => {
-        cardLike.classList.remove("card__heart_liked");
-        likeCounter.textContent = card.likes.length;
+        console.log("index 227", card, card.likes.length);
+        likeCounter(card);
       })
       .catch((err) => {
         console.log("Ошибка удаления лайка", err.message);
       });
+    console.log("моя карточка");
   }
 }
-//Обработчик события
-// function likeCard(cardLike) {
-//   console.log("index - str 316 - _likeCard", this.card);
-//   const currentCardId = this["_cardId"];
-//   console.log("index - str 318 - ", currentCardId);
-//   if (!cardLike.classList.contains("card__heart_liked")) {
-//     addLike(currentCardId, cardLike);
-//   } else {
-//     deleteLike(currentCardId, cardLike);
-//   }
-// }
-//Функция добавления лайка
-// function addLike(currentCardId, cardLike) {
-//   console.log("index - str 327 - add Like ");
-//   api
-//     .addLike(currentCardId)
-//     .then((card) => showCounter(card, cardLike))
-//     .catch((err) => console.log(`Ошибка: ${err}`));
-// }
-//Функция удадения лайка
-// function deleteLike(currentCardId, cardLike) {
-//   console.log("index - str 335 - delete Like ");
-//   api
-//     .deleteLike(currentCardId)
-//     .then((card) => showCounter(card, cardLike))
-//     .catch((err) => console.log(`Ошибка: ${err}`));
-// }
-//Функция подсчёта лайков
-// function showCounter(card, cardLike) {
-//   const likeCounter = cardLike
-//     .closest(".card")
-//     .querySelector(".card__heart-count");
-//   likeCounter.textContent = card.likes.length;
-// }
+
+function likeCounter(card, currentCardElement) {
+  const showCounter = currentCardElement
+    .closest(".card")
+    .querySelector(".card__heart-count");
+  showCounter.textContent = card.likes.length;
+}
+
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
 
 const popupAvatar = new PopupWithForm({
@@ -357,14 +251,14 @@ const popupAvatar = new PopupWithForm({
 popupAvatar.setEventListeners();
 
 function openAvatarPopup() {
-  console.log("index - str 321 - openAvatarPopup");
+  console.log("index - str 258 - openAvatarPopup");
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
   // toggleButtonState(cardInputs, avatarSubmitButton, "form__submit_inactive");
 }
 // Функция обработки смены аватара
 function handleAvatarPopup(evt) {
-  console.log("index - str 361 - start handleAvatarPopup");
+  console.log("index - str 265 - start handleAvatarPopup");
   // evt.preventDefault(); // Не открывать в новом окне
   avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
   api
@@ -384,23 +278,6 @@ function handleAvatarPopup(evt) {
     });
 }
 
-// function handleAvatarPopup(link) {
-//   console.log("start handleAvatarPopup");
-//   renderPopupAvatar(true, popupFormAvatar);
-//   api
-//     .handleAvatarPopup(link)
-//     .then((user) => {
-//       userPic.style.backgroundImage = `url('${user.avatar}')`;
-//       // popupAvatar.close();
-//     })
-//     .catch((err) => {
-//       console.log("Ошибка смены аватара", err.message);
-//     })
-//     .finally(() => {
-//       avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
-//     });
-// }
-
 //============RenderPopupAvatar================//
 
 // function renderPopupAvatar(rendering, avatarSubmitButton) {
@@ -413,13 +290,13 @@ function handleAvatarPopup(evt) {
 
 //============RenderPopupUser================//
 
-function renderPopupUser(rendering, userSubmitButton) {
-  if (rendering) {
-    userSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  } else {
-    userSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
-  }
-}
+// function renderPopupUser(rendering, userSubmitButton) {
+//   if (rendering) {
+//     userSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+//   } else {
+//     userSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+//   }
+// }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
@@ -434,7 +311,7 @@ function handleImageOpen(evt) {
   imageOpen.alt = evt.target.alt;
   signImage.textContent = evt.target.alt;
   openImagePopup.open(evt.target);
-  console.log("index - str 432 - openImagePopup", imageOpen.alt);
+  console.log("index - str 318 - openImagePopup", imageOpen.alt);
 }
 //============ЧТО КАСАЕТСЯ ВАЛИДАЦИИ============//
 //===Старый код===//
@@ -462,7 +339,7 @@ document
 popupFormAvatar.addEventListener("submit", handleAvatarPopup);
 popupFormUser.addEventListener("submit", handleSubmitProfile);
 cardFormPopup.addEventListener("submit", handleCardFormSubmit);
-popupCardDelete.addEventListener("submit", handleCardDelete);
+popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 
 //
 //Пробую применить Promise.all
@@ -488,7 +365,7 @@ getCards();
 
 //Функция обработки профиля юзера после submit
 function handleSubmitProfile(evt) {
-  console.log("index - str 473 - start handleSubmitProfile");
+  console.log("index - str 372 - start handleSubmitProfile");
   evt.preventDefault();
   avatarSubmitButton.textContent = "Сохранение...";
   api
@@ -510,48 +387,35 @@ function handleSubmitProfile(evt) {
 }
 
 // Функция открытия попапа согласия с удалением карточки
-function openCardDeletePopup(card) {
-  //Передаем карточку и объект события
-  // cardToDelete = card;
-  // delEvt = evtTarget;
-  console.log("index - str 512 - карточка для удаления", card);
-  cardToDelete.open();
-  // popupCardDelete.open();
+function openCardDeletePopup(cardToDelete) {
+  console.log(
+    "index - str 392 - карточка для удаления",
+    cardToDelete,
+    cardToDelete["_cardId"]
+  );
+  popupCardDelete.open();
 }
+
+const popupCardDelete = new PopupWithForm({
+  popupSelector: popupCardDeleteElement,
+  addNewInfoHandler: (card, currentCardId, cardToDelete) =>
+    handleCardDelete(currentCardId, cardToDelete),
+});
 
 popupCardDelete.setEventListeners();
 
-// const popupCardDelete = new PopupWithForm({
-//   popupSelector: popupCardDelete,
-//   addNewInfoHandler: (currentCardId, cardToDelete) =>
-//     deleteCard(currentCardId, cardToDelete),
-// });
-
 // Функция обработки согласия с удалением карточки
-function handleCardDelete() {
-  console.log("Показать id карточки", cardToDelete);
-  deleteCard(cardToDelete._id); //Удаление карточки по id
+function handleCardDelete(card) {
+  console.log("index - str 409 - Показать id карточки", card, this["_cardId"]);
+  const currentCardId = card["_cardId"];
   api
+    .deleteCard(currentCardId) //Удаление карточки по id
     .then((res) => {
       console.log("then", res);
-      delEvt.closest(".card").remove();
-      // evt.target.closest(".card").remove();
+      card.deleteCard(card);
       popupCardDelete.close();
     })
     .catch((err) => {
       console.log("Ошибка удаления карточки", err.message);
     });
 }
-
-// // Функция обработки согласия с удалением карточки
-// function handleCardDelete(evt) {
-//   console.log("Посмотреть перед удалением", evt);
-//   deleteCard(card._id) //Удаление карточки по id
-//     .then((card) => {
-//       evt.target.closest(".card").remove();
-//       closePopup(popupCardDelete);
-//     })
-//     .catch((err) => {
-//       console.log("Ошибка удаления карточки", err.message);
-//     });
-// }
