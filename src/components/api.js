@@ -3,10 +3,7 @@ export class Api {
     this._url = config["url"];
     this._headers = config["headers"];
   }
-<<<<<<< HEAD
-=======
- 
->>>>>>> 3409a585a6b62c77f0971d6e5d56ec3bee11e1b8
+
   //Парсинг ответа
   _parseResponse(res) {
     // console.log("Api - str 16 - приходит ответ", res);
@@ -30,17 +27,7 @@ export class Api {
         name: card.name,
         link: card.link,
       }),
-<<<<<<< HEAD
-    }).then((res) => {
-      if (res.ok) {
-        console.log("Api - str 31 - PostCard", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-=======
     }).then((res) => this._parseResponse(res));
->>>>>>> 3409a585a6b62c77f0971d6e5d56ec3bee11e1b8
   }
   //Удаление карточки
   deleteCard(cardId) {
@@ -75,17 +62,7 @@ export class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({ name, about }),
-<<<<<<< HEAD
-    }).then((res) => {
-      if (res.ok) {
-        console.log("Api - str 73 -", res);
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-=======
     }).then((res) => this._parseResponse(res));
->>>>>>> 3409a585a6b62c77f0971d6e5d56ec3bee11e1b8
   }
   //Смена аватарки
   updateAvatar({ avatar }) {
