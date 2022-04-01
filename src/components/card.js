@@ -5,14 +5,13 @@ export class Card {
     myId,
     card,
     cardSelector,
-    likeCard,
-    // handleLikeCard,
+    handleLikeCard,
     handleImageOpen,
-    deleteCard,
-    openCardDeletePopup
+    openCardDeletePopup,
+    deleteCard
   ) {
     // console.log("Card - str 14 - Содержмое карточки", card, typeof card);
-    this.card = card;
+    // this.card = card;
     this._myId = myId;
     // console.log("Card - str 14 - Мой Id - ", myId);
     this._owner = card.owner["_id"];
@@ -24,21 +23,20 @@ export class Card {
     this._link = card.link;
     this._likes = card.likes;
     this._cardSelector = cardSelector;
-    this._likeCard = likeCard;
-    // this._handleLikeCard = handleLikeCard;
+    this._handleLikeCard = handleLikeCard;
     this._handleImageOpen = handleImageOpen;
-    this._deleteCard = deleteCard;
     this._openCardDeletePopup = openCardDeletePopup;
-    this._handleLikeCard = this._handleLikeCard.bind(this);
-    this.deleteCard = this.deleteCard.bind(this);
+    this._deleteCard = deleteCard;
+    this._addToFavorite = this._addToFavorite.bind(this);
+    this.removeCard = this.removeCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
+    this._cardLike.addEventListener("click", this._addToFavorite);
     this._cardImage.addEventListener("click", this._handleImageOpen);
-    this._cardLike.addEventListener("click", this._handleLikeCard);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
-      // console.log(card);
+      console.log("card 41");
       this._openCardDeletePopup(this); //Передаем ему карту, и ссылку на объект
       //инициатор события
     });
@@ -52,15 +50,15 @@ export class Card {
   }
 
   //Лайки добавление/удаление
-  _handleLikeCard(card) {
-    console.log("Card - str 55 - _handleLikeCard", this.card);
+  _addToFavorite() {
+    console.log("Card - str 55 - _addToFavorite", this.card);
     const cardLike = this._cardLike; //Это кнопка сердечко
     // const cardTemplate = document.querySelector("#card").content;
     // const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
     // const cardLike = cardElement.querySelector(".card__heart");
     // console.log("60", cardLike);
     cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
-    this._likeCard(card);
+    this._handleLikeCard(cardLike);
   }
   //Публичный метод, который возвращает полностью работоспособный
   //и наполненный данными элемент карточки
@@ -91,7 +89,7 @@ export class Card {
   }
 
   //Удаление карточки
-  deleteCard(cardToDelete) {
+  removeCard(cardToDelete) {
     cardToDelete._element.remove();
     cardToDelete._element = null;
   }

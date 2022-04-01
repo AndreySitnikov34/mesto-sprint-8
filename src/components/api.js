@@ -37,15 +37,15 @@ export class Api {
     }).then((res) => this._parseResponse(res));
   }
   //Добавление лайка
-  addLike(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
+  addLike(id) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
       method: "PUT",
       headers: this._headers,
     }).then((res) => this._parseResponse(res));
   }
   //Удаление лайка
-  deleteLike(cardId) {
-    return fetch(`${this._url}/cards/likes/${cardId}`, {
+  deleteLike(id) {
+    return fetch(`${this._url}/cards/likes/${id}`, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => this._parseResponse(res));
