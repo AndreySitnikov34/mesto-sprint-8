@@ -81,8 +81,8 @@ getInfo
     );
     cardList.renderItems();
     //user.id = res[0]._id;
-    
-    })
+
+  })
   .catch(err => log("Ошибка при получение данных", err))
 
 //Рендер карточек
@@ -114,7 +114,7 @@ function handleSubmitProfile() {
   avatarSubmitButton.textContent = "Сохранение...";
   api
     .updateUser({
-      name: formUserNameInput.value, 
+      name: formUserNameInput.value,
       about: formUserAboutInput.value,
     })
     .then((res) => {
@@ -132,8 +132,8 @@ function handleSubmitProfile() {
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
-  addNewInfoHandler:() => handleSubmitProfile()
-  
+  addNewInfoHandler: () => handleSubmitProfile()
+
 });
 
 popupUser.setEventListeners();
@@ -142,7 +142,7 @@ popupUser.setEventListeners();
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
   console.log("index - str 115 - openProfilePopup");
-  formUserNameInput.value = userName.textContent; 
+  formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   // openPopup(popupFormUser);
   popupUser.open();
@@ -217,7 +217,21 @@ function likeCounter(card, cardLike) {
 
 const popupAvatar = new PopupWithForm({
   popupSelector: popupFormAvatar,
-  addNewInfoHandler: () => handleAvatarPopup(),
+  addNewInfoHandler: () => {
+    avatarSubmitButton.textContent = "Сохранение...";
+    api.updateAvatar({ avatar: avatarLink.value })
+      .then(res => {
+        userInfo.setUserInfo(res)
+        popupAvatar.close();
+      })
+      .catch((err) => {
+        console.log("Ошибка смены аватара", err.message);
+      })
+      .finally(() => {
+        avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+      });
+
+  }
 });
 
 popupAvatar.setEventListeners();
@@ -229,25 +243,25 @@ function openAvatarPopup() {
   // toggleButtonState(cardInputs, avatarSubmitButton, "form__submit_inactive");
 }
 // Функция обработки смены аватара
-function handleAvatarPopup(evt) {
-  console.log("index 271 - start handleAvatarPopup");
-  // evt.preventDefault(); // Не открывать в новом окне
-  avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  api
-    .updateAvatar({
-      avatar: avatarLink.value,
-    })
-    .then((res) => {
-      userInfo.setUserInfo(res);
-      popupAvatar.close();
-    })
-    .catch((err) => {
-      console.log("Ошибка смены аватара", err.message);
-    })
-    .finally(() => {
-      avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
-    });
-}
+//function handleAvatarPopup(evt) {
+//  console.log("index 271 - start handleAvatarPopup");
+// evt.preventDefault(); // Не открывать в новом окне
+//  avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+//  api
+//    .updateAvatar({
+//      avatar: avatarLink.value,
+//    })
+//    .then((res) => {
+//      userInfo.setUserInfo(res);
+//      popupAvatar.close();
+//    })
+//    .catch((err) => {
+//      console.log("Ошибка смены аватара", err.message);
+//    })
+//    .finally(() => {
+//      avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+//    });
+//}
 
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
@@ -277,7 +291,7 @@ document
   .querySelector(".user__info-edit-button")
   .addEventListener("click", openProfilePopup);
 //Слушатели сабмитов
-popupFormAvatar.addEventListener("submit", handleAvatarPopup);
+//popupFormAvatar.addEventListener("submit", handleAvatarPopup);
 popupFormUser.addEventListener("submit", handleSubmitProfile);
 cardFormPopup.addEventListener("submit", handleCardFormSubmit);
 popupCardDeleteElement.addEventListener("submit", handleCardDelete);
