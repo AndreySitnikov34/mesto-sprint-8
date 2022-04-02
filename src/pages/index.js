@@ -65,12 +65,12 @@ const userInfo = new UserInfo({
 });
 
 const promises = [api.getUser(), api.getCards()];
-const getInfo = Promise.all(promises)
+const getInfo = Promise.all(promises);
 getInfo
   //Сделали запрос, из массива 0(инфо о профиле), получили нужную информацию
   .then((res) => {
-    userInfo.setUserInfo(res[0])
-    log(res[1])
+    userInfo.setUserInfo(res[0]);
+    log(res[1]);
     cardList = new Section(
       {
         data: res[1],
@@ -81,9 +81,8 @@ getInfo
     cardList.renderItems();
     //user.id = res[0]._id;
     //Рендер элементов из массива 1(карточки) полученных с сервера
-    
-    })
-  .catch(err => log("Ошибка при получение данных", err))
+  })
+  .catch((err) => log("Ошибка при получение данных", err));
 
 //Рендер карточек
 function renderItem(card, isNew) {
@@ -100,25 +99,24 @@ function renderItem(card, isNew) {
 
   const cardElement = card.generateCard();
   if (isNew) {
-    console.log("index 159", isNew);
+    console.log("index 102", isNew);
     cardList.addNewItem(cardElement);
   } else {
     cardList.addItem(cardElement);
   }
 }
 
-
 //
 function handleSubmitProfile() {
-  console.log("index 378 - start handleSubmitProfile");
+  console.log("index 111 - start handleSubmitProfile");
   avatarSubmitButton.textContent = "Сохранение...";
   api
     .updateUser({
-      name: formUserNameInput.value, 
+      name: formUserNameInput.value,
       about: formUserAboutInput.value,
     })
     .then((res) => {
-      userInfo.setUserInfo(res)
+      userInfo.setUserInfo(res);
       popupUser.close(); // Закрыть попап
     })
     .catch((err) => {
@@ -129,20 +127,17 @@ function handleSubmitProfile() {
     });
 }
 
-
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
-  addNewInfoHandler:() => handleSubmitProfile()
-  
+  addNewInfoHandler: () => handleSubmitProfile(),
 });
 
 popupUser.setEventListeners();
 
-
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
-  console.log("index - str 115 - openProfilePopup");
-  formUserNameInput.value = userName.textContent; 
+  console.log("index 139 - openProfilePopup");
+  formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   // openPopup(popupFormUser);
   popupUser.open();
@@ -160,7 +155,7 @@ function handleCardFormSubmit(evt) {
     })
     .then((res) => {
       console.log("Карточка добавлена", res);
-      cardList.addItem(cardList)
+      cardList.addItem(cardList);
       cardPopup.close(); //Закрыть попап
     })
     .catch((err) => {
@@ -179,14 +174,13 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
-  console.log("index 197 - openCardPopup");
+  console.log("index 177 - openCardPopup");
   cardPopup.open();
 }
 
-
 function handleLikeCard(cardLike) {
   const currentCardId = this["_cardId"];
-  console.log("index 247 - id карточки", currentCardId);
+  console.log("index 183 - id карточки", currentCardId);
   if (cardLike.classList.contains("card__heart_liked")) {
     addLike(currentCardId, cardLike);
   } else {
@@ -223,14 +217,14 @@ const popupAvatar = new PopupWithForm({
 popupAvatar.setEventListeners();
 
 function openAvatarPopup() {
-  console.log("index 264 - openAvatarPopup");
+  console.log("index 220 - openAvatarPopup");
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
   // toggleButtonState(cardInputs, avatarSubmitButton, "form__submit_inactive");
 }
 // Функция обработки смены аватара
 function handleAvatarPopup(evt) {
-  console.log("index 271 - start handleAvatarPopup");
+  console.log("index 227 - start handleAvatarPopup");
   // evt.preventDefault(); // Не открывать в новом окне
   avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
   api
@@ -249,7 +243,6 @@ function handleAvatarPopup(evt) {
     });
 }
 
-
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
 const openImagePopup = new PopupWithImage(popupImage);
@@ -263,7 +256,7 @@ function handleImageOpen(evt) {
   imageOpen.alt = evt.target.alt;
   signImage.textContent = evt.target.alt;
   openImagePopup.open(evt.target);
-  console.log("index 324 - openImagePopup", imageOpen.alt);
+  console.log("index 259 - openImagePopup", imageOpen.alt);
 }
 
 //Слушатели кликов
@@ -306,11 +299,10 @@ popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 
 //Функция обработки профиля юзера после submit
 
-
 // Функция открытия попапа согласия с удалением карточки
 function openCardDeletePopup(cardToDelete) {
   console.log(
-    "index 402 - карточка для удаления",
+    "index 305 - карточка для удаления",
     cardToDelete,
     cardToDelete["_cardId"]
   );
@@ -327,10 +319,8 @@ popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
 function handleCardDelete(card) {
-  //console.log("index 419 - Показать id карточки", card, card["_cardId"]);
+  console.log("index 419 - Показать id карточки", card, card["_cardId"]);
   const currentCardId = card._id;
-  console.log('блок карточки', card)
-  console.log('id карточки', card._id)
   api
     .deleteCard(currentCardId) //Удаление карточки по id
     .then((res) => {
@@ -342,5 +332,3 @@ function handleCardDelete(card) {
       console.log("Ошибка удаления карточки", err.message);
     });
 }
-
-
