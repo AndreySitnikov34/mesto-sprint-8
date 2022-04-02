@@ -80,7 +80,7 @@ getInfo
   .catch(err => log("Ошибка при получение данных", err))
 
 //Рендер карточек
-function renderItem(card, isNew) {
+function renderItem(card) {
   // console.log("index - str 164 - renderItem - card", card);
   card = new Card(
     myId,
@@ -93,12 +93,7 @@ function renderItem(card, isNew) {
   );
 
   const cardElement = card.generateCard();
-  if (isNew) {
-    console.log("index 102", isNew);
-    cardList.addNewItem(cardElement);
-  } else {
-    cardList.addItem(cardElement);
-  }
+  cardList.addItem(cardElement);
 }
 
 //
@@ -158,31 +153,31 @@ function openProfilePopup() {
 }
 
 // Функция обработки создания новой карточки
-function handleCardFormSubmit(evt) {
-  // console.log("index - str 219 - handleCardFormSubmit", evt);
-  // evt.preventDefault();
-  cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  api
-    .postCard({
-      name: titleInputCard.value,
-      link: linkInputCard.value,
-    })
-    .then((res) => {
-      console.log("Карточка добавлена", res);
-      cardList.addItem(cardList);
-      cardPopup.close(); //Закрыть попап
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
-    });
-}
+
 
 const cardPopup = new PopupWithForm({
   popupSelector: cardFormPopup,
-  addNewInfoHandler: (card) => this._postCard(card.name, card.link),
+  addNewInfoHandler: () => {
+    // console.log("index - str 219 - handleCardFormSubmit", evt);
+    // evt.preventDefault();
+    cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+    api
+      .postCard({
+        name: titleInputCard.value,
+        link: linkInputCard.value,
+      })
+      .then((res) => {
+        console.log("Карточка добавлена", res);
+         renderItem(res)
+        cardPopup.close(); //Закрыть попап
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+      });
+  },
 });
 
 cardPopup.setEventListeners();
@@ -303,27 +298,7 @@ document
 cardFormPopup.addEventListener("submit", handleCardFormSubmit);
 popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 
-//
-//Пробую применить Promise.all
-// Promise.all([getUser(), getCards()])
-//   .then(([userData, cards]) => {
-//     const userId = userData._id; // тут установка данных пользователя
-//     const cards = cardsData; // и тут отрисовка карточек
-//     userName.textContent = user.name;
-//     userAbout.textContent = user.about;
-//     userPic.src = user.avatar;
-//     cards.forEach(function(card))
-//     renderCards(card, userId, "prepend");
-//   })
-//   .catch((err) => {
-//     console.log("Ошибка загрузки данных", err); // тут ловим ошибку
-//   });
-// Самое начало работы сайта
-//getUser();
-//getCards();
-// renderCards();
-//Слушатели кликов
-// avatarEditButton.addEventListener("click", openAvatarPopup);
+
 
 //Функция обработки профиля юзера после submit
 
