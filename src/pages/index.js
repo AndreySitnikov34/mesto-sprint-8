@@ -29,6 +29,7 @@ import {
   cardSubmitButton,
   cardContent,
   enableValidation,
+  config,
 } from "../utils/constants.js";
 
 const { log } = console;
@@ -43,13 +44,7 @@ import { PopupWithImage } from "../components/PopupWithImage.js";
 import { PopupWithForm } from "../components/PopupWithForm.js";
 
 //Сразу обозначаемся - идентифицируемся
-const api = new Api({
-  url: "https://nomoreparties.co/v1/plus-cohort7",
-  headers: {
-    authorization: "01124a9d-ad91-4991-aee6-270006a314f8",
-    "Content-Type": "application/json",
-  },
-});
+const api = new Api(config);
 
 let deleteCard;
 let delEvt;
@@ -80,15 +75,9 @@ getInfo
     );
     cardList.renderItems();
     //user.id = res[0]._id;
-<<<<<<< HEAD
 
   })
   .catch(err => log("Ошибка при получение данных", err))
-=======
-    //Рендер элементов из массива 1(карточки) полученных с сервера
-  })
-  .catch((err) => log("Ошибка при получение данных", err));
->>>>>>> 8096717d265c9c7c890d4966c60e2b8999fd2def
 
 //Рендер карточек
 function renderItem(card, isNew) {
@@ -135,23 +124,33 @@ function handleSubmitProfile() {
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
-<<<<<<< HEAD
-  addNewInfoHandler: () => handleSubmitProfile()
+  addNewInfoHandler: () => {
+    console.log("index 111 - start handleSubmitProfile");
+    avatarSubmitButton.textContent = "Сохранение...";
+    api
+      .updateUser({
+        name: formUserNameInput.value,
+        about: formUserAboutInput.value,
+      })
+      .then((res) => {
+        userInfo.setUserInfo(res);
+        popupUser.close(); // Закрыть попап
+      })
+      .catch((err) => {
+        console.log("Ошибка редактирования профиля", err.message);
+      })
+      .finally(() => {
+        avatarSubmitButton.textContent = "Сохранить";
+      });
+  }
 
-=======
-  addNewInfoHandler: () => handleSubmitProfile(),
->>>>>>> 8096717d265c9c7c890d4966c60e2b8999fd2def
 });
 
 popupUser.setEventListeners();
 
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
-<<<<<<< HEAD
   console.log("index - str 115 - openProfilePopup");
-=======
-  console.log("index 139 - openProfilePopup");
->>>>>>> 8096717d265c9c7c890d4966c60e2b8999fd2def
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   // openPopup(popupFormUser);
@@ -300,7 +299,7 @@ document
   .addEventListener("click", openProfilePopup);
 //Слушатели сабмитов
 //popupFormAvatar.addEventListener("submit", handleAvatarPopup);
-popupFormUser.addEventListener("submit", handleSubmitProfile);
+//popupFormUser.addEventListener("submit", handleSubmitProfile);
 cardFormPopup.addEventListener("submit", handleCardFormSubmit);
 popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 
