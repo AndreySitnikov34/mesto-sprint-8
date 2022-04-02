@@ -174,7 +174,7 @@ function handleCardFormSubmit(evt) {
     })
     .then((res) => {
       console.log("Карточка добавлена", res);
-      const card = new Card({ owner });
+      const card = new Card({  });
       cardPopup.close(); //Закрыть попап
     })
     .catch((err) => {
@@ -296,8 +296,7 @@ function handleAvatarPopup(evt) {
       avatar: avatarLink.value,
     })
     .then((res) => {
-      console.log("Аватар изменён", res);
-      userPic.src = avatarLink.value; //Заменить значение src (взять из инпута)
+      userInfo.setUserInfo(res);
       popupAvatar.close();
     })
     .catch((err) => {
@@ -404,8 +403,7 @@ function handleSubmitProfile(evt) {
       about: formUserAboutInput.value,
     })
     .then((res) => {
-      userName.textContent = res.name; // Присвоить name значение из формы
-      userAbout.textContent = res.about; // Присвоить about значение из формы
+      userInfo.setUserInfo(res)
       popupUser.close(); // Закрыть попап
     })
     .catch((err) => {
@@ -436,8 +434,10 @@ popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
 function handleCardDelete(card) {
-  console.log("index 419 - Показать id карточки", card, card["_cardId"]);
-  const currentCardId = card["_cardId"];
+  //console.log("index 419 - Показать id карточки", card, card["_cardId"]);
+  const currentCardId = card._id;
+  console.log('блок карточки', card)
+  console.log('id карточки', card._id)
   api
     .deleteCard(currentCardId) //Удаление карточки по id
     .then((res) => {
