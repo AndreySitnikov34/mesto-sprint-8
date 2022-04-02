@@ -31,6 +31,8 @@ import {
   enableValidation,
 } from "../utils/constants.js";
 
+const { log } = console;
+
 //Все импорты с соответствующих файлов подряд
 import { Api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
@@ -62,16 +64,53 @@ const userInfo = new UserInfo({
   avatar: ".user__pic",
 });
 
-//Promise.all пока только для usera смог, но избавился от лишних ф-ций
-Promise.all([api.getUser()])
+const promises = [api.getUser(), api.getCards()];
+const getInfo = Promise.all(promises)
+getInfo
+  //Сделали запрос, из массива 0(инфо о профиле), получили нужную информацию
   .then((res) => {
-  userInfo.setUserInfo(res[0])
-})
+    userInfo.setUserInfo(res[0])
+    log(res[1])
+    cardList = new Section(
+      {
+        data: res[1],
+        renderer: (card) => renderItem(card, false),
+      },
+      cardContent
+    );
+    cardList.renderItems();
+    //user.id = res[0]._id;
+    //Рендер элементов из массива 1(карточки) полученных с сервера
+    
+    })
+  .catch(err => log("Ошибка при получение данных", err))
+
+//Рендер карточек
+function renderItem(card, isNew) {
+  // console.log("index - str 164 - renderItem - card", card);
+  card = new Card(
+    myId,
+    card,
+    "#card",
+    handleLikeCard,
+    handleImageOpen,
+    openCardDeletePopup,
+    deleteCard
+  );
+
+  const cardElement = card.generateCard();
+  if (isNew) {
+    console.log("index 159", isNew);
+    cardList.addNewItem(cardElement);
+  } else {
+    cardList.addItem(cardElement);
+  }
+}
 
 
-function handleSubmitProfile(evt) {
+//
+function handleSubmitProfile() {
   console.log("index 378 - start handleSubmitProfile");
-  evt.preventDefault();
   avatarSubmitButton.textContent = "Сохранение...";
   api
     .updateUser({
@@ -93,7 +132,7 @@ function handleSubmitProfile(evt) {
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
-  addNewInfoHandler:(item) => handleSubmitProfile(item)
+  addNewInfoHandler:() => handleSubmitProfile()
   
 });
 
@@ -103,53 +142,10 @@ popupUser.setEventListeners();
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
   console.log("index - str 115 - openProfilePopup");
-  formUserNameInput.value = userName.textContent;
+  formUserNameInput.value = userName.textContent; 
   formUserAboutInput.value = userAbout.textContent;
   // openPopup(popupFormUser);
   popupUser.open();
-}
-//============ЧТО КАСАЕТСЯ КАРТОЧЕК============//
-function getCards() {
-  api
-    .getCards()
-    .then((data) => renderItems(data))
-    .catch((err) => {
-      console.log("index 127 - Ошибка загрузки данных о карточках", err);
-    });
-}
-
-//Рендеринг элементов
-function renderItems(initialCards) {
-  // console.log("index - str 160", initialCards);
-  cardList = new Section(
-    {
-      data: initialCards,
-      renderer: (card) => renderItem(card, false),
-    },
-    cardContent
-  );
-  cardList.renderItems();
-}
-
-function renderItem(card, isNew) {
-  // console.log("index - str 164 - renderItem - card", card);
-  card = new Card(
-    myId,
-    card,
-    "#card",
-    handleLikeCard,
-    handleImageOpen,
-    openCardDeletePopup,
-    deleteCard
-  );
-
-  const cardElement = card.generateCard();
-  if (isNew) {
-    console.log("index 159", isNew);
-    cardList.addNewItem(cardElement);
-  } else {
-    cardList.addItem(cardElement);
-  }
 }
 
 // Функция обработки создания новой карточки
@@ -221,7 +217,7 @@ function likeCounter(card, cardLike) {
 
 const popupAvatar = new PopupWithForm({
   popupSelector: popupFormAvatar,
-  addNewInfoHandler: (link) => handleAvatarPopup(link.link),
+  addNewInfoHandler: () => handleAvatarPopup(),
 });
 
 popupAvatar.setEventListeners();
@@ -303,7 +299,7 @@ popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 //   });
 // Самое начало работы сайта
 //getUser();
-getCards();
+//getCards();
 // renderCards();
 //Слушатели кликов
 // avatarEditButton.addEventListener("click", openAvatarPopup);
