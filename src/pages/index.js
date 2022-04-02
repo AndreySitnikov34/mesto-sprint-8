@@ -71,6 +71,7 @@ getInfo
   .then((res) => {
     userInfo.setUserInfo(res[0])
     log(res[1])
+    //Рендер элементов из массива 1(карточки) полученных с сервера
     cardList = new Section(
       {
         data: res[1],
@@ -80,7 +81,6 @@ getInfo
     );
     cardList.renderItems();
     //user.id = res[0]._id;
-    //Рендер элементов из массива 1(карточки) полученных с сервера
     
     })
   .catch(err => log("Ошибка при получение данных", err))
@@ -281,30 +281,6 @@ popupFormAvatar.addEventListener("submit", handleAvatarPopup);
 popupFormUser.addEventListener("submit", handleSubmitProfile);
 cardFormPopup.addEventListener("submit", handleCardFormSubmit);
 popupCardDeleteElement.addEventListener("submit", handleCardDelete);
-
-//
-//Пробую применить Promise.all
-// Promise.all([getUser(), getCards()])
-//   .then(([userData, cards]) => {
-//     const userId = userData._id; // тут установка данных пользователя
-//     const cards = cardsData; // и тут отрисовка карточек
-//     userName.textContent = user.name;
-//     userAbout.textContent = user.about;
-//     userPic.src = user.avatar;
-//     cards.forEach(function(card))
-//     renderCards(card, userId, "prepend");
-//   })
-//   .catch((err) => {
-//     console.log("Ошибка загрузки данных", err); // тут ловим ошибку
-//   });
-// Самое начало работы сайта
-//getUser();
-//getCards();
-// renderCards();
-//Слушатели кликов
-// avatarEditButton.addEventListener("click", openAvatarPopup);
-
-//Функция обработки профиля юзера после submit
 
 
 // Функция открытия попапа согласия с удалением карточки
