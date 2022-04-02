@@ -10,6 +10,7 @@ export class UserInfo {
     return {
       name: this._userName.textContent,
       about: this._userAbout.textContent,
+      
     };
   }
   //Метод отправляющий данные о юзере на сервер и в разметку

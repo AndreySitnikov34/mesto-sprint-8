@@ -54,7 +54,22 @@ let delEvt;
 let cardList;
 let card;
 //============ЧТО КАСЕАТСЯ ЮЗЕРА============//
+function getUser() {
+  api
+    .getUser()
+    .then((data) => renderUserInfo(data))
+    .catch((err) => {
+      console.log("Ошибка загрузки данных о пользователе", err);
+    });
+}
 
+//Функция рендеринга инфо о юзере
+function renderUserInfo(data) {
+  userName.textContent = data.name;
+  userAbout.textContent = data.about;
+  userPic.src = data.avatar;
+  userPic.alt = data.name;
+}
 //Объявляем переменную userInfo
 const userInfo = new UserInfo({
   name: ".user__name",
@@ -62,39 +77,29 @@ const userInfo = new UserInfo({
   avatar: ".user__pic",
 });
 
-//Promise.all пока только для usera смог, но избавился от лишних ф-ций
-Promise.all([api.getUser()])
-  .then((res) => {
-  userInfo.setUserInfo(res[0])
-})
-
-
-function handleSubmitProfile(evt) {
-  console.log("index 378 - start handleSubmitProfile");
-  evt.preventDefault();
-  avatarSubmitButton.textContent = "Сохранение...";
-  api
-    .updateUser({
-      name: formUserNameInput.value, 
-      about: formUserAboutInput.value,
-    })
-    .then((res) => {
-      userInfo.setUserInfo(res)
-      popupUser.close(); // Закрыть попап
-    })
-    .catch((err) => {
-      console.log("Ошибка редактирования профиля", err.message);
-    })
-    .finally(() => {
-      avatarSubmitButton.textContent = "Сохранить";
-    });
+function updateUserInfo(userData) {
+  userInfo.setUserInfo({
+    name: userData.name,
+    about: userData.about,
+  });
 }
 
+function updateUser(name, about) {
+  // renderLoader(true, popupFormUser);
+  api
+    .updateUser(name, about)
+    .then((userData) => {
+      updateUserInfo(userData);
+      popupUser.close();
+    })
+    .catch((err) => console.log(`Ошибка: ${err}`));
+  // .finally(() => renderPopupUser(false, popupFormUser, "Сохранить"));
+}
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
-  addNewInfoHandler:(item) => handleSubmitProfile(item)
-  
+  addNewInfoHandler: (info) =>
+    updateUser(info["name-input"], info["job-input"]),
 });
 
 popupUser.setEventListeners();
@@ -253,6 +258,25 @@ function handleAvatarPopup(evt) {
     });
 }
 
+//============RenderPopupAvatar================//
+
+// function renderPopupAvatar(rendering, avatarSubmitButton) {
+//   if (rendering) {
+//     avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+//   } else {
+//     avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+//   }
+// }
+
+//============RenderPopupUser================//
+
+// function renderPopupUser(rendering, userSubmitButton) {
+//   if (rendering) {
+//     userSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+//   } else {
+//     userSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+//   }
+// }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
@@ -269,7 +293,18 @@ function handleImageOpen(evt) {
   openImagePopup.open(evt.target);
   console.log("index 324 - openImagePopup", imageOpen.alt);
 }
+//============ЧТО КАСАЕТСЯ ВАЛИДАЦИИ============//
+//===Старый код===//
 
+//Включение валидации всех форм
+// enableValidation({
+//   formSelector: ".form",
+//   inputSelector: ".form__input",
+//   submitButtonSelector: ".button",
+//   inactiveButtonClass: "form__submit_inactive",
+//   inputErrorClass: "form__input-error",
+//   errorClass: "form__input-error_active",
+// });
 //Слушатели кликов
 document
   .querySelector(".user__overlay")
@@ -302,13 +337,33 @@ popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 //     console.log("Ошибка загрузки данных", err); // тут ловим ошибку
 //   });
 // Самое начало работы сайта
-//getUser();
+getUser();
 getCards();
 // renderCards();
 //Слушатели кликов
 // avatarEditButton.addEventListener("click", openAvatarPopup);
 
 //Функция обработки профиля юзера после submit
+function handleSubmitProfile(evt) {
+  console.log("index 378 - start handleSubmitProfile");
+  evt.preventDefault();
+  avatarSubmitButton.textContent = "Сохранение...";
+  api
+    .updateUser({
+      name: formUserNameInput.value, 
+      about: formUserAboutInput.value,
+    })
+    .then((res) => {
+      userInfo.setUserInfo(res)
+      popupUser.close(); // Закрыть попап
+    })
+    .catch((err) => {
+      console.log("Ошибка редактирования профиля", err.message);
+    })
+    .finally(() => {
+      avatarSubmitButton.textContent = "Сохранить";
+    });
+}
 
 
 // Функция открытия попапа согласия с удалением карточки
