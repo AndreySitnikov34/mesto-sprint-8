@@ -319,7 +319,7 @@ popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
 function handleCardDelete(card) {
-  console.log("index 419 - Показать id карточки", card, card["_cardId"]);
+  console.log("index 322 - Показать id карточки", card, card["_cardId"]);
   const currentCardId = card._id;
   api
     .deleteCard(currentCardId) //Удаление карточки по id
