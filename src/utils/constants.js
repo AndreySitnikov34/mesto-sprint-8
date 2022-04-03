@@ -35,16 +35,16 @@ export const cardSubmitButton = cardFormPopup.querySelector(".form__submit");
 export const cardContent = ".cards";
 
 export const enableValidationForm = {
-  formSelector: ".form",
+  // formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".button",
-  errorMessageSelector: ".form__field",
+  errorMessageSelector: ".form__input-error",
   inactiveButtonClass: "form__submit_inactive",
   inputErrorClass: "form__input-error",
-  errorClass: "form__input-error_active",
-  avatarSubmitButton: avatarSubmitButton,
-  userSubmitButton: userSubmitButton,
-  cardSubmitButton: cardSubmitButton,
+  // errorClass: "form__input-error_active",
+  avatarEditButton: avatarEditButton,
+  userEditButton: userEditButton,
+  cardEditButton: cardEditButton,
 };
 const token = "01124a9d-ad91-4991-aee6-270006a314f8";
 export const config = {

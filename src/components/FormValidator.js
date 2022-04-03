@@ -1,17 +1,19 @@
 //Настройка валидации полей формы
+import { enableValidationForm } from "../utils/constants";
+
 export class FormValidator {
   //Принимаем в конструктор объект настроек с селекторами и классами формы,
   //а вторым параметром попап
-  constructor(enableValidation, popup) {
+  constructor(enableValidationForm, popup) {
     this._formSelector = popup;
-    this._inputSelector = enableValidation["inputSelector"];
-    this._avatarEditButton = enableValidation["avatarEditButton"];
-    this._userEditButton = enableValidation["userEditButton"];
-    this._cardAddButton = enableValidation["cardAddButton"];
-    this._submitButtonSelector = enableValidation["submitButtonSelector"];
-    this._errorMessageSelector = enableValidation["errorMessageSelector"];
-    this._inactiveButtonClass = enableValidation["inactiveButtonClass"];
-    this._inputErrorClass = enableValidation["inputErrorClass"];
+    this._inputSelector = enableValidationForm["inputSelector"];
+    this._submitButtonSelector = enableValidationForm["submitButtonSelector"];
+    this._errorMessageSelector = enableValidationForm["errorMessageSelector"];
+    this._inactiveButtonClass = enableValidationForm["inactiveButtonClass"];
+    this._inputErrorClass = enableValidationForm["inputErrorClass"];
+    this._avatarEditButton = enableValidationForm["avatarEditButton"];
+    this._userEditButton = enableValidationForm["userEditButton"];
+    this._cardEditButton = enableValidationForm["cardEditButton"];
   }
   //Приватные методы обработки формы
   // //Функция проверки инпута на валидность
@@ -36,7 +38,7 @@ export class FormValidator {
     }
   }
   //   //Функция демонстрации ошибки в инпуте
-  // export const showInputError = (
+  // _showInputError = (
   //   formElement,
   //   inputElement,
   //   errorMessage,
@@ -49,8 +51,19 @@ export class FormValidator {
   // };
   //Показать ошибку ввода
   _showInputError(formElement, inputElement, errorMessage) {
-    // const errorElement = inputElement.nextElementSibling;
-    const errorElement = formElement.querySelector(`.${inputElement}-error`);
+    const errorElement = formElement.nextElementSibling;
+    // const errorElement = formElement.querySelector(
+    //   `.${inputElement._id}-error`
+    // );
+    console.log(
+      "str 57",
+      "инпут -",
+      formElement,
+      "span - ",
+      errorElement,
+      "сообщение - ",
+      errorMessage
+    );
     // errorElement.textContent = errorMessage;
     // errorElement.classList.add(this._inputErrorClass);
   }
@@ -155,18 +168,18 @@ export class FormValidator {
   //   });
   //Установка слушателей кликов
   _setEventListeners(inputList) {
-    // this._cardAddButton.addEventListener("click", () => {
-    //   this._clearErrorMessages();
-    //   this._toggleButtonState(inputList);
-    // });
-    // this._userEditButton.addEventListener("click", () => {
-    //   this._clearErrorMessages();
-    //   this._toggleButtonState(inputList);
-    // });
-    // this._avatarEditButton.addEventListener("click", () => {
-    //   this._clearErrorMessages();
-    //   this._toggleButtonState(inputList);
-    // });
+    this._cardEditButton.addEventListener("click", () => {
+      this._clearErrorMessages();
+      this._toggleButtonState(inputList);
+    });
+    this._userEditButton.addEventListener("click", () => {
+      this._clearErrorMessages();
+      this._toggleButtonState(inputList);
+    });
+    this._avatarEditButton.addEventListener("click", () => {
+      this._clearErrorMessages();
+      this._toggleButtonState(inputList);
+    });
   }
   //Публичный метод включения валидации форм
   enableValidation() {
@@ -184,7 +197,7 @@ export class FormValidator {
     this._setEventListeners(inputList);
   }
 }
-// export const enableValidation = ({ formSelector, ...rest }) => {
+// enableValidation = ({ formSelector, ...rest }) => {
 //   // Находим все формы с указанным классом в DOM, делаем из них массив
 //   const formList = Array.from(document.querySelectorAll(formSelector));
 //   // Переберём полученную коллекцию
@@ -196,4 +209,4 @@ export class FormValidator {
 //     // Для каждой формы вызовем setEventListeners,передав ей элементы формы.
 //     setEventListeners(formElement, rest);
 //   });
-// };
+// }
