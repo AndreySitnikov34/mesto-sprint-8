@@ -37,7 +37,7 @@ const { log } = console;
 //Все импорты с соответствующих файлов подряд
 import { Api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
-import { Card } from "../components/Card.js";
+import { Card } from "../components/card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
@@ -74,13 +74,12 @@ getInfo
       cardContent
     );
     cardList.renderItems();
-    //user.id = res[0]._id;
-
+    // user.id = res[0]._id;
   })
-  .catch(err => log("Ошибка при получение данных", err))
+  .catch((err) => log("Ошибка при получение данных", err));
 
 //Рендер карточек
-function renderItem(card) {
+function renderItem(card, itIsNew) {
   // console.log("index - str 164 - renderItem - card", card);
   card = new Card(
     myId,
@@ -93,34 +92,17 @@ function renderItem(card) {
   );
 
   const cardElement = card.generateCard();
-  cardList.addItem(cardElement);
-}
-
-//
-function handleSubmitProfile() {
-  console.log("index 111 - start handleSubmitProfile");
-  avatarSubmitButton.textContent = "Сохранение...";
-  api
-    .updateUser({
-      name: formUserNameInput.value,
-      about: formUserAboutInput.value,
-    })
-    .then((res) => {
-      userInfo.setUserInfo(res);
-      popupUser.close(); // Закрыть попап
-    })
-    .catch((err) => {
-      console.log("Ошибка редактирования профиля", err.message);
-    })
-    .finally(() => {
-      avatarSubmitButton.textContent = "Сохранить";
-    });
+  if (itIsNew) {
+    cardList.addNewItem(cardElement);
+  } else {
+    cardList.addItem(cardElement);
+  }
 }
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: () => {
-    console.log("index 111 - start handleSubmitProfile");
+    console.log("index 111 - start popupUser");
     avatarSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
@@ -129,6 +111,7 @@ const popupUser = new PopupWithForm({
       })
       .then((res) => {
         userInfo.setUserInfo(res);
+        console.log("index 131 новые данные", res);
         popupUser.close(); // Закрыть попап
       })
       .catch((err) => {
@@ -137,8 +120,7 @@ const popupUser = new PopupWithForm({
       .finally(() => {
         avatarSubmitButton.textContent = "Сохранить";
       });
-  }
-
+  },
 });
 
 popupUser.setEventListeners();
@@ -148,18 +130,14 @@ function openProfilePopup() {
   console.log("index - str 115 - openProfilePopup");
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
-  // openPopup(popupFormUser);
   popupUser.open();
 }
 
 // Функция обработки создания новой карточки
 
-
 const cardPopup = new PopupWithForm({
   popupSelector: cardFormPopup,
   addNewInfoHandler: () => {
-    // console.log("index - str 219 - handleCardFormSubmit", evt);
-    // evt.preventDefault();
     cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
     api
       .postCard({
@@ -167,12 +145,12 @@ const cardPopup = new PopupWithForm({
         link: linkInputCard.value,
       })
       .then((res) => {
+        renderItem(res);
         console.log("Карточка добавлена", res);
-         renderItem(res)
         cardPopup.close(); //Закрыть попап
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Ошибка добавления карточки", err.message);
       })
       .finally(() => {
         cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
@@ -187,6 +165,9 @@ function openCardPopup() {
   cardPopup.open();
 }
 
+//============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
+
+//Обработка постановки лайка
 function handleLikeCard(cardLike) {
   const currentCardId = this["_cardId"];
   console.log("index 183 - id карточки", currentCardId);
@@ -196,19 +177,21 @@ function handleLikeCard(cardLike) {
     deleteLike(currentCardId, cardLike);
   }
 }
+//Отдельно функция добавления лайка
 function addLike(currentCardId, cardLike) {
   api
     .addLike(currentCardId)
     .then((card) => likeCounter(card, cardLike))
     .catch((err) => console.log(`Ошибка: ${err}`));
 }
-
+//Отдельно функция удаления лайка
 function deleteLike(currentCardId, cardLike) {
   api
     .deleteLike(currentCardId)
     .then((card) => likeCounter(card, cardLike))
     .catch((err) => console.log(`Ошибка: ${err}`));
 }
+//Отдельно функция счетчика лайков
 function likeCounter(card, cardLike) {
   const showCounter = cardLike
     .closest(".card")
@@ -218,13 +201,16 @@ function likeCounter(card, cardLike) {
 
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
 
+// Обработка смены аватара
 const popupAvatar = new PopupWithForm({
   popupSelector: popupFormAvatar,
   addNewInfoHandler: () => {
     avatarSubmitButton.textContent = "Сохранение...";
-    api.updateAvatar({ avatar: avatarLink.value })
-      .then(res => {
-        userInfo.setUserInfo(res)
+    api
+      .updateAvatar({ avatar: avatarLink.value })
+      .then((res) => {
+        userInfo.setUserInfo(res);
+        console.log("index 226 новые данные", res);
         popupAvatar.close();
       })
       .catch((err) => {
@@ -233,8 +219,7 @@ const popupAvatar = new PopupWithForm({
       .finally(() => {
         avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
       });
-
-  }
+  },
 });
 
 popupAvatar.setEventListeners();
@@ -243,27 +228,6 @@ function openAvatarPopup() {
   console.log("index 220 - openAvatarPopup");
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
-  // toggleButtonState(cardInputs, avatarSubmitButton, "form__submit_inactive");
-}
-// Функция обработки смены аватара
-function handleAvatarPopup(evt) {
-  console.log("index 271 - start handleAvatarPopup");
- evt.preventDefault(); // Не открывать в новом окне
- avatarSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
-  api
-    .updateAvatar({
-      avatar: avatarLink.value,
-    })
-    .then((res) => {
-      userInfo.setUserInfo(res);
-      popupAvatar.close();
-    })
-    .catch((err) => {
-      console.log("Ошибка смены аватара", err.message);
-    })
-    .finally(() => {
-      avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
-    });
 }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
@@ -295,12 +259,8 @@ document
 //Слушатели сабмитов
 //popupFormAvatar.addEventListener("submit", handleAvatarPopup);
 //popupFormUser.addEventListener("submit", handleSubmitProfile);
-cardFormPopup.addEventListener("submit", handleCardFormSubmit);
-popupCardDeleteElement.addEventListener("submit", handleCardDelete);
-
-
-
-//Функция обработки профиля юзера после submit
+// cardFormPopup.addEventListener("submit", handleCardFormSubmit);
+// popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 
 // Функция открытия попапа согласия с удалением карточки
 function openCardDeletePopup(cardToDelete) {
