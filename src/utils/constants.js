@@ -34,7 +34,7 @@ export const cardEditButton = document.querySelector(".card__add-button");
 export const cardSubmitButton = cardFormPopup.querySelector(".form__submit");
 export const cardContent = ".cards";
 
-export const enableValidation = {
+export const enableValidationForm = {
   formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".button",
@@ -42,9 +42,9 @@ export const enableValidation = {
   inactiveButtonClass: "form__submit_inactive",
   inputErrorClass: "form__input-error",
   errorClass: "form__input-error_active",
-  // avatarSubmitButton: avatarSubmitButton,
-  // userSubmitButton: userSubmitButton,
-  // cardSubmitButton: cardSubmitButton,
+  avatarSubmitButton: avatarSubmitButton,
+  userSubmitButton: userSubmitButton,
+  cardSubmitButton: cardSubmitButton,
 };
 const token = "01124a9d-ad91-4991-aee6-270006a314f8";
 export const config = {
@@ -52,6 +52,5 @@ export const config = {
   headers: {
     authorization: token,
     "Content-Type": "application/json",
-  }
-
-}
+  },
+};

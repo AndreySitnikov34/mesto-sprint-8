@@ -28,7 +28,7 @@ import {
   cardEditButton,
   cardSubmitButton,
   cardContent,
-  enableValidation,
+  enableValidationForm,
   config,
 } from "../utils/constants.js";
 
@@ -50,7 +50,7 @@ let deleteCard;
 let delEvt;
 let cardList;
 let card;
-//============ЧТО КАСЕАТСЯ ЮЗЕРА============//
+//============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
 
 //Объявляем переменную userInfo
 const userInfo = new UserInfo({
@@ -131,6 +131,7 @@ function openProfilePopup() {
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   popupUser.open();
+  userFormValidator.enableValidation();
 }
 
 // Функция обработки создания новой карточки
@@ -161,8 +162,9 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
-  console.log("index 164 - openCardPopup");
+  console.log("index 165 - openCardPopup");
   cardPopup.open();
+  cardFormValidator.enableValidation();
 }
 
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
@@ -228,6 +230,7 @@ function openAvatarPopup() {
   console.log("index 228 - openAvatarPopup");
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
+  avatarFormValidator.enableValidation();
 }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
@@ -247,15 +250,9 @@ function handleImageOpen(evt) {
 }
 
 //Слушатели кликов
-document
-  .querySelector(".user__overlay")
-  .addEventListener("click", openAvatarPopup);
-document
-  .querySelector(".card__add-button")
-  .addEventListener("click", openCardPopup);
-document
-  .querySelector(".user__info-edit-button")
-  .addEventListener("click", openProfilePopup);
+avatarEditButton.addEventListener("click", openAvatarPopup);
+cardEditButton.addEventListener("click", openCardPopup);
+userEditButton.addEventListener("click", openProfilePopup);
 //Слушатели сабмитов
 //popupFormAvatar.addEventListener("submit", handleAvatarPopup);
 //popupFormUser.addEventListener("submit", handleSubmitProfile);
@@ -293,10 +290,27 @@ function handleCardDelete(cardToDelete) {
     .deleteCard(currentCardId) //Удаление карточки по id
     .then((res) => {
       console.log("then", res);
-      cardToDelete.deleteCard(cardToDelete);
+      cardList.renderItems(res);
       popupCardDelete.close();
     })
     .catch((err) => {
       console.log("Ошибка удаления карточки", err.message);
     });
 }
+
+//============ВАЛИДАЦИЯ============//
+//Сначала нужно объявить переменные
+const cardFormValidator = new FormValidator(
+  enableValidationForm,
+  cardFormPopup
+);
+
+const userFormValidator = new FormValidator(
+  enableValidationForm,
+  popupFormUser
+);
+
+const avatarFormValidator = new FormValidator(
+  enableValidationForm,
+  popupFormAvatar
+);
