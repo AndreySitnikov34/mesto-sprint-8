@@ -51,12 +51,8 @@ export class Card {
 
   //Лайки добавление/удаление
   _addToFavorite() {
-    console.log("Card - str 54 - _addToFavorite", this.card);
+    console.log("Card - str 54 - _addToFavorite", this._name);
     const cardLike = this._cardLike; //Это кнопка сердечко
-    // const cardTemplate = document.querySelector("#card").content;
-    // const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-    // const cardLike = cardElement.querySelector(".card__heart");
-    // console.log("60", cardLike);
     cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
     this._handleLikeCard(cardLike);
   }

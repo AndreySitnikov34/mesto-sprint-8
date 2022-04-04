@@ -35,9 +35,9 @@ import {
 const { log } = console;
 
 //Все импорты с соответствующих файлов подряд
-import { Api } from "../components/Api.js";
+import { Api } from "../components/api.js";
 import { UserInfo } from "../components/UserInfo.js";
-import { Card } from "../components/card.js";
+import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
 import { Section } from "../components/Section.js";
 import { PopupWithImage } from "../components/PopupWithImage.js";
@@ -47,7 +47,6 @@ import { PopupWithForm } from "../components/PopupWithForm.js";
 const api = new Api(config);
 
 let deleteCard;
-let delEvt;
 let cardList;
 let card;
 //============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
@@ -266,8 +265,8 @@ function openCardDeletePopup(cardToDelete) {
     cardToDelete,
     cardToDelete["_cardId"]
   );
-  // popupCardDelete.open();
-  handleCardDelete(cardToDelete);
+  // popupCardDelete.open(cardToDelete);//Удаление через попап
+  handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
 }
 
 const popupCardDelete = new PopupWithForm({
@@ -280,17 +279,13 @@ popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
 function handleCardDelete(cardToDelete) {
-  console.log(
-    "index 285 - Показать id карточки",
-    cardToDelete,
-    cardToDelete["_cardId"]
-  );
   const currentCardId = cardToDelete["_cardId"];
+  console.log("index 285 - Показать id карточки", cardToDelete, currentCardId);
   api
     .deleteCard(currentCardId) //Удаление карточки по id
-    .then((res) => {
-      console.log("then", res);
-      cardList.renderItems(res);
+    .then((evt) => {
+      console.log("then");
+      cardToDelete._element.remove(); //Удаление карточки из разметки
       popupCardDelete.close();
     })
     .catch((err) => {
