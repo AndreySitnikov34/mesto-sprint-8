@@ -145,8 +145,8 @@ const cardPopup = new PopupWithForm({
         link: linkInputCard.value,
       })
       .then((res) => {
-        renderItem(res);
-        console.log("Карточка добавлена", res);
+        renderItem(res, res.owner._id); //Отрисовка карточки в разметке
+        console.log("index 149 - Карточка добавлена", res);
         cardPopup.close(); //Закрыть попап
       })
       .catch((err) => {
