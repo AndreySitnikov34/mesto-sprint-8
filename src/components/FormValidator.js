@@ -56,7 +56,7 @@ export class FormValidator {
     //   `.${inputElement._id}-error`
     // );
     console.log(
-      "str 57",
+      "str 59",
       "инпут -",
       formElement,
       "span - ",
@@ -65,7 +65,7 @@ export class FormValidator {
       errorMessage
     );
     // errorElement.textContent = errorMessage;
-    // errorElement.classList.add(this._inputErrorClass);
+    errorElement.classList.add(this._inputErrorClass);
   }
   //Функция сокрытия ошибки
   // export const hideInputError = (
@@ -79,11 +79,20 @@ export class FormValidator {
   //   errorElement.classList.remove(errorClass);
   // };
   //Скрыть ошибку ввода
-  _hideInputError(formElement, inputElement) {
-    // const errorElement = inputElement.nextElementSibling;
-    const errorElement = formElement.querySelector(`.${inputElement}-error`);
+  _hideInputError(formElement, inputElement, errorMessage) {
+    const errorElement = formElement.nextElementSibling;
+    // const errorElement = formElement.querySelector(`.${inputElement}-error`);
+    console.log(
+      "str 86",
+      "инпут -",
+      formElement,
+      "span - ",
+      errorElement,
+      "сообщение - ",
+      errorMessage
+    );
     // errorElement.textContent = "";
-    // errorElement.classList.remove(this._inputErrorClass);
+    errorElement.classList.remove(this._inputErrorClass);
   }
   //   //Функция проверки инпута на  НЕвалидность
   // export const hasInvalidInput = (inputList) => {
@@ -99,24 +108,7 @@ export class FormValidator {
       return !inputElement.validity.valid;
     });
   }
-  //Функция состояния кнопки сабмит
-  // export const toggleButtonState = (
-  //   inputList,
-  //   buttonElement,
-  //   inactiveButtonClass
-  // ) => {
-  //   // Если есть хотя бы один невалидный инпут
-  //   const isInputValid = hasInvalidInput(inputList);
-  //   if (isInputValid) {
-  //     buttonElement.classList.add(inactiveButtonClass); //Покрасить в другой цвет
-  //     buttonElement.disabled = true; //Деактиватор кнопки
-  //     // console.log("Кнопка submit НЕ АКТИВНА", buttonElement, inputList);
-  //   } else {
-  //     buttonElement.classList.remove(inactiveButtonClass);
-  //     buttonElement.disabled = false;
-  //     // console.log("Кнопка submit активна", buttonElement, inputList);
-  //   }
-  // };
+
   //Изменить состояние кнопки сабмита
   _toggleButtonState(inputList) {
     console.log("114 - toggleButtonState запущена");
@@ -125,13 +117,17 @@ export class FormValidator {
     );
     // Если есть хотя бы один невалидный инпут
     if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._inactiveButtonClass);
+      buttonElement.classList.add(this._inactiveButtonClass); //Покрасить в другой цвет
       buttonElement.disabled = true; //Деактиватор кнопки
-      console.log("121 Кнопка submit НЕ АКТИВНА", buttonElement, inputList);
+      console.log(
+        "FV 113 - Кнопка submit НЕ АКТИВНА",
+        buttonElement,
+        inputList
+      );
     } else {
       buttonElement.classList.remove(this._inactiveButtonClass);
       buttonElement.disabled = false;
-      console.log("Кнопка submit активна", buttonElement, inputList);
+      console.log("FV 117 - Кнопка submit активна", buttonElement, inputList);
     }
   }
   //Функция очистки спанов после клика на кнопку
