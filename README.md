@@ -7,7 +7,7 @@
 * Git
 * Webpack
 * GitHub Pages
-# Планый по доработке
+# Планы по доработке
 * В процессе
 # Авторы
 * Андрей Ситников ( https://github.com/AndreySitnikov34 )
