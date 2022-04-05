@@ -28,7 +28,7 @@ import {
 const { log } = console;
 
 //Все импорты с соответствующих файлов подряд
-import { Api } from "../components/api.js";
+import { Api } from "../components/Api.js";
 import { UserInfo } from "../components/UserInfo.js";
 import { Card } from "../components/Card.js";
 import { FormValidator } from "../components/FormValidator.js";
