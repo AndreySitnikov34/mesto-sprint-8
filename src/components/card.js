@@ -2,7 +2,7 @@
 export class Card {
   //Передаём в конструктор данные карточки и селектор её template-элемента
   constructor(
-    myId,
+    userId,
     card,
     cardSelector,
     handleLikeCard,
@@ -12,7 +12,7 @@ export class Card {
   ) {
     // console.log("Card - str 14 - Содержмое карточки", card, typeof card);
     // this.card = card;
-    this._myId = myId;
+    this._userId = userId;
     // console.log("Card - str 14 - Мой Id - ", myId);
     this._owner = card.owner["_id"];
     // console.log("Card - str 18 - Id юзера карточки", card.owner["_id"]);
@@ -69,12 +69,12 @@ export class Card {
       this._likes.length;
     //Покрасить свои лайки при загрузке
     if (
-      this._likes.some((like) => like["_id"] === "9253fda4de1608ef23343856")
+      this._likes.some((like) => like["_id"] === this._userId)
     ) {
       this._cardLike.classList.add("card__heart_liked");
     }
     //Удалить вёдра на несвоих карточках при загрузке
-    if (this._owner !== "9253fda4de1608ef23343856") {
+    if (this._owner !== this._userId) {
       this._cardDelete.classList.remove("card__del");
     }
 

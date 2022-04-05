@@ -19,7 +19,7 @@ import {
   imageOpen,
   signImage,
   popupCardDeleteElement,
-  myId,
+  //myId,
   cardInputs,
   avatarEditButton,
   avatarSubmitButton,
@@ -48,7 +48,7 @@ const api = new Api(config);
 
 let deleteCard;
 let cardList;
-let card;
+let userId;
 //============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
 
 //Объявляем переменную userInfo
@@ -64,7 +64,7 @@ getInfo
   //Сделали запрос, из массива 0(инфо о профиле), получили нужную информацию
   .then((res) => {
     userInfo.setUserInfo(res[0]);
-    log(res[1]);
+    userId = res[0]._id;
     cardList = new Section(
       {
         data: res[1],
@@ -81,7 +81,7 @@ getInfo
 function renderItem(card, itIsNew) {
   // console.log("index - str 164 - renderItem - card", card);
   card = new Card(
-    myId,
+    userId,
     card,
     "#card",
     handleLikeCard,
