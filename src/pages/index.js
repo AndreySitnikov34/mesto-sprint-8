@@ -11,20 +11,13 @@ import {
   linkInputCard,
   userName,
   userAbout,
-  userPic,
-  cardTemplate,
-  formElement,
-  cards,
   popupImage,
   imageOpen,
   signImage,
   popupCardDeleteElement,
-  //myId,
-  cardInputs,
   avatarEditButton,
   avatarSubmitButton,
   userEditButton,
-  userSubmitButton,
   cardEditButton,
   cardSubmitButton,
   cardContent,
@@ -65,6 +58,7 @@ getInfo
   .then((res) => {
     userInfo.setUserInfo(res[0]);
     userId = res[0]._id;
+    //Сделали запрос, из массива 1(карточки), получили нужную информацию
     cardList = new Section(
       {
         data: res[1],
@@ -73,13 +67,11 @@ getInfo
       cardContent
     );
     cardList.renderItems();
-    // user.id = res[0]._id;
   })
   .catch((err) => log("Ошибка при получение данных", err));
 
 //Рендер карточек
 function renderItem(card, itIsNew) {
-  // console.log("index - str 164 - renderItem - card", card);
   card = new Card(
     userId,
     card,
@@ -252,11 +244,6 @@ function handleImageOpen(evt) {
 avatarEditButton.addEventListener("click", openAvatarPopup);
 cardEditButton.addEventListener("click", openCardPopup);
 userEditButton.addEventListener("click", openProfilePopup);
-//Слушатели сабмитов
-//popupFormAvatar.addEventListener("submit", handleAvatarPopup);
-//popupFormUser.addEventListener("submit", handleSubmitProfile);
-// cardFormPopup.addEventListener("submit", handleCardFormSubmit);
-// popupCardDeleteElement.addEventListener("submit", handleCardDelete);
 
 // Функция открытия попапа согласия с удалением карточки
 function openCardDeletePopup(cardToDelete) {
@@ -280,11 +267,9 @@ popupCardDelete.setEventListeners();
 // Функция обработки согласия с удалением карточки
 function handleCardDelete(cardToDelete) {
   const currentCardId = cardToDelete["_cardId"];
-  console.log("index 285 - Показать id карточки", cardToDelete, currentCardId);
   api
     .deleteCard(currentCardId) //Удаление карточки по id
     .then((evt) => {
-      console.log("then");
       cardToDelete._element.remove(); //Удаление карточки из разметки
       popupCardDelete.close();
     })

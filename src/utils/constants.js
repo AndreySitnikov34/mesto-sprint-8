@@ -17,7 +17,6 @@ export const imageOpen = document.querySelector(".popup__image");
 export const signImage = document.querySelector(".popup__image-alt");
 export const popupCardDeleteElement =
   document.querySelector(".popup-card-delete");
-export const myId = "01124a9d-ad91-4991-aee6-270006a314f8";
 
 export const cardInputs = Array.from(cardFormPopup.querySelectorAll("input"));
 //Для автара

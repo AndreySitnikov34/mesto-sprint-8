@@ -25,9 +25,6 @@ export class FormValidator {
   //Функция демонстрации ошибки в инпуте
   _showInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.nextElementSibling;
-    // const errorElement = formElement.querySelector(
-    //   `.${inputElement._id}-error`
-    // );
     console.log(
       "str 59",
       "инпут -",
@@ -37,13 +34,11 @@ export class FormValidator {
       "сообщение - ",
       errorMessage
     );
-    // errorElement.textContent = errorMessage;
     errorElement.classList.add(this._inputErrorClass);
   }
   //Функция сокрытия ошибки ввода
   _hideInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.nextElementSibling;
-    // const errorElement = formElement.querySelector(`.${inputElement}-error`);
     console.log(
       "str 86",
       "инпут -",
@@ -53,7 +48,6 @@ export class FormValidator {
       "сообщение - ",
       errorMessage
     );
-    // errorElement.textContent = "";
     errorElement.classList.remove(this._inputErrorClass);
   }
   //Функция проверки инпута на  НЕвалидность

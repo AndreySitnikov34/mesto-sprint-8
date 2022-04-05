@@ -10,15 +10,10 @@ export class Card {
     openCardDeletePopup,
     deleteCard
   ) {
-    // console.log("Card - str 14 - Содержмое карточки", card, typeof card);
-    // this.card = card;
+    
     this._userId = userId;
-    // console.log("Card - str 14 - Мой Id - ", myId);
     this._owner = card.owner["_id"];
-    // console.log("Card - str 18 - Id юзера карточки", card.owner["_id"]);
     this._cardId = card["_id"];
-    // console.log("Card - str 20 - Id карточки", card["_id"]);
-    // console.log(this._owner, card.owner["_id"], myId);
     this._name = card.name;
     this._link = card.link;
     this._likes = card.likes;

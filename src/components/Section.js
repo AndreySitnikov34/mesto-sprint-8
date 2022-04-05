@@ -13,7 +13,6 @@ export class Section {
   renderItems() {
     this._renderedItems.forEach((item) => {
       //Перебор массива
-      // console.log("Section - str 16 - item", item);
       this._renderer(item); //Отрисовка каждого отдельного элемента
     });
   }
