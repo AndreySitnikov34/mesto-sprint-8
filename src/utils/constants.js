@@ -40,7 +40,6 @@ export const enableValidationForm = {
   errorMessageSelector: ".form__input-error",
   inactiveButtonClass: "form__submit_inactive",
   inputErrorClass: "form__input-error_active",
-  // errorClass: "form__input-error_active",
   avatarEditButton: avatarEditButton,
   userEditButton: userEditButton,
   cardEditButton: cardEditButton,

@@ -10,7 +10,7 @@ export class Card {
     openCardDeletePopup,
     deleteCard
   ) {
-    
+
     this._userId = userId;
     this._owner = card.owner["_id"];
     this._cardId = card["_id"];
