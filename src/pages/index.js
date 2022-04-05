@@ -102,7 +102,7 @@ const popupUser = new PopupWithForm({
       })
       .then((res) => {
         userInfo.setUserInfo(res);
-        console.log("index 114 - новые данные -", res);
+        //console.log("index 114 - новые данные -", res);
         popupUser.close(); // Закрыть попап
       })
       .catch((err) => {
