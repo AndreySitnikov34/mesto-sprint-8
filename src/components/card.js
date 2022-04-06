@@ -5,7 +5,7 @@ export class Card {
     userId,
     card,
     cardSelector,
-    {handleLikeCard},
+    { handleLikeCard },
     handleImageOpen,
     openCardDeletePopup,
     deleteCard
@@ -21,14 +21,16 @@ export class Card {
     this._handleImageOpen = handleImageOpen;
     this._openCardDeletePopup = openCardDeletePopup;
     this._deleteCard = deleteCard;
-    //this._addToFavorite = this._addToFavorite.bind(this);
+    // this._addToFavorite = this._addToFavorite.bind(this);
     this.removeCard = this.removeCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
     //this._cardLike.addEventListener("click", this._addToFavorite);
     //Переписал по рекомендации ревьюера, после этого ожило хоть как-то
-    this._cardLike.addEventListener("click", () => { this._handleLikeCard(this) });
+    this._cardLike.addEventListener("click", () => {
+      this._handleLikeCard(this);
+    });
     this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
@@ -59,8 +61,9 @@ export class Card {
     this._element.querySelector(".card__location").textContent = this._name;
     this._cardDelete = this._element.querySelector(".card__del");
     this._cardLike = this._element.querySelector(".card__heart");
-    this._cardlikeCounter = this._element.querySelector(".card__heart-count").textContent =
-      this._likes.length;
+    this._cardlikeCounter = this._element.querySelector(
+      ".card__heart-count"
+    ).textContent = this._likes.length;
     //Покрасить свои лайки при загрузке
     if (this._likes.some((like) => like["_id"] === this._userId)) {
       this._cardLike.classList.add("card__heart_liked");
@@ -82,21 +85,17 @@ export class Card {
   }
   //Проверяет наличие лайка
   checkStatusLike() {
-    return this._cardLike.classList.contains("card__heart_liked")
+    return this._cardLike.classList.contains("card__heart_liked");
   }
   //Добавление лайка
   addLikeCard(evt) {
-    this._cardLike.classList.add("card__heart_liked")
-		this._cardlikeCounter.textContent = evt.likes.length;
-    
-  }// Удаление лайка
-  deleteLikeCard(evt) {
-    this._cardLike.classList.remove("card__heart_liked")
+    this._cardLike.classList.add("card__heart_liked");
     this._cardlikeCounter.textContent = evt.likes.length;
-    
+  } // Удаление лайка
+  deleteLikeCard(evt) {
+    this._cardLike.classList.remove("card__heart_liked");
+    this._cardlikeCounter.textContent = evt.likes.length;
   }
-
-  
 
   //Удаление карточки
   removeCard() {
@@ -104,3 +103,10 @@ export class Card {
     this._element = null;
   }
 }
+
+//   //Удаление карточки
+//   removeCard(cardToDelete) {
+//     cardToDelete._element.remove();
+//     cardToDelete._element = null;
+//   }
+// }

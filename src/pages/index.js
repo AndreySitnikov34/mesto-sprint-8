@@ -39,6 +39,7 @@ const api = new Api(config);
 let deleteCard;
 let cardList;
 let userId;
+let currentCardId, cardToDelete; //Добавил для удаления карточки
 //============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
 
 //Объявляем переменную userInfo
@@ -227,10 +228,18 @@ avatarEditButton.addEventListener("click", openAvatarPopup);
 cardEditButton.addEventListener("click", openCardPopup);
 userEditButton.addEventListener("click", openProfilePopup);
 
+// // Функция открытия попапа согласия с удалением карточки
+// function openCardDeletePopup(cardToDelete) {
+//   popupCardDelete.open(cardToDelete); //Удаление через попап
+//   // handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
+// }
+
 // Функция открытия попапа согласия с удалением карточки
-function openCardDeletePopup(cardToDelete) {
-  // popupCardDelete.open(cardToDelete); //Удаление через попап
-  handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
+function openCardDeletePopup(card) {
+  cardToDelete = card;
+  currentCardId = cardToDelete["_cardId"];
+  console.log("index 240 - карточка для удаления", cardToDelete, currentCardId);
+  popupCardDelete.open(cardToDelete); //Удаление через попап
 }
 
 const popupCardDelete = new PopupWithForm({
@@ -243,12 +252,28 @@ popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
 //Чуть-чуть переделал удаление карточки
-function handleCardDelete(card) {
+// function handleCardDelete(card) {
+//   api
+//     .deleteCard(card.getId()) //Удаление карточки по id
+//     .then(() => {
+//       log(card.getId()); //Печать id карточки
+//       card.removeCard(); //Удаление карточки из разметки
+//       popupCardDelete.close();
+//     })
+//     .catch((err) => {
+//       console.log("Ошибка удаления карточки", err.message);
+//     });
+// }
+
+//Функция для удаления через попап
+function handleCardDelete() {
+  const currentCardId = cardToDelete["_cardId"];
+  console.log("index 270 - что удаляем", currentCardId);
   api
-    .deleteCard(card.getId()) //Удаление карточки по id
+    .deleteCard(currentCardId) //Удаление карточки по id
     .then(() => {
-      log(card.getId()); //Печать id карточки
-      card.removeCard(); //Удаление карточки из разметки
+      console.log("index 274 - что удаляем", currentCardId);
+      cardToDelete._element.remove(); //Удаление карточки из разметки
       popupCardDelete.close();
     })
     .catch((err) => {
