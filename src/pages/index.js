@@ -48,7 +48,6 @@ const userInfo = new UserInfo({
   avatar: ".user__pic",
 });
 
-
 const promises = [api.getUser(), api.getCards()];
 const getInfo = Promise.all(promises);
 getInfo
@@ -91,7 +90,7 @@ function renderItem(card, itIsNew) {
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: () => {
-    //Указал верную кнопку, теперь текст меняется 
+    //Указал верную кнопку, теперь текст меняется
     userSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
@@ -180,7 +179,6 @@ function deleteLike(cardLike) {
     .catch((err) => console.log(`Ошибка: ${err}`));
 }
 //Отдельно функция счетчика лайков
-
 
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
 

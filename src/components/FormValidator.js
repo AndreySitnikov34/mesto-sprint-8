@@ -1,8 +1,8 @@
 export class FormValidator {
   //Принимаем в конструктор объект настроек с селекторами и классами формы,
   //а вторым параметром попап
-  constructor(enableValidationForm, popup) {
-    this._formSelector = popup;
+  constructor(enableValidationForm, form) {
+    this._form = form;
     this._inputSelector = enableValidationForm["inputSelector"];
     this._submitButtonSelector = enableValidationForm["submitButtonSelector"];
     this._errorMessageSelector = enableValidationForm["errorMessageSelector"];
@@ -41,9 +41,7 @@ export class FormValidator {
 
   //Изменить состояние кнопки сабмита
   _toggleButtonState(inputList) {
-    const buttonElement = this._formSelector.querySelector(
-      this._submitButtonSelector
-    );
+    const buttonElement = this._form.querySelector(this._submitButtonSelector);
     //Если есть хотя бы один невалидный инпут
     if (this._hasInvalidInput(inputList)) {
       buttonElement.classList.add(this._inactiveButtonClass); //Покрасить в другой цвет
@@ -55,7 +53,7 @@ export class FormValidator {
   }
   //Функция очистки спанов после клика на кнопку
   _clearErrorMessages() {
-    const errorMessages = this._formSelector.querySelectorAll(
+    const errorMessages = this._form.querySelectorAll(
       this._errorMessageSelector
     );
     errorMessages.forEach((node) =>
@@ -80,7 +78,7 @@ export class FormValidator {
   //Публичный метод включения валидации форм
   enableValidation() {
     const inputList = Array.from(
-      this._formSelector.querySelectorAll(this._inputSelector)
+      this._form.querySelectorAll(this._inputSelector)
     );
     this._toggleButtonState(inputList);
     inputList.forEach((inputElement) => {
