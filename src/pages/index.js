@@ -159,34 +159,28 @@ function openCardPopup() {
 
 //Обработка постановки лайка
 function handleLikeCard(cardLike) {
-  const currentCardId = this["_cardId"];
   if (cardLike.classList.contains("card__heart_liked")) {
-    addLike(currentCardId, cardLike);
+    addLike(cardLike);
   } else {
-    deleteLike(currentCardId, cardLike);
+    deleteLike(cardLike);
   }
 }
 //Отдельно функция добавления лайка
-function addLike(currentCardId, cardLike) {
+function addLike(cardLike) {
   api
-    .addLike(currentCardId)
-    .then((card) => likeCounter(card, cardLike))
+    .addLike(cardLike.getId())
+    .then((responce) => cardLike.addLikeCard(responce))
     .catch((err) => console.log(`Ошибка: ${err}`));
 }
 //Отдельно функция удаления лайка
-function deleteLike(currentCardId, cardLike) {
+function deleteLike(cardLike) {
   api
-    .deleteLike(currentCardId)
-    .then((card) => likeCounter(card, cardLike))
+    .deleteLike(cardLike.getId())
+    .then((card) => cardLike.deleteLike(card))
     .catch((err) => console.log(`Ошибка: ${err}`));
 }
 //Отдельно функция счетчика лайков
-function likeCounter(card, cardLike) {
-  const showCounter = cardLike
-    .closest(".card")
-    .querySelector(".card__heart-count");
-  showCounter.textContent = card.likes.length;
-}
+
 
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
 
@@ -250,12 +244,12 @@ const popupCardDelete = new PopupWithForm({
 popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
-function handleCardDelete(cardToDelete) {
-  const currentCardId = cardToDelete["_cardId"];
+//Чуть-чуть переделал удаление карточки
+function handleCardDelete(card) {
   api
-    .deleteCard(currentCardId) //Удаление карточки по id
+    .deleteCard(card.getId()) //Удаление карточки по id
     .then((evt) => {
-      cardToDelete._element.remove(); //Удаление карточки из разметки
+      card.removeCard(); //Удаление карточки из разметки
       popupCardDelete.close();
     })
     .catch((err) => {

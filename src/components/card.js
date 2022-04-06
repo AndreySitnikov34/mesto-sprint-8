@@ -30,7 +30,6 @@ export class Card {
     this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
-      console.log("card 33 - клик на ведро");
       this._openCardDeletePopup(this); //Передаем ему карту, и ссылку на объект
       //инициатор события
     });
@@ -58,7 +57,7 @@ export class Card {
     this._element.querySelector(".card__location").textContent = this._name;
     this._cardDelete = this._element.querySelector(".card__del");
     this._cardLike = this._element.querySelector(".card__heart");
-    this._element.querySelector(".card__heart-count").textContent =
+    this._cardlikeCounter = this._element.querySelector(".card__heart-count").textContent =
       this._likes.length;
     //Покрасить свои лайки при загрузке
     if (this._likes.some((like) => like["_id"] === this._userId)) {
@@ -75,9 +74,27 @@ export class Card {
     return this._element;
   }
 
+  //Получение Id
+  getId() {
+    return this._cardId;
+  }
+  //Добавление лайка
+  addLikeCard(evt) {
+    this._cardLike.classList.add("card__heart_liked")
+		this._cardlikeCounter.textContent = evt.likes.length;
+    
+  }// Удаление лайка
+  deleteLikeCard(evt) {
+    this._cardLike.classList.remove("card__heart_liked")
+    this._cardlikeCounter.textContent = evt.likes.length;
+    
+  }
+
+  
+
   //Удаление карточки
-  removeCard(cardToDelete) {
-    cardToDelete._element.remove();
-    cardToDelete._element = null;
+  removeCard() {
+    this._element.remove();
+    this._element = null;
   }
 }

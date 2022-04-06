@@ -7,7 +7,6 @@ export class Popup {
   }
   //Публичный метод открытия попапа
   open(card) {
-    console.log("Popup 10 - ", card);
     this._popupsContainer.classList.add("popup_opened");
     window.addEventListener("keydown", this._handleEscClose);
     this._card = card;
