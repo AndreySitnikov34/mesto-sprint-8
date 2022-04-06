@@ -5,7 +5,7 @@ export class Card {
     userId,
     card,
     cardSelector,
-    handleLikeCard,
+    {handleLikeCard},
     handleImageOpen,
     openCardDeletePopup,
     deleteCard
@@ -21,12 +21,14 @@ export class Card {
     this._handleImageOpen = handleImageOpen;
     this._openCardDeletePopup = openCardDeletePopup;
     this._deleteCard = deleteCard;
-    this._addToFavorite = this._addToFavorite.bind(this);
+    //this._addToFavorite = this._addToFavorite.bind(this);
     this.removeCard = this.removeCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
-    this._cardLike.addEventListener("click", this._addToFavorite);
+    //this._cardLike.addEventListener("click", this._addToFavorite);
+    //Переписал по рекомендации ревьюера, после этого ожило хоть как-то
+    this._cardLike.addEventListener("click", () => { this._handleLikeCard(this) });
     this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
@@ -43,11 +45,11 @@ export class Card {
   }
 
   //Лайки добавление/удаление
-  _addToFavorite() {
-    const cardLike = this._cardLike; //Это кнопка сердечко
-    cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
-    this._handleLikeCard(cardLike);
-  }
+  //_addToFavorite() {
+  //  const cardLike = this._cardLike; //Это кнопка сердечко
+  //  cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
+  //  this._handleLikeCard(cardLike);
+  //}
   //Публичный метод, который возвращает полностью работоспособный
   //и наполненный данными элемент карточки
   generateCard() {
@@ -77,6 +79,10 @@ export class Card {
   //Получение Id
   getId() {
     return this._cardId;
+  }
+  //Проверяет наличие лайка
+  checkStatusLike() {
+    return this._cardLike.classList.contains("card__heart_liked")
   }
   //Добавление лайка
   addLikeCard(evt) {

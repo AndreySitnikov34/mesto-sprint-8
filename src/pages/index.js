@@ -74,10 +74,13 @@ function renderItem(card, itIsNew) {
     userId,
     card,
     "#card",
-    handleLikeCard,
+    // Использовал деструктуризацию, чтобы передать ф-цию добавления лайка
+    {
+      handleLikeCard: (res) => {
+        handleLike(res);
+    }},
     handleImageOpen,
     openCardDeletePopup,
-    deleteCard
   );
 
   const cardElement = card.generateCard();
@@ -158,28 +161,22 @@ function openCardPopup() {
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
 
 //Обработка постановки лайка
-function handleLikeCard(cardLike) {
-  if (cardLike.classList.contains("card__heart_liked")) {
-    addLike(cardLike);
+//переписал ф-цию слил все в одну, вызываем метод класса checkStatusLike(), если true
+//делаем запрос на удаление,иначе делаем запрос на добавление лайка
+function  handleLike(card) {
+  const cardID = card.getId()
+  if (card.checkStatusLike()) {
+    api
+      .deleteLike(cardID)
+      .then((res) => {card.deleteLike(res), log(cardID)})
+      .catch((err) => console.log(`Ошибка: ${err}`));
   } else {
-    deleteLike(cardLike);
+    api
+      .addLike(cardID)
+      .then((res) => card.addLikeCard(res))
+      .catch((err) => console.log(`Ошибка: ${err}`));
   }
 }
-//Отдельно функция добавления лайка
-function addLike(cardLike) {
-  api
-    .addLike(cardLike.getId())
-    .then((responce) => cardLike.addLikeCard(responce))
-    .catch((err) => console.log(`Ошибка: ${err}`));
-}
-//Отдельно функция удаления лайка
-function deleteLike(cardLike) {
-  api
-    .deleteLike(cardLike.getId())
-    .then((card) => cardLike.deleteLike(card))
-    .catch((err) => console.log(`Ошибка: ${err}`));
-}
-//Отдельно функция счетчика лайков
 
 
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
@@ -248,7 +245,8 @@ popupCardDelete.setEventListeners();
 function handleCardDelete(card) {
   api
     .deleteCard(card.getId()) //Удаление карточки по id
-    .then((evt) => {
+    .then(() => {
+      log(card.getId())
       card.removeCard(); //Удаление карточки из разметки
       popupCardDelete.close();
     })
