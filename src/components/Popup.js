@@ -7,7 +7,6 @@ export class Popup {
   }
   //Публичный метод открытия попапа
   open(cardToDelete) {
-    console.log("Popup 10 - ", cardToDelete);
     this._popupsContainer.classList.add("popup_opened");
     window.addEventListener("keydown", this._handleEscClose);
     this._cardToDelete = cardToDelete;

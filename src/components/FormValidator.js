@@ -25,29 +25,11 @@ export class FormValidator {
   //Функция демонстрации ошибки в инпуте
   _showInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.nextElementSibling;
-    console.log(
-      "str 59",
-      "инпут -",
-      formElement,
-      "span - ",
-      errorElement,
-      "сообщение - ",
-      errorMessage
-    );
     errorElement.classList.add(this._inputErrorClass);
   }
   //Функция сокрытия ошибки ввода
   _hideInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.nextElementSibling;
-    console.log(
-      "str 86",
-      "инпут -",
-      formElement,
-      "span - ",
-      errorElement,
-      "сообщение - ",
-      errorMessage
-    );
     errorElement.classList.remove(this._inputErrorClass);
   }
   //Функция проверки инпута на  НЕвалидность
@@ -59,7 +41,6 @@ export class FormValidator {
 
   //Изменить состояние кнопки сабмита
   _toggleButtonState(inputList) {
-    console.log("114 - toggleButtonState запущена");
     const buttonElement = this._formSelector.querySelector(
       this._submitButtonSelector
     );
@@ -67,15 +48,9 @@ export class FormValidator {
     if (this._hasInvalidInput(inputList)) {
       buttonElement.classList.add(this._inactiveButtonClass); //Покрасить в другой цвет
       buttonElement.disabled = true; //Деактиватор кнопки
-      console.log(
-        "FV 113 - Кнопка submit НЕ АКТИВНА",
-        buttonElement,
-        inputList
-      );
     } else {
       buttonElement.classList.remove(this._inactiveButtonClass);
       buttonElement.disabled = false;
-      console.log("FV 117 - Кнопка submit активна", buttonElement, inputList);
     }
   }
   //Функция очистки спанов после клика на кнопку
@@ -104,7 +79,6 @@ export class FormValidator {
   }
   //Публичный метод включения валидации форм
   enableValidation() {
-    console.log("178 - enableValidation запущена");
     const inputList = Array.from(
       this._formSelector.querySelectorAll(this._inputSelector)
     );

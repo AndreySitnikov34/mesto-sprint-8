@@ -93,7 +93,6 @@ function renderItem(card, itIsNew) {
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: () => {
-    console.log("index 105 - start popupUser");
     avatarSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
@@ -118,7 +117,6 @@ popupUser.setEventListeners();
 
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
-  console.log("index 130 - openProfilePopup");
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   popupUser.open();
@@ -138,7 +136,6 @@ const cardPopup = new PopupWithForm({
       })
       .then((res) => {
         renderItem(res, res.owner._id); //Отрисовка карточки в разметке
-        console.log("index 149 - Карточка добавлена", res);
         cardPopup.close(); //Закрыть попап
       })
       .catch((err) => {
@@ -153,7 +150,6 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
-  console.log("index 165 - openCardPopup");
   cardPopup.open();
   cardFormValidator.enableValidation();
 }
@@ -163,7 +159,6 @@ function openCardPopup() {
 //Обработка постановки лайка
 function handleLikeCard(cardLike) {
   const currentCardId = this["_cardId"];
-  console.log("index 173 - id карточки", currentCardId);
   if (cardLike.classList.contains("card__heart_liked")) {
     addLike(currentCardId, cardLike);
   } else {
@@ -203,7 +198,6 @@ const popupAvatar = new PopupWithForm({
       .updateAvatar({ avatar: avatarLink.value })
       .then((res) => {
         userInfo.setUserInfo(res);
-        console.log("index 213 - новые данные -", res);
         popupAvatar.close();
       })
       .catch((err) => {
@@ -218,7 +212,6 @@ const popupAvatar = new PopupWithForm({
 popupAvatar.setEventListeners();
 
 function openAvatarPopup() {
-  console.log("index 228 - openAvatarPopup");
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
   avatarFormValidator.enableValidation();
@@ -237,7 +230,6 @@ function handleImageOpen(evt) {
   imageOpen.alt = evt.target.alt;
   signImage.textContent = evt.target.alt;
   openImagePopup.open(evt.target);
-  console.log("index 246 - openImagePopup", imageOpen.alt);
 }
 
 //Слушатели кликов
@@ -247,11 +239,6 @@ userEditButton.addEventListener("click", openProfilePopup);
 
 // Функция открытия попапа согласия с удалением карточки
 function openCardDeletePopup(cardToDelete) {
-  console.log(
-    "index 268 - карточка для удаления",
-    cardToDelete,
-    cardToDelete["_cardId"]
-  );
   // popupCardDelete.open(cardToDelete);//Удаление через попап
   handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
 }
