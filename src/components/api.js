@@ -30,8 +30,8 @@ export class Api {
     }).then((res) => this._parseResponse(res));
   }
   //Удаление карточки
-  deleteCard(id) {
-    return fetch(`${this._url}/cards/${id}`, {
+  deleteCard(cardId) {
+    return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
     }).then((res) => this._parseResponse(res));

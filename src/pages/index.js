@@ -9,8 +9,6 @@ import {
   formUserAboutInput,
   titleInputCard,
   linkInputCard,
-  userName,
-  userAbout,
   popupImage,
   imageOpen,
   signImage,
