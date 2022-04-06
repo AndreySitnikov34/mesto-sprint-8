@@ -10,11 +10,10 @@ import {
   titleInputCard,
   linkInputCard,
   popupImage,
-  imageOpen,
-  signImage,
   popupCardDeleteElement,
   avatarEditButton,
   avatarSubmitButton,
+  userSubmitButton,
   userEditButton,
   cardEditButton,
   cardSubmitButton,
@@ -92,7 +91,8 @@ function renderItem(card, itIsNew) {
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: () => {
-    avatarSubmitButton.textContent = "Сохранение...";
+    //Указал верную кнопку, теперь текст меняется 
+    userSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
         name: formUserNameInput.value,
@@ -107,7 +107,7 @@ const popupUser = new PopupWithForm({
         console.log("Ошибка редактирования профиля", err.message);
       })
       .finally(() => {
-        avatarSubmitButton.textContent = "Сохранить";
+        userSubmitButton.textContent = "Сохранить";
       });
   },
 });
@@ -226,6 +226,7 @@ openImagePopup.setEventListeners();
 
 // Функция открытия картинки из карточки
 function handleImageOpen(evt) {
+  //Исправил замечание связанное с работой данного модального окна
   openImagePopup.open(evt.target);
 }
 
