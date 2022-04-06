@@ -10,7 +10,6 @@ export class Card {
     openCardDeletePopup,
     deleteCard
   ) {
-
     this._userId = userId;
     this._owner = card.owner["_id"];
     this._cardId = card["_id"];
@@ -31,7 +30,7 @@ export class Card {
     this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
-      console.log("card 39");
+      console.log("card 33 - клик на ведро");
       this._openCardDeletePopup(this); //Передаем ему карту, и ссылку на объект
       //инициатор события
     });
@@ -63,9 +62,7 @@ export class Card {
     this._element.querySelector(".card__heart-count").textContent =
       this._likes.length;
     //Покрасить свои лайки при загрузке
-    if (
-      this._likes.some((like) => like["_id"] === this._userId)
-    ) {
+    if (this._likes.some((like) => like["_id"] === this._userId)) {
       this._cardLike.classList.add("card__heart_liked");
     }
     //Удалить вёдра на несвоих карточках при загрузке

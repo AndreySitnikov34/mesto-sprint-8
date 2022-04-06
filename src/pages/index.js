@@ -42,6 +42,7 @@ const api = new Api(config);
 let deleteCard;
 let cardList;
 let userId;
+let currentCardId, cardToDelete;
 //============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
 
 //Объявляем переменную userInfo
@@ -93,7 +94,7 @@ function renderItem(card, itIsNew) {
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: () => {
-    console.log("index 105 - start popupUser");
+    console.log("index 96 - start popupUser");
     avatarSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
@@ -118,7 +119,7 @@ popupUser.setEventListeners();
 
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
-  console.log("index 130 - openProfilePopup");
+  console.log("index 121 - openProfilePopup");
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   popupUser.open();
@@ -138,7 +139,7 @@ const cardPopup = new PopupWithForm({
       })
       .then((res) => {
         renderItem(res, res.owner._id); //Отрисовка карточки в разметке
-        console.log("index 149 - Карточка добавлена", res);
+        console.log("index 141 - Карточка добавлена", res);
         cardPopup.close(); //Закрыть попап
       })
       .catch((err) => {
@@ -153,7 +154,7 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
-  console.log("index 165 - openCardPopup");
+  console.log("index 156 - openCardPopup");
   cardPopup.open();
   cardFormValidator.enableValidation();
 }
@@ -163,7 +164,7 @@ function openCardPopup() {
 //Обработка постановки лайка
 function handleLikeCard(cardLike) {
   const currentCardId = this["_cardId"];
-  console.log("index 173 - id карточки", currentCardId);
+  console.log("index 166 - id карточки", currentCardId);
   if (cardLike.classList.contains("card__heart_liked")) {
     addLike(currentCardId, cardLike);
   } else {
@@ -203,7 +204,7 @@ const popupAvatar = new PopupWithForm({
       .updateAvatar({ avatar: avatarLink.value })
       .then((res) => {
         userInfo.setUserInfo(res);
-        console.log("index 213 - новые данные -", res);
+        console.log("index 206 - новые данные -", res);
         popupAvatar.close();
       })
       .catch((err) => {
@@ -218,7 +219,7 @@ const popupAvatar = new PopupWithForm({
 popupAvatar.setEventListeners();
 
 function openAvatarPopup() {
-  console.log("index 228 - openAvatarPopup");
+  console.log("index 221 - openAvatarPopup");
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
   avatarFormValidator.enableValidation();
@@ -246,14 +247,12 @@ cardEditButton.addEventListener("click", openCardPopup);
 userEditButton.addEventListener("click", openProfilePopup);
 
 // Функция открытия попапа согласия с удалением карточки
-function openCardDeletePopup(cardToDelete) {
-  console.log(
-    "index 268 - карточка для удаления",
-    cardToDelete,
-    cardToDelete["_cardId"]
-  );
-  // popupCardDelete.open(cardToDelete);//Удаление через попап
-  handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
+function openCardDeletePopup(card) {
+  cardToDelete = card;
+  currentCardId = cardToDelete["_cardId"];
+  console.log("index 253 - карточка для удаления", cardToDelete, currentCardId);
+  popupCardDelete.open(cardToDelete); //Удаление через попап
+  // handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
 }
 
 const popupCardDelete = new PopupWithForm({
@@ -265,11 +264,13 @@ const popupCardDelete = new PopupWithForm({
 popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
-function handleCardDelete(cardToDelete) {
+function handleCardDelete() {
   const currentCardId = cardToDelete["_cardId"];
+  console.log("index 270 - что удаляем", currentCardId);
   api
     .deleteCard(currentCardId) //Удаление карточки по id
-    .then((evt) => {
+    .then(() => {
+      console.log("index 274 - что удаляем", currentCardId);
       cardToDelete._element.remove(); //Удаление карточки из разметки
       popupCardDelete.close();
     })
