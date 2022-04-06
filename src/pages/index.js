@@ -77,9 +77,10 @@ function renderItem(card, itIsNew) {
     {
       handleLikeCard: (res) => {
         handleLike(res);
-    }},
+      },
+    },
     handleImageOpen,
-    openCardDeletePopup,
+    openCardDeletePopup
   );
 
   const cardElement = card.generateCard();
@@ -162,12 +163,14 @@ function openCardPopup() {
 //Обработка постановки лайка
 //переписал ф-цию слил все в одну, вызываем метод класса checkStatusLike(), если true
 //делаем запрос на удаление,иначе делаем запрос на добавление лайка
-function  handleLike(card) {
-  const cardID = card.getId()
+function handleLike(card) {
+  const cardID = card.getId();
   if (card.checkStatusLike()) {
     api
       .deleteLike(cardID)
-      .then((res) => {card.deleteLikeCard(res)})
+      .then((res) => {
+        card.deleteLikeCard(res);
+      })
       .catch((err) => console.log(`Ошибка: ${err}`));
   } else {
     api
@@ -226,7 +229,7 @@ userEditButton.addEventListener("click", openProfilePopup);
 
 // Функция открытия попапа согласия с удалением карточки
 function openCardDeletePopup(cardToDelete) {
-  // popupCardDelete.open(cardToDelete);//Удаление через попап
+  // popupCardDelete.open(cardToDelete); //Удаление через попап
   handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
 }
 
@@ -244,7 +247,7 @@ function handleCardDelete(card) {
   api
     .deleteCard(card.getId()) //Удаление карточки по id
     .then(() => {
-      log(card.getId())
+      log(card.getId()); //Печать id карточки
       card.removeCard(); //Удаление карточки из разметки
       popupCardDelete.close();
     })
