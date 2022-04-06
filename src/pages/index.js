@@ -167,7 +167,7 @@ function  handleLike(card) {
   if (card.checkStatusLike()) {
     api
       .deleteLike(cardID)
-      .then((res) => {card.deleteLike(res), log(cardID)})
+      .then((res) => {card.deleteLikeCard(res), log(cardID)})
       .catch((err) => console.log(`Ошибка: ${err}`));
   } else {
     api
