@@ -51,6 +51,7 @@ const userInfo = new UserInfo({
   avatar: ".user__pic",
 });
 
+
 const promises = [api.getUser(), api.getCards()];
 const getInfo = Promise.all(promises);
 getInfo
@@ -117,8 +118,9 @@ popupUser.setEventListeners();
 
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
-  formUserNameInput.value = userName.textContent;
-  formUserAboutInput.value = userAbout.textContent;
+  const userData = userInfo.getUserInfo();
+  formUserNameInput.value = userData.name;
+  formUserAboutInput.value = userData.about;
   popupUser.open();
   userFormValidator.enableValidation();
 }
