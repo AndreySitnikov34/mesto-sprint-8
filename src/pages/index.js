@@ -226,10 +226,6 @@ openImagePopup.setEventListeners();
 
 // Функция открытия картинки из карточки
 function handleImageOpen(evt) {
-  imageOpen.src = "";
-  imageOpen.src = evt.target.src;
-  imageOpen.alt = evt.target.alt;
-  signImage.textContent = evt.target.alt;
   openImagePopup.open(evt.target);
 }
 

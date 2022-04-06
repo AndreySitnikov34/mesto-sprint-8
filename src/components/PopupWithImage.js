@@ -3,11 +3,16 @@ import { Popup } from "./Popup.js";
 export class PopupWithImage extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
-    this._popupImageSelector =
+    this._popupImage =
       this._popupsContainer.querySelector(".popup__image");
+    this._popupSignImage = this._popupsContainer.querySelector(".popup__image-alt")
   }
   //Открывалка выбранной картинки
-  open() {
+  open(evt) {
     super.open();
+    this._popupImage.src = "";
+    this._popupImage.src = evt.src;
+    this._popupImage.alt = evt.alt;
+    this._popupSignImage.textContent = evt.alt;
   }
 }
