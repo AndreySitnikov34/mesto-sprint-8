@@ -94,7 +94,10 @@ function renderItem(card, itIsNew) {
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
   addNewInfoHandler: () => {
+<<<<<<< HEAD
     console.log("index 96 - start popupUser");
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
     avatarSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
@@ -119,7 +122,10 @@ popupUser.setEventListeners();
 
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
+<<<<<<< HEAD
   console.log("index 121 - openProfilePopup");
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
   formUserNameInput.value = userName.textContent;
   formUserAboutInput.value = userAbout.textContent;
   popupUser.open();
@@ -139,7 +145,10 @@ const cardPopup = new PopupWithForm({
       })
       .then((res) => {
         renderItem(res, res.owner._id); //Отрисовка карточки в разметке
+<<<<<<< HEAD
         console.log("index 141 - Карточка добавлена", res);
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
         cardPopup.close(); //Закрыть попап
       })
       .catch((err) => {
@@ -154,7 +163,10 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
+<<<<<<< HEAD
   console.log("index 156 - openCardPopup");
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
   cardPopup.open();
   cardFormValidator.enableValidation();
 }
@@ -164,7 +176,10 @@ function openCardPopup() {
 //Обработка постановки лайка
 function handleLikeCard(cardLike) {
   const currentCardId = this["_cardId"];
+<<<<<<< HEAD
   console.log("index 166 - id карточки", currentCardId);
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
   if (cardLike.classList.contains("card__heart_liked")) {
     addLike(currentCardId, cardLike);
   } else {
@@ -204,7 +219,10 @@ const popupAvatar = new PopupWithForm({
       .updateAvatar({ avatar: avatarLink.value })
       .then((res) => {
         userInfo.setUserInfo(res);
+<<<<<<< HEAD
         console.log("index 206 - новые данные -", res);
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
         popupAvatar.close();
       })
       .catch((err) => {
@@ -219,7 +237,10 @@ const popupAvatar = new PopupWithForm({
 popupAvatar.setEventListeners();
 
 function openAvatarPopup() {
+<<<<<<< HEAD
   console.log("index 221 - openAvatarPopup");
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
   avatarFormValidator.enableValidation();
@@ -238,7 +259,6 @@ function handleImageOpen(evt) {
   imageOpen.alt = evt.target.alt;
   signImage.textContent = evt.target.alt;
   openImagePopup.open(evt.target);
-  console.log("index 246 - openImagePopup", imageOpen.alt);
 }
 
 //Слушатели кликов
@@ -247,12 +267,18 @@ cardEditButton.addEventListener("click", openCardPopup);
 userEditButton.addEventListener("click", openProfilePopup);
 
 // Функция открытия попапа согласия с удалением карточки
+<<<<<<< HEAD
 function openCardDeletePopup(card) {
   cardToDelete = card;
   currentCardId = cardToDelete["_cardId"];
   console.log("index 253 - карточка для удаления", cardToDelete, currentCardId);
   popupCardDelete.open(cardToDelete); //Удаление через попап
   // handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
+=======
+function openCardDeletePopup(cardToDelete) {
+  // popupCardDelete.open(cardToDelete);//Удаление через попап
+  handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
 }
 
 const popupCardDelete = new PopupWithForm({

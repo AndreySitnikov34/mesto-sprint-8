@@ -30,7 +30,10 @@ export class Card {
     this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
+<<<<<<< HEAD
       console.log("card 33 - клик на ведро");
+=======
+>>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
       this._openCardDeletePopup(this); //Передаем ему карту, и ссылку на объект
       //инициатор события
     });
@@ -45,7 +48,6 @@ export class Card {
 
   //Лайки добавление/удаление
   _addToFavorite() {
-    console.log("Card - str 54 - _addToFavorite", this._name);
     const cardLike = this._cardLike; //Это кнопка сердечко
     cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
     this._handleLikeCard(cardLike);
