@@ -30,10 +30,7 @@ export class Card {
     this._cardImage.addEventListener("click", this._handleImageOpen);
     this._cardDelete.addEventListener("click", () => {
       //По клику открываем попап удаления карточки
-<<<<<<< HEAD
       console.log("card 33 - клик на ведро");
-=======
->>>>>>> 73fa32367e91ee2518ffb5820c708a4ae137983d
       this._openCardDeletePopup(this); //Передаем ему карту, и ссылку на объект
       //инициатор события
     });

@@ -116,6 +116,7 @@ popupUser.setEventListeners();
 
 // Функция открытия попапа редактирования профиля юзера
 function openProfilePopup() {
+  //Убрал textContent
   const userData = userInfo.getUserInfo();
   formUserNameInput.value = userData.name;
   formUserAboutInput.value = userData.about;
