@@ -63,7 +63,8 @@ export class Card {
     this._cardLike = this._element.querySelector(".card__heart");
     this._cardlikeCounter = this._element.querySelector(
       ".card__heart-count"
-    ).textContent = this._likes.length;
+    );
+    this._cardlikeCounter.textContent = this._likes.length;
     //Покрасить свои лайки при загрузке
     if (this._likes.some((like) => like["_id"] === this._userId)) {
       this._cardLike.classList.add("card__heart_liked");
@@ -72,7 +73,7 @@ export class Card {
     if (this._owner !== this._userId) {
       this._cardDelete.classList.remove("card__del");
     }
-
+    
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._setEventListeners();
