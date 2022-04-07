@@ -5,10 +5,9 @@ export class Card {
     userId,
     card,
     cardSelector,
-    { handleLikeCard },
-    handleImageOpen,
-    openCardDeletePopup,
-    deleteCard
+    { handleLikeCard,
+      handleImageOpen,
+      openCardDeletePopup },
   ) {
     this._userId = userId;
     this._owner = card.owner["_id"];
@@ -20,9 +19,7 @@ export class Card {
     this._handleLikeCard = handleLikeCard;
     this._handleImageOpen = handleImageOpen;
     this._openCardDeletePopup = openCardDeletePopup;
-    this._deleteCard = deleteCard;
     // this._addToFavorite = this._addToFavorite.bind(this);
-    this.removeCard = this.removeCard.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
@@ -99,7 +96,7 @@ export class Card {
   }
 
   //Удаление карточки
-  removeCard() {
+  deleteCard() {
     this._element.remove();
     this._element = null;
   }
