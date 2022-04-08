@@ -8,14 +8,12 @@ import {
   formUserNameInput,
   formUserAboutInput,
   avatarEditButton,
-  avatarSubmitButton,
-  userSubmitButton,
   userEditButton,
   cardEditButton,
-  cardSubmitButton,
   cardContent,
   enableValidationForm,
   config,
+  popupImage,
 } from "../utils/constants.js";
 
 const { log } = console;
@@ -65,10 +63,10 @@ getInfo
   .catch((err) => log("Ошибка при получение данных", err));
 
 //Рендер карточек
-function renderItem(card, itIsNew) {
-  card = new Card(
+function renderItem(cardItem, itIsNew) {
+  const card = new Card(
     userId,
-    card,
+    cardItem,
     "#card",
     // Использовал деструктуризацию, чтобы передать ф-ции
     {
@@ -76,7 +74,7 @@ function renderItem(card, itIsNew) {
         handleLike(res);
       },
 
-      handleImageOpen: (card) => imageOpen(card),
+      handleImageOpen: _ => openImagePopup.open(cardItem.name, cardItem.link),
       openCardDeletePopup: (card) => {
         cardDeletePopup(card);
       },
@@ -215,11 +213,6 @@ const openImagePopup = new PopupWithImage({
 
 openImagePopup.setEventListeners();
 
-// Функция открытия картинки из карточки
-function imageOpen(evt) {
-  //Исправил замечание связанное с работой данного модального окна
-  openImagePopup.open(evt.target);
-}
 
 //Слушатели кликов
 avatarEditButton.addEventListener("click", openAvatarPopup);
@@ -235,7 +228,7 @@ function cardDeletePopup(card) {
 
 const popupCardDelete = new PopupWithForm({
   popupSelector: ".popup-card-delete",
-  handleSubmit: () => handleCardDelete(),
+  handleSubmit: _ => handleCardDelete(),
 });
 
 popupCardDelete.setEventListeners();

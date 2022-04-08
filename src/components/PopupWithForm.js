@@ -12,7 +12,6 @@ export class PopupWithForm extends Popup {
 
   //Сбор данных всех полей формы
   _getInputValues() {
-    // this._inputList = this._popupsContainer.querySelectorAll(".form__input");
     this._formValues = {};
     this._inputList.forEach(
       (input) => (this._formValues[input.name] = input.value)
@@ -39,8 +38,8 @@ export class PopupWithForm extends Popup {
     //Т.к надо сбросить форму
     this._form.reset();
   }
+  //Меняем текст кнопки
   renderLoading(isLoading, buttonText='Сохранить') {
-    // тут устанавливаете текст кнопке
     if (isLoading) {
       this._submitButton.textContent = 'Сохранение...';
     } else {
