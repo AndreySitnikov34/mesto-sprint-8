@@ -95,7 +95,7 @@ const popupUser = new PopupWithForm({
   popupSelector: ".popup-form-user",
   handleSubmit: (values) => {
     //Указал верную кнопку, теперь текст меняется
-    userSubmitButton.textContent = "Сохранение...";
+    popupUser.renderLoading(true);
     api
       .updateUser({
         name:values['name-input'],
@@ -109,7 +109,7 @@ const popupUser = new PopupWithForm({
         console.log("Ошибка редактирования профиля", err.message);
       })
       .finally(() => {
-        userSubmitButton.textContent = "Сохранить";
+        popupUser.renderLoading(false);
       });
   },
 });
@@ -130,7 +130,7 @@ function openProfilePopup() {
 const cardPopup = new PopupWithForm({
   popupSelector: ".popup-form-card",
   handleSubmit: (values) => {
-    cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
+    cardPopup.renderLoading(true); //Поменять значение в кнопке
     api
       .postCard({
         name: values['text-input'],
@@ -144,7 +144,7 @@ const cardPopup = new PopupWithForm({
         console.log("Ошибка добавления карточки", err.message);
       })
       .finally(() => {
-        cardSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+        cardPopup.renderLoading(false) //Поменять значение в кнопке обратно
       });
   },
 });
@@ -184,7 +184,7 @@ function handleLike(card) {
 const popupAvatar = new PopupWithForm({
   popupSelector: ".popup-form-avatar",
   handleSubmit: (values) => {
-    avatarSubmitButton.textContent = "Сохранение...";
+    popupAvatar.renderLoading(true);
     api
       .updateAvatar({ avatar: values['url-input-avatar']})
       .then((res) => {
@@ -195,7 +195,7 @@ const popupAvatar = new PopupWithForm({
         console.log("Ошибка смены аватара", err.message);
       })
       .finally(() => {
-        avatarSubmitButton.textContent = "Сохранить"; //Поменять значение в кнопке обратно
+        popupAvatar.renderLoading(false); //Поменять значение в кнопке обратно
       });
   },
 });

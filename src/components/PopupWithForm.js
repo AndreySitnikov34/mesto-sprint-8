@@ -7,7 +7,7 @@ export class PopupWithForm extends Popup {
     this._handleSubmit = handleSubmit;
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._inputList = this._popup.querySelectorAll(".form__input");
-    this.submitButton = this._form.querySelector(".form__submit");
+    this._submitButton = this._form.querySelector(".form__submit");
   }
 
   //Сбор данных всех полей формы
@@ -19,7 +19,7 @@ export class PopupWithForm extends Popup {
     );
     return this._formValues;
   }
-
+  
   _handleFormSubmit(evt) {
     evt.preventDefault();
     this._handleSubmit(this._getInputValues());
@@ -39,5 +39,13 @@ export class PopupWithForm extends Popup {
     //Т.к надо сбросить форму
     this._form.reset();
   }
+  renderLoading(isLoading, buttonText='Сохранить') {
+    // тут устанавливаете текст кнопке
+    if (isLoading) {
+      this._submitButton.textContent = 'Сохранение...';
+    } else {
+      this._submitButton.textContent = buttonText;
+    }
+    }
 
 }
