@@ -7,8 +7,6 @@ import {
   avatarLink,
   formUserNameInput,
   formUserAboutInput,
-  titleInputCard,
-  linkInputCard,
   avatarEditButton,
   avatarSubmitButton,
   userSubmitButton,
@@ -95,13 +93,13 @@ function renderItem(card, itIsNew) {
 //Исправил замечание, где нужно передевать селектор
 const popupUser = new PopupWithForm({
   popupSelector: ".popup-form-user",
-  handleSubmit: () => {
+  handleSubmit: (values) => {
     //Указал верную кнопку, теперь текст меняется
     userSubmitButton.textContent = "Сохранение...";
     api
       .updateUser({
-        name: formUserNameInput.value,
-        about: formUserAboutInput.value,
+        name:values['name-input'],
+        about: values['job-input'],
       })
       .then((res) => {
         userInfo.setUserInfo(res);
@@ -131,12 +129,12 @@ function openProfilePopup() {
 //Исправил замечание, где нужно передевать селектор
 const cardPopup = new PopupWithForm({
   popupSelector: ".popup-form-card",
-  handleSubmit: () => {
+  handleSubmit: (values) => {
     cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
     api
       .postCard({
-        name: titleInputCard.value,
-        link: linkInputCard.value,
+        name: values['text-input'],
+        link: values['url-input-card'],
       })
       .then((res) => {
         renderItem(res, res.owner._id); //Отрисовка карточки в разметке
@@ -155,7 +153,6 @@ cardPopup.setEventListeners();
 
 function openCardPopup() {
   cardPopup.open();
-  // cardFormValidator.enableValidation();
 }
 
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
@@ -186,10 +183,10 @@ function handleLike(card) {
 //Исправил замечание, где нужно передевать селектор
 const popupAvatar = new PopupWithForm({
   popupSelector: ".popup-form-avatar",
-  handleSubmit: () => {
+  handleSubmit: (values) => {
     avatarSubmitButton.textContent = "Сохранение...";
     api
-      .updateAvatar({ avatar: avatarLink.value })
+      .updateAvatar({ avatar: values['url-input-avatar']})
       .then((res) => {
         userInfo.setUserInfo(res);
         popupAvatar.close();
@@ -233,7 +230,7 @@ userEditButton.addEventListener("click", openProfilePopup);
 // Функция открытия попапа согласия с удалением карточки
 function cardDeletePopup(card) {
   cardToDelete = card;
-  popupCardDelete.open(cardToDelete); //Удаление через попап
+  popupCardDelete.open(); //Удаление через попап
 }
 
 const popupCardDelete = new PopupWithForm({
