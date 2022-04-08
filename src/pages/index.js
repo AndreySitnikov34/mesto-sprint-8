@@ -39,6 +39,7 @@ const api = new Api(config);
 let cardList;
 let userId;
 let cardToDelete; //Добавил для удаления карточки
+
 //============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
 
 //Объявляем переменную userInfo
@@ -96,7 +97,7 @@ function renderItem(card, itIsNew) {
 
 const popupUser = new PopupWithForm({
   popupSelector: popupFormUser,
-  addNewInfoHandler: () => {
+  handleSubmit: () => {
     //Указал верную кнопку, теперь текст меняется
     userSubmitButton.textContent = "Сохранение...";
     api
@@ -127,14 +128,14 @@ function openProfilePopup() {
   formUserNameInput.value = userData.name;
   formUserAboutInput.value = userData.about;
   popupUser.open();
-  userFormValidator.enableValidation();
+  // userFormValidator.enableValidation();
 }
 
 // Функция обработки создания новой карточки
 
 const cardPopup = new PopupWithForm({
   popupSelector: cardFormPopup,
-  addNewInfoHandler: () => {
+  handleSubmit: () => {
     cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
     api
       .postCard({
@@ -158,7 +159,7 @@ cardPopup.setEventListeners();
 
 function openCardPopup() {
   cardPopup.open();
-  cardFormValidator.enableValidation();
+  // cardFormValidator.enableValidation();
 }
 
 //============ЧТО КАСАЕТСЯ ЛАЙКОВ============//
@@ -188,7 +189,7 @@ function handleLike(card) {
 // Обработка смены аватара
 const popupAvatar = new PopupWithForm({
   popupSelector: popupFormAvatar,
-  addNewInfoHandler: () => {
+  handleSubmit: () => {
     avatarSubmitButton.textContent = "Сохранение...";
     api
       .updateAvatar({ avatar: avatarLink.value })
@@ -210,7 +211,7 @@ popupAvatar.setEventListeners();
 function openAvatarPopup() {
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
-  avatarFormValidator.enableValidation();
+  // avatarFormValidator.enableValidation();
 }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
@@ -244,7 +245,7 @@ function cardDeletePopup(card) {
 
 const popupCardDelete = new PopupWithForm({
   popupSelector: popupCardDeleteElement,
-  addNewInfoHandler: () => handleCardDelete(),
+  handleSubmit: () => handleCardDelete(),
 });
 
 popupCardDelete.setEventListeners();
@@ -277,18 +278,21 @@ function handleCardDelete() {
 }
 
 //============ВАЛИДАЦИЯ============//
-//Сначала нужно объявить переменные
+//Сначала нужно забрать из FormValidator и объявить переменные
 const cardFormValidator = new FormValidator(
   enableValidationForm,
   cardFormPopup
+  // constant.cardFormValidator
 );
 const userFormValidator = new FormValidator(
   enableValidationForm,
   popupFormUser
+  // constant.userFormValidator
 );
 const avatarFormValidator = new FormValidator(
   enableValidationForm,
   popupFormAvatar
+  // constant.avatarFormValidator
 );
 const forms = [cardFormValidator, userFormValidator, avatarFormValidator];
 forms.forEach((form) => form.enableValidation());
