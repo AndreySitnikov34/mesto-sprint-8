@@ -51,13 +51,13 @@ const promises = [api.getUser(), api.getCards()];
 const getInfo = Promise.all(promises);
 getInfo
   //Сделали запрос, из массива 0(инфо о профиле), получили нужную информацию
-  .then((res) => {
-    userInfo.setUserInfo(res[0]);
-    userId = res[0]._id;
+  .then(([userData, cards]) => {
+    userInfo.setUserInfo(userData);
+    userId = userData._id;
     //Сделали запрос, из массива 1(карточки), получили нужную информацию
     cardList = new Section(
       {
-        data: res[1],
+        data: cards,
         renderer: (card) => renderItem(card, false),
       },
       cardContent
@@ -105,7 +105,6 @@ const popupUser = new PopupWithForm({
       })
       .then((res) => {
         userInfo.setUserInfo(res);
-        //console.log("index 114 - новые данные -", res);
         popupUser.close(); // Закрыть попап
       })
       .catch((err) => {
