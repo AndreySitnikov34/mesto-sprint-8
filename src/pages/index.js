@@ -287,13 +287,13 @@ const cardFormValidator = new FormValidator(
   enableValidationForm,
   cardFormPopup
 );
-
 const userFormValidator = new FormValidator(
   enableValidationForm,
   popupFormUser
 );
-
 const avatarFormValidator = new FormValidator(
   enableValidationForm,
   popupFormAvatar
 );
+const forms = [cardFormValidator, userFormValidator, avatarFormValidator];
+forms.forEach((form) => form.enableValidation());
