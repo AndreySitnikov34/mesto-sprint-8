@@ -1,11 +1,11 @@
 import { Popup } from "./Popup.js";
 
 export class PopupWithImage extends Popup {
-  constructor(popupSelector) {
-    super(popupSelector);
+  constructor({popupSelector}) {
+    super({popupSelector});
     this._popupImage =
-      this._popupsContainer.querySelector(".popup__image");
-    this._popupSignImage = this._popupsContainer.querySelector(".popup__image-alt")
+      this._popup.querySelector(".popup__image");
+    this._popupSignImage = this._popup.querySelector(".popup__image-alt")
   }
   //Открывалка выбранной картинки
   open(card) {

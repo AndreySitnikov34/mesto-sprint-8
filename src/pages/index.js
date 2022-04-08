@@ -9,8 +9,6 @@ import {
   formUserAboutInput,
   titleInputCard,
   linkInputCard,
-  popupImage,
-  popupCardDeleteElement,
   avatarEditButton,
   avatarSubmitButton,
   userSubmitButton,
@@ -94,9 +92,9 @@ function renderItem(card, itIsNew) {
     cardList.addItem(cardElement);
   }
 }
-
+//Исправил замечание, где нужно передевать селектор
 const popupUser = new PopupWithForm({
-  popupSelector: popupFormUser,
+  popupSelector: ".popup-form-user",
   handleSubmit: () => {
     //Указал верную кнопку, теперь текст меняется
     userSubmitButton.textContent = "Сохранение...";
@@ -128,13 +126,12 @@ function openProfilePopup() {
   formUserNameInput.value = userData.name;
   formUserAboutInput.value = userData.about;
   popupUser.open();
-  // userFormValidator.enableValidation();
 }
 
 // Функция обработки создания новой карточки
-
+//Исправил замечание, где нужно передевать селектор
 const cardPopup = new PopupWithForm({
-  popupSelector: cardFormPopup,
+  popupSelector: ".popup-form-card",
   handleSubmit: () => {
     cardSubmitButton.textContent = "Сохранение..."; //Поменять значение в кнопке
     api
@@ -187,8 +184,9 @@ function handleLike(card) {
 //============ЧТО КАСАЕТСЯ АВАТАРКИ============//
 
 // Обработка смены аватара
+//Исправил замечание, где нужно передевать селектор
 const popupAvatar = new PopupWithForm({
-  popupSelector: popupFormAvatar,
+  popupSelector: ".popup-form-avatar",
   handleSubmit: () => {
     avatarSubmitButton.textContent = "Сохранение...";
     api
@@ -211,12 +209,13 @@ popupAvatar.setEventListeners();
 function openAvatarPopup() {
   avatarLink.value = ""; //Сбросить значения input
   popupAvatar.open();
-  // avatarFormValidator.enableValidation();
 }
 
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
-const openImagePopup = new PopupWithImage(popupImage);
+const openImagePopup = new PopupWithImage({
+  popupSelector:".popup-image",
+});
 
 openImagePopup.setEventListeners();
 
@@ -231,11 +230,6 @@ avatarEditButton.addEventListener("click", openAvatarPopup);
 cardEditButton.addEventListener("click", openCardPopup);
 userEditButton.addEventListener("click", openProfilePopup);
 
-// // Функция открытия попапа согласия с удалением карточки
-// function openCardDeletePopup(cardToDelete) {
-//   popupCardDelete.open(cardToDelete); //Удаление через попап
-//   // handleCardDelete(cardToDelete); //Удаление напрямую по клику на корзинку
-// }
 
 // Функция открытия попапа согласия с удалением карточки
 function cardDeletePopup(card) {
@@ -244,25 +238,11 @@ function cardDeletePopup(card) {
 }
 
 const popupCardDelete = new PopupWithForm({
-  popupSelector: popupCardDeleteElement,
+  popupSelector: ".popup-card-delete",
   handleSubmit: () => handleCardDelete(),
 });
 
 popupCardDelete.setEventListeners();
-
-// Функция обработки согласия с удалением карточки
-//Чуть-чуть переделал удаление карточки
-//function сardDelete(card) {
-//  api
-//    .deleteCard(card.getId()) //Удаление карточки по id
-//    .then(() => {
-//      log(card.getId()); //Печать id карточки
-//     card.deleteCard(); //Удаление карточки из разметки
-//    })
-//    .catch((err) => {
-//      console.log("Ошибка удаления карточки", err.message);
-//    });
-//}
 
 //Функция для удаления через попап
 function handleCardDelete() {
