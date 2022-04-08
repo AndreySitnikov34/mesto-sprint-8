@@ -8,11 +8,10 @@ export class PopupWithImage extends Popup {
     this._popupSignImage = this._popupsContainer.querySelector(".popup__image-alt")
   }
   //Открывалка выбранной картинки
-  open(evt) {
+  open(card) {
     super.open();
-    this._popupImage.src = "";
-    this._popupImage.src = evt.src;
-    this._popupImage.alt = evt.alt;
-    this._popupSignImage.textContent = evt.alt;
+    this._popupImage.src = card.src;
+    this._popupImage.alt = card.alt;
+    this._popupSignImage.textContent = card.alt;
   }
 }

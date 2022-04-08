@@ -15,43 +15,32 @@ export class FormValidator {
 
   //Функция демонстрации ошибки в инпуте
   _showInputError(inputElement, errorMessage, errorElement) {
-    console.log(
-      "26_showInputError",
-      "inputElement - ",
-      inputElement,
-      "errorElement",
-      errorElement,
-      "errorMessage",
-      errorMessage
-      // inputErrorClass
-    );
     // inputElement.classList.add(this._config.inputErrorClass);
-    console.log("28_showInputError", errorElement);
+    // console.log("19_showInputError", errorElement);
     errorElement.classList.add(this._config.inputErrorClass);
     errorElement.textContent = errorMessage;
   }
   //Функция сокрытия ошибки ввода
   _hideInputElement(inputElement) {
-    console.log("34_hideInputElement", inputElement);
-    // const errorElement = formElement.nextElementSibling;
+    // console.log("25_hideInputElement", inputElement);
     inputElement.classList.remove(this._inputErrorClass);
   }
   //Функция скрывает элемент ошибки
   hideInputError(inputElement, errorElement) {
-    console.log("40 hideInputError", inputElement, errorElement);
+    // console.log("30 hideInputError", inputElement, errorElement);
     this._hideInputElement(inputElement);
     this._hideErrorElement(errorElement);
   }
   //Функция убирает текст ошибки
   _hideErrorElement(errorElement) {
-    console.log("46_hideErrorElement", errorElement);
+    // console.log("36_hideErrorElement", errorElement);
     errorElement.classList.remove(this._config.inputErrorClass);
     errorElement.textContent = "";
   }
 
   //Функция проверки инпута на  НЕвалидность
   _hasInvalidInput() {
-    // console.log("53_hasInvalidInput");
+    // console.log("43_hasInvalidInput");
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
@@ -74,7 +63,7 @@ export class FormValidator {
   _checkInputValidity(inputElement) {
     //Добавим переменную
     const errorElement = this._form.querySelector(`.${inputElement.id}-error`);
-    console.log("75_checkInputValidity - errorElement", errorElement);
+    // console.log("66_checkInputValidity - errorElement", errorElement);
     if (!inputElement.validity.valid) {
       this._showInputError(
         inputElement,
@@ -113,7 +102,7 @@ export class FormValidator {
 
   //Функция очистки спанов после клика на кнопку
   _clearErrorMessages() {
-    console.log("110_clearErrorMessages", errorMessages);
+    // console.log("105_clearErrorMessages", errorMessages);
     const errorMessages = this._form.querySelectorAll(
       this._errorMessageSelector
     );

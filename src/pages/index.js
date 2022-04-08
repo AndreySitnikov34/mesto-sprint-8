@@ -36,10 +36,9 @@ import { PopupWithForm } from "../components/PopupWithForm.js";
 //Сразу обозначаемся - идентифицируемся
 const api = new Api(config);
 
-let deleteCard;
 let cardList;
 let userId;
-let currentCardId, cardToDelete; //Добавил для удаления карточки
+let cardToDelete; //Добавил для удаления карточки
 //============ЧТО КАСЕАТСЯ ЮЗЕРА И КАРТОЧЕК============//
 
 //Объявляем переменную userInfo
@@ -74,14 +73,17 @@ function renderItem(card, itIsNew) {
     userId,
     card,
     "#card",
-    // Использовал деструктуризацию, чтобы передать ф-цию добавления лайка
+    // Использовал деструктуризацию, чтобы передать ф-ции
     {
       handleLikeCard: (res) => {
         handleLike(res);
       },
-    },
-    handleImageOpen,
-    openCardDeletePopup
+
+      handleImageOpen: (card) => imageOpen(card),
+      openCardDeletePopup: (card) => {
+        cardDeletePopup(card);
+      },
+    }
   );
 
   const cardElement = card.generateCard();
@@ -218,7 +220,7 @@ const openImagePopup = new PopupWithImage(popupImage);
 openImagePopup.setEventListeners();
 
 // Функция открытия картинки из карточки
-function handleImageOpen(evt) {
+function imageOpen(evt) {
   //Исправил замечание связанное с работой данного модального окна
   openImagePopup.open(evt.target);
 }
@@ -235,45 +237,38 @@ userEditButton.addEventListener("click", openProfilePopup);
 // }
 
 // Функция открытия попапа согласия с удалением карточки
-function openCardDeletePopup(card) {
+function cardDeletePopup(card) {
   cardToDelete = card;
-  currentCardId = cardToDelete["_cardId"];
-  console.log("index 240 - карточка для удаления", cardToDelete, currentCardId);
   popupCardDelete.open(cardToDelete); //Удаление через попап
 }
 
 const popupCardDelete = new PopupWithForm({
   popupSelector: popupCardDeleteElement,
-  addNewInfoHandler: (currentCardId, cardToDelete) =>
-    handleCardDelete(currentCardId, cardToDelete),
+  addNewInfoHandler: () => handleCardDelete(),
 });
 
 popupCardDelete.setEventListeners();
 
 // Функция обработки согласия с удалением карточки
 //Чуть-чуть переделал удаление карточки
-// function handleCardDelete(card) {
-//   api
-//     .deleteCard(card.getId()) //Удаление карточки по id
-//     .then(() => {
-//       log(card.getId()); //Печать id карточки
-//       card.removeCard(); //Удаление карточки из разметки
-//       popupCardDelete.close();
-//     })
-//     .catch((err) => {
-//       console.log("Ошибка удаления карточки", err.message);
-//     });
-// }
+//function сardDelete(card) {
+//  api
+//    .deleteCard(card.getId()) //Удаление карточки по id
+//    .then(() => {
+//      log(card.getId()); //Печать id карточки
+//     card.deleteCard(); //Удаление карточки из разметки
+//    })
+//    .catch((err) => {
+//      console.log("Ошибка удаления карточки", err.message);
+//    });
+//}
 
 //Функция для удаления через попап
 function handleCardDelete() {
-  const currentCardId = cardToDelete["_cardId"];
-  console.log("index 270 - что удаляем", currentCardId);
   api
-    .deleteCard(currentCardId) //Удаление карточки по id
+    .deleteCard(cardToDelete.getId()) //Удаление карточки по id
     .then(() => {
-      console.log("index 274 - что удаляем", currentCardId);
-      cardToDelete._element.remove(); //Удаление карточки из разметки
+      cardToDelete.deleteCard();
       popupCardDelete.close();
     })
     .catch((err) => {
