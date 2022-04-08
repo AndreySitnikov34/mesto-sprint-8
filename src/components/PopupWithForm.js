@@ -7,6 +7,7 @@ export class PopupWithForm extends Popup {
     this._handleSubmit = handleSubmit;
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._inputList = this._popupsContainer.querySelectorAll(".form__input");
+    this.submitButton = this._form.querySelector(".form__submit");
   }
 
   //Сбор данных всех полей формы
@@ -21,7 +22,7 @@ export class PopupWithForm extends Popup {
 
   _handleFormSubmit(evt) {
     evt.preventDefault();
-    this._handleSubmit(this._getInputValues(), this._cardToDelete);
+    this._handleSubmit(this._getInputValues());
   }
 
   //Переустанавливаем слушателей родителя
@@ -38,4 +39,5 @@ export class PopupWithForm extends Popup {
     //Т.к надо сбросить форму
     this._form.reset();
   }
+
 }
