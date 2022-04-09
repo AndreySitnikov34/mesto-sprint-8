@@ -82,11 +82,7 @@ function renderItem(cardItem, itIsNew) {
   );
 
   const cardElement = card.generateCard();
-  if (itIsNew) {
-    cardList.addNewItem(cardElement);
-  } else {
-    cardList.addItem(cardElement);
-  }
+  return itIsNew ? cardList.addNewItem(cardElement) : cardList.addItem(cardElement)
 }
 //Исправил замечание, где нужно передевать селектор
 const popupUser = new PopupWithForm({
@@ -96,7 +92,7 @@ const popupUser = new PopupWithForm({
     popupUser.renderLoading(true);
     api
       .updateUser({
-        name:values['name-input'],
+        name: values['name-input'],
         about: values['job-input'],
       })
       .then((res) => {
@@ -184,7 +180,7 @@ const popupAvatar = new PopupWithForm({
   handleSubmit: (values) => {
     popupAvatar.renderLoading(true);
     api
-      .updateAvatar({ avatar: values['url-input-avatar']})
+      .updateAvatar({ avatar: values['url-input-avatar'] })
       .then((res) => {
         userInfo.setUserInfo(res);
         popupAvatar.close();
@@ -208,7 +204,7 @@ function openAvatarPopup() {
 //============ЧТО КАСАЕТСЯ ПОПАПА КАРТИНКИ============//
 
 const openImagePopup = new PopupWithImage({
-  popupSelector:".popup-image",
+  popupSelector: ".popup-image",
 });
 
 openImagePopup.setEventListeners();

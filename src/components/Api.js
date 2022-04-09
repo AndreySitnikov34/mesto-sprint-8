@@ -6,11 +6,7 @@ export class Api {
 
   //Парсинг ответа
   _parseResponse(res) {
-    // console.log("Api - str 16 - приходит ответ", res);
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
   }
   //Вытягиваие карточек с сервера
   getCards() {
