@@ -2,7 +2,7 @@ import { Popup } from "./Popup.js";
 
 export class PopupWithForm extends Popup {
   constructor({ popupSelector, handleSubmit }) {
-    super({popupSelector});
+    super({ popupSelector });
     this._form = this._popup.querySelector(".form");
     this._handleSubmit = handleSubmit;
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
@@ -18,7 +18,7 @@ export class PopupWithForm extends Popup {
     );
     return this._formValues;
   }
-  
+
   _handleFormSubmit(evt) {
     evt.preventDefault();
     this._handleSubmit(this._getInputValues());
@@ -39,12 +39,11 @@ export class PopupWithForm extends Popup {
     this._form.reset();
   }
   //Меняем текст кнопки
-  renderLoading(isLoading, buttonText='Сохранить') {
+  renderLoading(isLoading, buttonText = "Сохранить") {
     if (isLoading) {
-      this._submitButton.textContent = 'Сохранение...';
+      this._submitButton.textContent = "Сохранение...";
     } else {
       this._submitButton.textContent = buttonText;
     }
-    }
-
+  }
 }

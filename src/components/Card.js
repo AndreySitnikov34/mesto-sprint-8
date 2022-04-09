@@ -5,9 +5,7 @@ export class Card {
     userId,
     card,
     cardSelector,
-    { handleLikeCard,
-      handleImageOpen,
-      openCardDeletePopup },
+    { handleLikeCard, handleImageOpen, openCardDeletePopup }
   ) {
     this._userId = userId;
     this._owner = card.owner["_id"];
@@ -19,11 +17,9 @@ export class Card {
     this._handleLikeCard = handleLikeCard;
     this._handleImageOpen = handleImageOpen;
     this._openCardDeletePopup = openCardDeletePopup;
-    // this._addToFavorite = this._addToFavorite.bind(this);
   }
   //Приватные методы, которые работают с разметкой, устанавливают слушателей событий
   _setEventListeners() {
-    //this._cardLike.addEventListener("click", this._addToFavorite);
     //Переписал по рекомендации ревьюера, после этого ожило хоть как-то
     this._cardLike.addEventListener("click", () => {
       this._handleLikeCard(this);
@@ -42,13 +38,6 @@ export class Card {
       .content.querySelector(".card")
       .cloneNode(true);
   }
-
-  //Лайки добавление/удаление
-  //_addToFavorite() {
-  //  const cardLike = this._cardLike; //Это кнопка сердечко
-  //  cardLike.classList.toggle("card__heart_liked"); //Добавить или убрать цвет
-  //  this._handleLikeCard(cardLike);
-  //}
   //Публичный метод, который возвращает полностью работоспособный
   //и наполненный данными элемент карточки
   generateCard() {
@@ -58,9 +47,7 @@ export class Card {
     this._element.querySelector(".card__location").textContent = this._name;
     this._cardDelete = this._element.querySelector(".card__del");
     this._cardLike = this._element.querySelector(".card__heart");
-    this._cardlikeCounter = this._element.querySelector(
-      ".card__heart-count"
-    );
+    this._cardlikeCounter = this._element.querySelector(".card__heart-count");
     this._cardlikeCounter.textContent = this._likes.length;
     //Покрасить свои лайки при загрузке
     if (this._likes.some((like) => like["_id"] === this._userId)) {
@@ -70,13 +57,12 @@ export class Card {
     if (this._owner !== this._userId) {
       this._cardDelete.classList.remove("card__del");
     }
-    
+
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._setEventListeners();
     return this._element;
   }
-
   //Получение Id
   getId() {
     return this._cardId;
@@ -94,17 +80,9 @@ export class Card {
     this._cardLike.classList.remove("card__heart_liked");
     this._cardlikeCounter.textContent = evt.likes.length;
   }
-
   //Удаление карточки
   deleteCard() {
     this._element.remove();
     this._element = null;
   }
 }
-
-//   //Удаление карточки
-//   removeCard(cardToDelete) {
-//     cardToDelete._element.remove();
-//     cardToDelete._element = null;
-//   }
-// }

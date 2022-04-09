@@ -74,7 +74,7 @@ function renderItem(cardItem, itIsNew) {
         handleLike(res);
       },
 
-      handleImageOpen: _ => openImagePopup.open(cardItem.name, cardItem.link),
+      handleImageOpen: (_) => openImagePopup.open(cardItem.name, cardItem.link),
       openCardDeletePopup: (card) => {
         cardDeletePopup(card);
       },
@@ -82,7 +82,9 @@ function renderItem(cardItem, itIsNew) {
   );
 
   const cardElement = card.generateCard();
-  return itIsNew ? cardList.addNewItem(cardElement) : cardList.addItem(cardElement)
+  return itIsNew
+    ? cardList.addNewItem(cardElement)
+    : cardList.addItem(cardElement);
 }
 //Исправил замечание, где нужно передевать селектор
 const popupUser = new PopupWithForm({
@@ -92,8 +94,8 @@ const popupUser = new PopupWithForm({
     popupUser.renderLoading(true);
     api
       .updateUser({
-        name: values['name-input'],
-        about: values['job-input'],
+        name: values["name-input"],
+        about: values["job-input"],
       })
       .then((res) => {
         userInfo.setUserInfo(res);
@@ -127,8 +129,8 @@ const cardPopup = new PopupWithForm({
     cardPopup.renderLoading(true); //Поменять значение в кнопке
     api
       .postCard({
-        name: values['text-input'],
-        link: values['url-input-card'],
+        name: values["text-input"],
+        link: values["url-input-card"],
       })
       .then((res) => {
         renderItem(res, res.owner._id); //Отрисовка карточки в разметке
@@ -138,7 +140,7 @@ const cardPopup = new PopupWithForm({
         console.log("Ошибка добавления карточки", err.message);
       })
       .finally(() => {
-        cardPopup.renderLoading(false) //Поменять значение в кнопке обратно
+        cardPopup.renderLoading(false); //Поменять значение в кнопке обратно
       });
   },
 });
@@ -180,7 +182,7 @@ const popupAvatar = new PopupWithForm({
   handleSubmit: (values) => {
     popupAvatar.renderLoading(true);
     api
-      .updateAvatar({ avatar: values['url-input-avatar'] })
+      .updateAvatar({ avatar: values["url-input-avatar"] })
       .then((res) => {
         userInfo.setUserInfo(res);
         popupAvatar.close();
@@ -209,12 +211,10 @@ const openImagePopup = new PopupWithImage({
 
 openImagePopup.setEventListeners();
 
-
 //Слушатели кликов
 avatarEditButton.addEventListener("click", openAvatarPopup);
 cardEditButton.addEventListener("click", openCardPopup);
 userEditButton.addEventListener("click", openProfilePopup);
-
 
 // Функция открытия попапа согласия с удалением карточки
 function cardDeletePopup(card) {
@@ -224,7 +224,7 @@ function cardDeletePopup(card) {
 
 const popupCardDelete = new PopupWithForm({
   popupSelector: ".popup-card-delete",
-  handleSubmit: _ => handleCardDelete(),
+  handleSubmit: (_) => handleCardDelete(),
 });
 
 popupCardDelete.setEventListeners();
@@ -247,17 +247,14 @@ function handleCardDelete() {
 const cardFormValidator = new FormValidator(
   enableValidationForm,
   cardFormPopup
-  // constant.cardFormValidator
 );
 const userFormValidator = new FormValidator(
   enableValidationForm,
   popupFormUser
-  // constant.userFormValidator
 );
 const avatarFormValidator = new FormValidator(
   enableValidationForm,
   popupFormAvatar
-  // constant.avatarFormValidator
 );
 const forms = [cardFormValidator, userFormValidator, avatarFormValidator];
 forms.forEach((form) => form.enableValidation());
