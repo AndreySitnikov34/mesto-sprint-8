@@ -64,10 +64,10 @@ export class FormValidator {
     this._buttonElement.disable = false;
   }
   //Метод gennady-bars
-  _resetValidation() {
+  resetValidation() {
     this._toggleButtonState(); //<== управляем кнопкой ==
     this._inputList.forEach((inputElement) => {
-      this._hideError(inputElement); //<==очищаем ошибки ==
+      this._hideErrorElement(inputElement); //<==очищаем ошибки ==
     });
   }
   //Принять поля ввода и перекрасить кнопку
@@ -77,16 +77,6 @@ export class FormValidator {
     } else {
       this.enableButton();
     }
-  }
-
-  //Функция очистки спанов после клика на кнопку
-  _clearErrorMessages() {
-    const errorMessages = this._form.querySelectorAll(
-      this._errorMessageSelector
-    );
-    errorMessages.forEach((node) =>
-      node.classList.remove(this._inputErrorClass)
-    );
   }
 
   //Новый вариант seEventListeners

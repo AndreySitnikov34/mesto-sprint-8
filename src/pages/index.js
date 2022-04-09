@@ -13,7 +13,6 @@ import {
   cardContent,
   enableValidationForm,
   config,
-  popupImage,
 } from "../utils/constants.js";
 
 const { log } = console;
@@ -118,6 +117,7 @@ function openProfilePopup() {
   const userData = userInfo.getUserInfo();
   formUserNameInput.value = userData.name;
   formUserAboutInput.value = userData.about;
+  userFormValidator.resetValidation();
   popupUser.open();
 }
 
@@ -148,6 +148,7 @@ const cardPopup = new PopupWithForm({
 cardPopup.setEventListeners();
 
 function openCardPopup() {
+  cardFormValidator.resetValidation();
   cardPopup.open();
 }
 
@@ -199,7 +200,7 @@ const popupAvatar = new PopupWithForm({
 popupAvatar.setEventListeners();
 
 function openAvatarPopup() {
-  avatarLink.value = ""; //Сбросить значения input
+  avatarFormValidator.resetValidation();
   popupAvatar.open();
 }
 
