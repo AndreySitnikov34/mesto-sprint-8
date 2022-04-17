@@ -1,0 +1,23 @@
+.user__overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: black;
+}
+.user__overlay::before {
+    content: url('../../../images/Vector.svg');
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+.user__overlay:hover {
+    opacity: 0.8;
+    transition: .5s ease;
+    cursor: pointer;
+}

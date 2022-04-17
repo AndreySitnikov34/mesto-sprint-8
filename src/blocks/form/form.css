@@ -1,0 +1,19 @@
+.form {
+  /*position: relative;*/
+  font-family: "Inter", sans-serif;
+  /*width: 430px;*/
+  /*background: #FFFFFF;*/
+  /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
+  /*border-radius: 10px;*/
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 1;
+}
+@media (max-width: 901px) {
+  .form {
+    width: 282px;
+    /* margin-top: 5px; */
+  }
+}

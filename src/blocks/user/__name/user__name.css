@@ -1,0 +1,22 @@
+.user__name {
+  max-width: 320px;
+  font-weight: 500;
+  font-size: 42px;
+  margin: auto 0;
+  padding-top: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline;
+}
+@media (max-width: 1152px) {
+  .user__name {
+    font-size: 35px;
+  }
+}
+@media (max-width: 901px) {
+  .user__name {
+    font-size: 27px;
+    text-align: center;
+  }
+}

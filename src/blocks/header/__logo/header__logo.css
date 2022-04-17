@@ -1,0 +1,23 @@
+.header__logo {
+  width: 142px;
+  height: 33px;
+  margin-bottom: 30px;
+  /*background-image: url("../../../images/Mesto.svg");*/
+  /*background-size: contain;*/
+  /*z-index: 1;*/
+  /*box-shadow: 0 0 5px white;*/
+}
+.header__logo:hover {
+  transform: scale(1.05);
+  transition: transform 0.4s ease-out;
+  cursor: pointer;
+  opacity: 0.9;
+}
+@media (max-width: 901px) {
+  .header__logo {
+    width: 103px;
+    height: 24px;
+    margin: 0 0 31px 20px;
+    background-size: contain;
+  }
+}

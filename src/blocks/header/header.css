@@ -1,0 +1,15 @@
+.header {
+  margin: 45px 0 51px; /*Центрирование блока*/
+  max-width: 1600px; /*Максимальная ширина при больших разрешениях*/
+  min-width: 250px; /*Минимальная ширина при маленьких разрешениях*/
+  width: auto; /*Ширина в зависимости от разрешения экрана*/
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  /*box-shadow: 0 0 5px white;*/
+}
+@media (max-width: 901px) {
+  .header {
+    margin: 38px 0 0;
+  }
+}

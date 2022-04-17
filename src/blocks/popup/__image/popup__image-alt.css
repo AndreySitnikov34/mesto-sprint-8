@@ -1,0 +1,10 @@
+.popup__image-alt {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #fff;
+    margin: 10px auto 0 0;
+    /*box-shadow: 0 0 5px white;*/
+}

@@ -1,0 +1,12 @@
+.footer__copyright {
+    width: 25vmax;
+    text-align: left;
+    font-size: 18px;
+    line-height: 22px;
+    /*box-shadow: 0 0 15px white;*/
+}
+@media (max-width: 758px) {
+    .footer__copyright {
+        font-size: 14px;
+    }
+}
