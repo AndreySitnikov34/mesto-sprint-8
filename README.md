@@ -11,4 +11,4 @@
 * В процессе
 # Авторы
 * Андрей Ситников ( https://github.com/AndreySitnikov34 )
-* Виктор Степанов ( vix522430@bk.ru ) ( https://github.com/Victor-Stepanov )
+* Виктор Степанов ( https://github.com/Victor-Stepanov )
